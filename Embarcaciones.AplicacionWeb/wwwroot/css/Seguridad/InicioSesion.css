@@ -1,0 +1,31 @@
+.divider:after,
+.divider:before {
+content: "";
+flex: 1;
+height: 1px;
+background: #eee;
+}
+.h-custom {
+height: calc(100% - 73px);
+}
+.colorarmy{
+  background-color: #4e7f46 !important;
+  border-color: #4e7f46 !important;
+}
+.colorarmy :hover{
+  background-color: #6eb163 !important;
+}
+#btn-ingresar{
+  background-color: #4e7f46 !important;
+  border-color: #4e7f46 !important;    
+}
+#btn-ingresar:hover{
+  background-color: #6eb163 !important;
+  border-color: #6eb163 !important;    
+}
+
+@media (max-width: 450px) {
+.h-custom {
+height: 100%;
+}
+}
