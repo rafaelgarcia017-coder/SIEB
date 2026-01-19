@@ -14,6 +14,9 @@ builder.Services.AddDbContext<EmbarcacionesBDContext>(
 builder.Services.AddScoped<IGenericRepositorio<Persona>, PersonaRepositorio>() ;
 builder.Services.AddScoped<IPersonaService, PersonaService>();
 
+builder.Services.AddScoped<ICuentaRepositorio, CuentaRepositorio>();// Servicio
+builder.Services.AddScoped<ICuentaService, CuentaService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -32,3 +35,6 @@ app.MapControllerRoute(
     pattern: "{controller=Login}/{action=InicioSesion}");
 
 app.Run();
+
+// Repositorio
+

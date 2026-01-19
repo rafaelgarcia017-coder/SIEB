@@ -1,5 +1,6 @@
 ﻿using Embarcaciones.DAL.DataContext;
 using Embarcaciones.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,13 +9,23 @@ using System.Threading.Tasks;
 
 namespace Embarcaciones.DAL.Repositorio
 {
-    public class CuentaRepositorio : IGenericRepositorio<Cuenta>
+    public class CuentaRepositorio : ICuentaRepositorio
     {
         private readonly EmbarcacionesBDContext _dbcontext;
+
         public CuentaRepositorio(EmbarcacionesBDContext context)
-        { 
-           _dbcontext = context;
+        {
+            _dbcontext = context;
         }
+
+        // ---------- CRUD ----------
+        public async Task<bool> Agregar(Cuenta modelo)
+        {
+            await _dbcontext.Cuenta.AddAsync(modelo);
+            await _dbcontext.SaveChangesAsync();
+            return true;
+        }
+
         public async Task<bool> Actualizar(Cuenta modelo)
         {
             _dbcontext.Cuenta.Update(modelo);
@@ -22,16 +33,11 @@ namespace Embarcaciones.DAL.Repositorio
             return true;
         }
 
-        public async Task<bool> Agregar(Cuenta modelo)
+        public async Task<bool> Eliminar(int id)
         {
-            _dbcontext.Cuenta.Add(modelo);
-            await _dbcontext.SaveChangesAsync();
-            return true;
-        }
+            var cuenta = await _dbcontext.Cuenta.FindAsync(id);
+            if (cuenta == null) return false;
 
-        public  async Task<bool> Eliminar(int id)
-        {
-            Cuenta cuenta = _dbcontext.Cuenta.FirstOrDefault(f => f.IdCuenta == id);
             _dbcontext.Cuenta.Remove(cuenta);
             await _dbcontext.SaveChangesAsync();
             return true;
@@ -42,10 +48,16 @@ namespace Embarcaciones.DAL.Repositorio
             return await _dbcontext.Cuenta.FindAsync(id);
         }
 
-        public async Task<IQueryable<Cuenta>> ObtenerTodos()
+        public IQueryable<Cuenta> ObtenerTodos()
         {
-            IQueryable<Cuenta> queryCuenta = _dbcontext.Cuenta;
-            return queryCuenta;
+            return _dbcontext.Cuenta.AsQueryable();
+        }
+
+        // ---------- Método específico ----------
+        public async Task<bool> ValidarCuenta(string cuenta, string clave)
+        {
+            return await _dbcontext.Cuenta
+                .AnyAsync(c => c.Nombre == cuenta && c.PasswordHash == clave);
         }
     }
 }
