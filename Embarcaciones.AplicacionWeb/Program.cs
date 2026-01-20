@@ -3,38 +3,50 @@ using Embarcaciones.DAL.DataContext;
 using Embarcaciones.Models;
 using Embarcaciones.DAL.Repositorio;
 using Embarcaciones.BLL.Service;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Servicios
 builder.Services.AddControllersWithViews();
-builder.Services.AddDbContext<EmbarcacionesBDContext>(
-    x=> x.UseSqlServer(builder.Configuration.GetConnectionString("cadenaSQL")));
+builder.Services.AddDbContext<EmbarcacionesBDContext>(x =>
+    x.UseSqlServer(builder.Configuration.GetConnectionString("cadenaSQL")));
 
-builder.Services.AddScoped<IGenericRepositorio<Persona>, PersonaRepositorio>() ;
+builder.Services.AddScoped<IGenericRepositorio<Persona>, PersonaRepositorio>();
 builder.Services.AddScoped<IPersonaService, PersonaService>();
 
-builder.Services.AddScoped<ICuentaRepositorio, CuentaRepositorio>();// Servicio
+builder.Services.AddScoped<ICuentaRepositorio, CuentaRepositorio>();
 builder.Services.AddScoped<ICuentaService, CuentaService>();
+
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.LoginPath = "/Login/InicioSesion";
+        options.LogoutPath = "/Login/CerrarSesion";
+        options.AccessDeniedPath = "/Login/AccesoDenegado";
+        options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
+    });
+
+builder.Services.AddAuthorization();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Middleware
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
 }
+
 app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication(); // debe ir antes de UseAuthorization
 app.UseAuthorization();
 
+// Rutas
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Login}/{action=InicioSesion}");
 
 app.Run();
-
-// Repositorio
-

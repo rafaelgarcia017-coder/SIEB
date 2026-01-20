@@ -1,49 +1,153 @@
-﻿<!DOCTYPE html>
+﻿@{
+    ViewData["Title"] = "Pagina Principal";
+    var isLoggedIn = User?.Identity?.IsAuthenticated ?? false;
+    var userName = User?.Identity?.Name ?? "";
+}
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Embarcaciones.AplicacionWeb</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/Embarcaciones.AplicacionWeb.styles.css" asp-append-version="true" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+
+    <link href="~/css/MenuPrincipal.css" rel="stylesheet" />
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Embarcaciones.AplicacionWeb</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo_item">
+            <i class="fas fa-bars" id="sidebarOpen"></i>
+            SIEB
+        </div>
+        <div class="logo_item">
+            <span>SISTEMA DE EMBARCACIONES</span>
+        </div>
+
+        <div class="navbar_content">      
+            <i class='fas fa-sun' id="darkLight"></i>
+
+            @if (isLoggedIn)
+            {
+                <div class="user_info">
+                    <i class='fas fa-user'></i>
+                    <span>@userName</span>
+                </div>
+
+                <a asp-controller="Login" asp-action="CerrarSesion" class="nav_link logout_navbar">
+                    <i class='fas fa-power-off' title="Cerrar Sesion"></i>
+                   
+                </a>
+            }
+        </div>
+    </nav>
+
+    <!-- Sidebar -->
+    <nav class="sidebar">
+        <div class="menu_content">
+            <ul class="menu_items">
+                <!-- Catalogos -->
+                <li class="item">
+                    <div class="nav_link submenu_item">
+                        <span class="navlink_icon">
+                            <i class="fas fa-th-large"></i>
+                        </span>
+                        <span class="navlink">Catalogos</span>
+                        <i class="fas fa-chevron-right arrow-left"></i>
+                    </div>
+                    <ul class="menu_items submenu">
+                        <a href="@Url.Action("Index","Persona")" class="nav_link sublink" onclick="loadView(this.href); return false;">
+                            <i class='fas fa-user'></i> Personas
+                        </a>
+                        <a href="#" class="nav_link sublink"><i class='fas fa-map'></i> Departamentos</a>
+                        <a href="#" class="nav_link sublink"><i class='fas fa-location-dot'></i> Municipios</a>
+                        <a href="#" class="nav_link sublink"><i class='fas fa-anchor'></i> Tipo Embarcacion</a>
                     </ul>
+                </li>
+
+                <!-- Procesos -->
+                <li class="item">
+                    <div class="nav_link submenu_item">
+                        <span class="navlink_icon">
+                            <i class="fas fa-cog"></i>
+                        </span>
+                        <span class="navlink">Procesos</span>
+                        <i class="fas fa-chevron-right arrow-left"></i>
+                    </div>
+                    <ul class="menu_items submenu">
+                        <a href="#" class="nav_link sublink"><i class='fas fa-ship'></i> Embarcaciones</a>
+                    </ul>
+                </li>
+            </ul>
+
+            <!-- Sidebar expand/collapse -->
+            <div class="bottom_content">
+                <div class="bottom expand_sidebar">
+                    <i class='fa fa-bars'></i>
+                </div>
+                <div class="bottom collapse_sidebar">
+                    <i class='fa fa-bars'></i>
                 </div>
             </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
-
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2026 - Embarcaciones.AplicacionWeb - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
-    </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+    </nav>
+
+    <!-- Contenido principal -->
+    <main class="main_content">
+        <iframe id="mainFrame" src="" frameborder="0" style="width:100%; height:100vh;"></iframe>
+        @RenderBody()
+    </main>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+    <script>
+        const body = document.querySelector("body");
+        const darkLight = document.querySelector("#darkLight");
+        const sidebar = document.querySelector(".sidebar");
+        const submenuItems = document.querySelectorAll(".submenu_item");
+        const sidebarOpen = document.querySelector("#sidebarOpen");
+        const sidebarClose = document.querySelector(".collapse_sidebar");
+        const sidebarExpand = document.querySelector(".expand_sidebar");
+
+        // Toggle sidebar open/close
+        sidebarOpen.addEventListener("click", () => sidebar.classList.toggle("close"));
+        sidebarClose.addEventListener("click", () => sidebar.classList.add("close", "hoverable"));
+        sidebarExpand.addEventListener("click", () => sidebar.classList.remove("close", "hoverable"));
+
+        sidebar.addEventListener("mouseenter", () => {
+            if (sidebar.classList.contains("hoverable")) sidebar.classList.remove("close");
+        });
+        sidebar.addEventListener("mouseleave", () => {
+            if (sidebar.classList.contains("hoverable")) sidebar.classList.add("close");
+        });
+
+        // Dark/Light mode toggle
+        darkLight.addEventListener("click", () => {
+            body.classList.toggle("dark");
+            if (body.classList.contains("dark")) darkLight.classList.replace("fa-sun", "fa-moon");
+            else darkLight.classList.replace("fa-moon", "fa-sun");
+        });
+
+        // Submenu toggle
+        submenuItems.forEach((item, index) => {
+            item.addEventListener("click", () => {
+                item.classList.toggle("show_submenu");
+                submenuItems.forEach((item2, index2) => {
+                    if (index !== index2) item2.classList.remove("show_submenu");
+                });
+            });
+        });
+
+        // Sidebar responsive
+        if (window.innerWidth < 768) sidebar.classList.add("close");
+        else sidebar.classList.remove("close");
+
+        function loadView(url) {
+            const iframe = document.getElementById("mainFrame");
+            iframe.src = url;
+        }
+    </script>
 </body>
 </html>

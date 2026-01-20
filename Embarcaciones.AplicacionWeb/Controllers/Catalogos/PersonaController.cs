@@ -14,6 +14,10 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Catalogos
         {
             _personaService = personaService;
         }
+        public IActionResult Index()
+        {
+            return View();
+        }
         public IActionResult Administar()
         {
             return View();

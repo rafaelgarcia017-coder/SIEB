@@ -2,6 +2,7 @@
 using Embarcaciones.AplicacionWeb.Models.ViewModels;
 using Embarcaciones.BLL.Service;
 using Embarcaciones.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -9,6 +10,7 @@ namespace Embarcaciones.AplicacionWeb.Controllers
 {
     public class HomeController : Controller
     {
+        [Authorize]
         public IActionResult Index()
         {
             return View();
