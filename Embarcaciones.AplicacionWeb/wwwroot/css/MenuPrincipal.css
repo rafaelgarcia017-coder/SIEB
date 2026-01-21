@@ -302,3 +302,36 @@ body {
         left: -100%;
     }
 }
+/* Layout principal */
+.layout {
+    display: flex;
+    margin-top: 60px; /* Altura navbar */
+}
+
+/* Sidebar */
+.sidebar {
+    width: 260px;
+    position: fixed;
+    top: 60px; /* Debajo del navbar */
+    left: 0;
+    height: calc(100vh - 60px);
+    padding: 20px;
+    transition: all 0.3s ease;
+}
+
+/* Main */
+.main {
+    flex: 1;
+    margin-left: 260px; /* Ajusta según ancho sidebar */
+    padding: 20px;
+    transition: margin-left 0.3s ease;
+}
+
+/* Sidebar colapsado */
+.sidebar.close {
+    width: 80px;
+}
+
+    .sidebar.close ~ .main {
+        margin-left: 80px; /* Ajusta margen main si sidebar se colapsa */
+    }
