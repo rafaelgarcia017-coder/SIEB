@@ -1,7 +1,8 @@
-﻿using Embarcaciones.AplicacionWeb.Models.ViewModels;
+﻿using Embarcaciones.AplicacionWeb.Models.ViewModels.Catalogos.Persona;
 using Embarcaciones.BLL.Service;
 using Embarcaciones.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Embarcaciones.AplicacionWeb.Controllers.Catalogos
 {
@@ -18,30 +19,49 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Catalogos
         {
             return View();
         }
-        public IActionResult Administar()
-        {
-            return View();
-        }
 
-        [HttpGet]
-        public async Task<IActionResult> ObtenerPersonas()
+        public async Task<IActionResult> Administrar()
         {
-            IQueryable<Persona> personas = await _personaService.ObtenerTodos();
-
-            var personasObtenidas = personas.Select(s => new PersonaVM()
+            var model = new AdministrarPersonasVM
             {
-                IdPersona = s.IdPersona,
-                NombreCompleto = s.NombreCompleto,
-                Identificacion = s.Identificacion,
-                Direccion = s.Direccion,
-                Telefono = s.Telefono,
-                Correo = s.Correo,
-                FechaCreacion = s.FechaCreacion.ToString("dd/MM/yyyy"),
-                IdUsuarioCreacion = s.IdUsuarioCreacion
-            });
+                ListaPersonas = await _personaService.ObtenerTodos()
+                    .Select(s => new PersonaVM
+                    {
+                        IdPersona = s.IdPersona,
+                        NombreCompleto = s.NombreCompleto,
+                        Identificacion = s.Identificacion,
+                        Direccion = s.Direccion,
+                        Telefono = s.Telefono,
+                        Correo = s.Correo,
+                        FechaCreacion = s.FechaCreacion.ToString("dd/MM/yyyy"),
+                        IdUsuarioCreacion = s.IdUsuarioCreacion
+                    })
+                    .ToListAsync() // materializa la proyección directamente
+            };
 
-            return StatusCode(StatusCodes.Status200OK, personasObtenidas);
+            return View("Administrar", model);
         }
+
+
+        ////[HttpGet]
+        ////public async Task<IActionResult> ObtenerPersonas()
+        ////{
+        ////    IQueryable<Persona> personas = await _personaService.ObtenerTodos();
+
+        ////    var personasObtenidas = personas.Select(s => new PersonaVM()
+        ////    {
+        ////        IdPersona = s.IdPersona,
+        ////        NombreCompleto = s.NombreCompleto,
+        ////        Identificacion = s.Identificacion,
+        ////        Direccion = s.Direccion,
+        ////        Telefono = s.Telefono,
+        ////        Correo = s.Correo,
+        ////        FechaCreacion = s.FechaCreacion.ToString("dd/MM/yyyy"),
+        ////        IdUsuarioCreacion = s.IdUsuarioCreacion
+        ////    });
+
+        ////    return StatusCode(StatusCodes.Status200OK, personasObtenidas);
+        ////}
         [HttpPost]
         public async Task<IActionResult> Agregar([FromBody] PersonaVM model)
         {

@@ -305,7 +305,6 @@ body {
 /* Layout principal */
 .layout {
     display: flex;
-    margin-top: 60px; /* Altura navbar */
 }
 
 /* Sidebar */
@@ -323,7 +322,6 @@ body {
 .main {
     flex: 1;
     margin-left: 260px; /* Ajusta según ancho sidebar */
-    padding: 20px;
     transition: margin-left 0.3s ease;
 }
 

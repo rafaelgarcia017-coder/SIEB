@@ -12,7 +12,7 @@ namespace Embarcaciones.DAL.Repositorio
         Task<bool> Actualizar(TEntityModel modelo);
         Task<bool> Eliminar(int id);
         Task<TEntityModel> Obtener(int id);
-        Task<IQueryable<TEntityModel>> ObtenerTodos();
+        IQueryable<TEntityModel> ObtenerTodos();
 
     }
 }

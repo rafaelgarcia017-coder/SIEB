@@ -16,6 +16,9 @@
 
     <!-- Tu CSS -->
     <link href="~/css/MenuPrincipal.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/WebApplication2.styles.css" asp-append-version="true" />
 
     <title>@ViewData["Title"]</title>
 </head>
@@ -64,7 +67,7 @@
                             <i class="fas fa-chevron-right arrow-left"></i>
                         </div>
                         <ul class="menu_items submenu">
-                            <a class="nav_link sublink" asp-controller="Persona" asp-action="Index">
+                            <a class="nav_link sublink" asp-controller="Persona" asp-action="Administrar">
                                 <i class='fas fa-user'></i> Personas
                             </a>
                             <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>

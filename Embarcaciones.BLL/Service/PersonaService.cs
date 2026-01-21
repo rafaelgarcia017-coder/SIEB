@@ -38,14 +38,14 @@ namespace Embarcaciones.BLL.Service
 
         public async Task<Persona> ObtenerPorNombre(string nombre)
         {
-            IQueryable<Persona> queryPersonaSQL = await _personaRepo.ObtenerTodos();
+            IQueryable<Persona> queryPersonaSQL =  _personaRepo.ObtenerTodos();
             Persona persona = queryPersonaSQL.FirstOrDefault(f=> f.NombreCompleto == nombre);
             return persona;
         }
 
-        public async Task<IQueryable<Persona>> ObtenerTodos()
+        public IQueryable<Persona> ObtenerTodos()
         {
-            return await _personaRepo.ObtenerTodos();
+            return (IQueryable<Persona>)_personaRepo.ObtenerTodos();
         }
     }
 }

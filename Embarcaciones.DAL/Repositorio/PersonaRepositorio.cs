@@ -42,7 +42,7 @@ namespace Embarcaciones.DAL.Repositorio
             return await _dbcontext.Personas.FindAsync(id);
         }
 
-        public async Task<IQueryable<Persona>> ObtenerTodos()
+        public IQueryable<Persona> ObtenerTodos()
         {
             IQueryable<Persona> queryPersona = _dbcontext.Personas;
             return queryPersona;
