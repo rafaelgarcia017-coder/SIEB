@@ -50,6 +50,12 @@
                      
                                         <span class="input-group-text" id="addon-wrapping"><i class="fa fa-keyboard"></i></span>
                                         <input type="password" class="form-control" placeholder="Contraseña" asp-for="Clave" aria-label="Clave" aria-describedby="addon-wrapping">
+                                        <span class="input-group-text"
+                                              style="cursor:pointer"
+                                              onclick="togglePassword()">
+                                            <i id="icon-password" class="fas fa-eye"></i>
+                                        </span>
+                                    
                                     </div>
                            
 
@@ -72,6 +78,21 @@
     </div>
 
     <footer class="text-center mt-4">
-        <p class="small text-muted"> Todos los derechos reservados 2026.</p>
+        <p class="small text-muted"> Todos los derechos reservados 2026©.</p>
     </footer>
+
+    <script>
+        function togglePassword() {
+            const input = document.getElementById("Clave");
+            const icon = document.getElementById("icon-password");
+
+            if (input.type === "password") {
+                input.type = "text";
+                icon.classList.replace("fa-eye", "fa-eye-slash");
+            } else {
+                input.type = "password";
+                icon.classList.replace("fa-eye-slash", "fa-eye");
+            }
+        }
+    </script>
 </section>

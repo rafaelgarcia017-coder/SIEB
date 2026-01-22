@@ -44,7 +44,7 @@
                     <span>@userName</span>
                 </div>
 
-                <a asp-controller="Login" asp-action="CerrarSesion" class="nav_link logout_navbar">
+                <a asp-controller="Login" asp-action="CerrarSesion" class="nav_link sublink logout_navbar">
                     <i class='fas fa-power-off' title="Cerrar Sesion"></i>
                 </a>
             }
@@ -68,10 +68,10 @@
                         </div>
                         <ul class="menu_items submenu">
                             <a class="nav_link sublink" asp-controller="Persona" asp-action="Administrar">
-                                <i class='fas fa-user'></i> Personas
+                                <i class='fas fa-user'></i>    <span class="m-2">Personas</span>
                             </a>
                             <a class="nav_link sublink" asp-controller="Departamento" asp-action="Administrar">
-                                <i class='fas fa-user'></i> Departamentos
+                                <i class='fas fa-map'></i>   <span class="m-2">Departamentos</span>
                             </a>
                         
                         </ul>

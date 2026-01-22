@@ -20,16 +20,29 @@
     </div>
     <div class="card-body">
         <div class="row">
-            <div class="col-md-3">
-                <label>Departamento:</label>
-                 <input  type="text" class="form-control" asp-for="Departamento" />
-                 <br />
-                <label>Descripcion:</label>
-                <input type="text" class="form-control" asp-for="Descripcion" />
+            <div class="col-md-12">
 
+
+                <div class="card">
+                    <div class="card-header text-white bg-primary">
+                        Agregar Departamento
+                    </div>
+                    <div class="card-body">
+                        <div class="col-md-3">
+                            <label>Departamento:</label>
+                            <input type="text" class="form-control" asp-for="Departamento" />
+                            <br />
+                            <label>Descripcion:</label>
+                            <input type="text" class="form-control" asp-for="Descripcion" />
+
+                        </div>
+                        <button class="btn btn-success mt-4"><i class="fa fa-save"></i> Guardar</button>
+                        <button class="btn btn-danger mt-4"><i class="fa fa-times"></i> Cancelar</button>
+                    </div>
+                </div>
             </div>
         </div>
-  
+
 
     </div>
 </div>

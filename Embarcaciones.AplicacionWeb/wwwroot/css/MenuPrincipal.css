@@ -333,3 +333,7 @@ body {
     .sidebar.close ~ .main {
         margin-left: 80px; /* Ajusta margen main si sidebar se colapsa */
     }
+
+label, .card-header {
+    font-weight: bold !important;
+}
