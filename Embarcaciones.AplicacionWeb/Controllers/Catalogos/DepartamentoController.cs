@@ -1,4 +1,5 @@
-﻿using Embarcaciones.AplicacionWeb.Models.ViewModels.Catalogos.Departamento;
+﻿using Embarcaciones.AplicacionWeb.Models.ViewModels
+    .Catalogos.Departamento;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Embarcaciones.AplicacionWeb.Controllers.Catalogos
@@ -14,7 +15,18 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Catalogos
                    new DepartamentoVM{ IdDepartamento = 1 , Departamento = "Carazo", Descripcion="Departamento Carazo", IdUsuarioCreacion = 1 , FechaCreacion = DateTime.Now}
                  };
 
-            return View("Administrar", depa);
+            var modelo = new AdministrarDepartamentoVM
+            {
+                ListaDepartamentos = depa
+            };
+
+            return View("Administrar", modelo);
+        }
+
+        public IActionResult GestionDepartamento()
+        {
+            var model = new DepartamentoVM();
+            return View("GestionDepartamento", model);
         }
     }
 }

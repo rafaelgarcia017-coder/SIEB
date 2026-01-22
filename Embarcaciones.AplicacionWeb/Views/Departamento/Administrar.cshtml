@@ -11,7 +11,7 @@
         <div class="d-flex justify-content-end">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb mb-0">
-                    <li class="breadcrumb-item"><a href="#">SIEB</a></li>
+                    <li class="breadcrumb-item">SIEB</li>
                     <li class="breadcrumb-item active" aria-current="page">Departamentos</li>
                     <li class="breadcrumb-item active" aria-current="page">Administrar</li>
                 </ol>
@@ -19,35 +19,49 @@
         </div>
     </div>
     <div class="card-body">
-        <table class="table table-responsive table-bordered">
-            <thead>
-                <tr class="table-info">
-                    <th>Datos Generales</th>
-                    <th>Datos Especificos</th>
-                    <th>Opciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model.ListaDepartamentos)
-                {
-                    <tr>
-                        <td>
-                            Departamento: <b>@item.Departamento</b><br />
-                            Descripcion: <b>@item.Descripcion</b><br />
-     
-                        </td>
-                        <td>
-                            Fecha Creacion <b>@item.FechaCreacion</b><br />
-                            Usuario Creacion: <b>@item.IdUsuarioCreacion</b>
+        <div class="row">
+            <div class="col-md-2">
+                <a href="@Url.Action("GestionDepartamento", "Departamento")"
+                   class="btn btn-success">
+                    <i class="fa fa-plus"></i> Nuevo
+                </a>
 
-                        </td>
-                        <td>
-                        </td>
-                    </tr>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-md-12">
+                <table class="table table-responsive table-bordered">
+                    <thead>
+                        <tr class="table-info">
+                            <th>Datos Generales</th>
+                            <th>Datos Especificos</th>
+                            <th>Opciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.ListaDepartamentos)
+                        {
+                            <tr>
+                                <td>
+                                    Departamento: <b>@item.Departamento</b><br />
+                                    Descripcion: <b>@item.Descripcion</b><br />
+
+                                </td>
+                                <td>
+                                    Fecha Creacion <b>@item.FechaCreacion</b><br />
+                                    Usuario Creacion: <b>@item.IdUsuarioCreacion</b>
+
+                                </td>
+                                <td>
+                                </td>
+                            </tr>
 
 
-                }
-            </tbody>
-        </table>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+      
     </div>
 </div>
