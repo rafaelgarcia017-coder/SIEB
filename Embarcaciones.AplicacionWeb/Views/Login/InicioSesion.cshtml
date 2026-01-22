@@ -1,4 +1,4 @@
-﻿@using  Embarcaciones.AplicacionWeb.Models.ViewModels.Seguridad;
+﻿@using Embarcaciones.AplicacionWeb.Models.ViewModels.Seguridad;
 
 @model InicioSesionVM
 
@@ -6,9 +6,11 @@
     Layout = null;
 }
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 <link rel="stylesheet" href="styleLoginBootstrap.css" />
 <link href="~/css/seguridad/iniciosesion.css" rel="stylesheet" />
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
 
 <section class="vh-100">
     <div class="container py-5 h-100">
@@ -18,8 +20,8 @@
                     <div class="row g-0">
                         <div class="col-md-6 col-lg-5 d-none d-md-block">
                             <div class="col-md-12  d-none d-md-block">
-                                <img src="~/images/ejercitologo.jpg" alt="login form" class="img-fluid"
-                                     style="border-radius: 1rem 0 0 1rem;" />                                
+                                <img src="~/images/MarinaNicaragua.png" alt="login form" class="img-fluid"
+                                     style="border-radius: 1rem 0 0 1rem;" />
                                 <h2>SIEB</h2>
                                 <p>
                                     ¡Bienvenido al Sistema de Embarcaciones!
@@ -35,30 +37,30 @@
                                 <form asp-controller="Login" asp-action="InicioSesion" method="post">
 
                                     <div class="d-flex align-items-center mb-3 pb-1">
-                                        <i class="fas fa-cubes fa-2x me-3" style="color: #ff6219;"></i>
-                                        <span class="h1 fw-bold mb-0">Inicio Sesión</span>
+                                        <i class="fa fa-user-circle fa-2x me-3" style="color: #0d00b9;"></i>
+                                        <span class="h1 fw-bold mb-0" style="color: #0d00b9;">Inicio Sesión</span>
+                                    </div>
+                                    <div class="input-group flex-nowrap  mb-4">
+                                     
+                                        <span class="input-group-text" id="addon-wrapping"><i class="fa fa-user"></i></span>
+                                        <input type="text" class="form-control" placeholder="Cuenta" aria-label="Username" asp-for="Cuenta"  aria-describedby="addon-wrapping">
                                     </div>
 
-
-
-                                    <div data-mdb-input-init class="form-outline mb-4">
-                                        <label class="form-label" for="form2Example17">Cuenta:</label>
-                                        <input  id="form2Example17" class="form-control form-control-lg" asp-for="Cuenta" />
-
+                                    <div class="input-group flex-nowrap  mb-4">
+                     
+                                        <span class="input-group-text" id="addon-wrapping"><i class="fa fa-keyboard"></i></span>
+                                        <input type="password" class="form-control" placeholder="Contraseña" asp-for="Clave" aria-label="Clave" aria-describedby="addon-wrapping">
                                     </div>
-
-                                    <div data-mdb-input-init class="form-outline mb-4">
-                                        <label class="form-label" for="form2Example27">Contraseña:</label>
-                                        <input type="password" id="form2Example27"
-                                            class="form-control form-control-lg" asp-for="Clave" />
-
-                                    </div>
+                           
 
                                     <div class="pt-1 mb-4 d-flex justify-content-center">
                                         <button id="btn-ingresar"
-                                            class="btn btn-primary btn-lg btn-block" >Ingresar</button>
+                                                class="btn btn-primary btn-lg btn-block">
+                                            <i class="fa fa-check"></i>
+                                            Ingresar
+                                        </button>
                                     </div>
-                        
+
                                 </form>
 
                             </div>
