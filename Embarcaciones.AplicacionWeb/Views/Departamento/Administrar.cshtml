@@ -1,0 +1,53 @@
+﻿@using Embarcaciones.AplicacionWeb.Models.ViewModels.Catalogos.Departamento;
+
+@model AdministrarDepartamentoVM
+
+@{
+    ViewData["Title"] = "Administrar Departamentos";
+}
+
+<div class="card-body">
+    <div class="card-header">
+        <div class="d-flex justify-content-end">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-0">
+                    <li class="breadcrumb-item"><a href="#">SIEB</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Departamentos</li>
+                    <li class="breadcrumb-item active" aria-current="page">Administrar</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+    <div class="card-body">
+        <table class="table table-responsive table-bordered">
+            <thead>
+                <tr class="table-info">
+                    <th>Datos Generales</th>
+                    <th>Datos Especificos</th>
+                    <th>Opciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.ListaDepartamentos)
+                {
+                    <tr>
+                        <td>
+                            Departamento: <b>@item.Departamento</b><br />
+                            Descripcion: <b>@item.Descripcion</b><br />
+     
+                        </td>
+                        <td>
+                            Fecha Creacion <b>@item.FechaCreacion</b><br />
+                            Usuario Creacion: <b>@item.IdUsuarioCreacion</b>
+
+                        </td>
+                        <td>
+                        </td>
+                    </tr>
+
+
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
