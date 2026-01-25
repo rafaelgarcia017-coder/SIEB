@@ -1,5 +1,5 @@
 ﻿using Embarcaciones.DAL.DataContext;
-using Embarcaciones.Models;
+using Embarcaciones.
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -57,7 +57,7 @@ namespace Embarcaciones.DAL.Repositorio
         public async Task<bool> ValidarCuenta(string cuenta, string clave)
         {
             return await _dbcontext.Cuenta
-                .AnyAsync(c => c.Nombre == cuenta && c.PasswordHash == clave);
+                .AnyAsync(c => c.Usuario == cuenta && c.ContrasenaHash == clave);
         }
     }
 }

@@ -18,7 +18,7 @@ namespace Embarcaciones.DAL.DataContext
 
         public virtual DbSet<Catalogo> Catalogos { get; set; } = null!;
         public virtual DbSet<CatalogoValor> CatalogoValors { get; set; } = null!;
-        public virtual DbSet<Cuentum> Cuenta { get; set; } = null!;
+        public virtual DbSet<Cuenta> Cuenta { get; set; } = null!;
         public virtual DbSet<Departamento> Departamentos { get; set; } = null!;
         public virtual DbSet<Embarcacion> Embarcacions { get; set; } = null!;
         public virtual DbSet<EmbarcacionConstruccion> EmbarcacionConstruccions { get; set; } = null!;
@@ -76,7 +76,7 @@ namespace Embarcaciones.DAL.DataContext
                     .HasConstraintName("FK_CatalogoValor_Catalogo");
             });
 
-            modelBuilder.Entity<Cuentum>(entity =>
+            modelBuilder.Entity<Cuenta>(entity =>
             {
                 entity.HasKey(e => e.IdCuenta)
                     .HasName("PK__Cuenta__D41FD70694B58EC3");

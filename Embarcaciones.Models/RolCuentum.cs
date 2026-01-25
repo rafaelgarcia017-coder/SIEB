@@ -15,7 +15,7 @@ namespace Embarcaciones.DAL.DataContext
         public int? IdUsuarioModificacion { get; set; }
         public DateTime? FechaModificacion { get; set; }
 
-        public virtual Cuentum IdCuentaNavigation { get; set; } = null!;
+        public virtual Cuenta IdCuentaNavigation { get; set; } = null!;
         public virtual Rol IdRolNavigation { get; set; } = null!;
     }
 }
