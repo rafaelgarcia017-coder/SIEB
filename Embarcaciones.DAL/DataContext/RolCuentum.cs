@@ -1,19 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Embarcaciones.Models
+namespace Embarcaciones.DAL.DataContext
 {
-    public partial class Cuenta
+    public partial class RolCuentum
     {
-        public Cuenta()
-        {
-            RolCuenta = new HashSet<RolCuenta>();
-        }
-
+        public int IdRolCuenta { get; set; }
         public int IdCuenta { get; set; }
-        public string Usuario { get; set; } = null!;
-        public string ContrasenaHash { get; set; } = null!;
-        public string? Estado { get; set; }
+        public int IdRol { get; set; }
         public bool? EstaActivo { get; set; }
         public bool? EsHistorico { get; set; }
         public int? IdUsuarioCreacion { get; set; }
@@ -21,6 +15,7 @@ namespace Embarcaciones.Models
         public int? IdUsuarioModificacion { get; set; }
         public DateTime? FechaModificacion { get; set; }
 
-        public virtual ICollection<RolCuenta> RolCuenta { get; set; }
+        public virtual Cuentum IdCuentaNavigation { get; set; } = null!;
+        public virtual Rol IdRolNavigation { get; set; } = null!;
     }
 }
