@@ -1,4 +1,5 @@
 ﻿using System;
+using Embarcaciones.Models;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
@@ -27,7 +28,7 @@ namespace Embarcaciones.DAL.DataContext
         public virtual DbSet<Pagina> Paginas { get; set; } = null!;
         public virtual DbSet<Persona> Personas { get; set; } = null!;
         public virtual DbSet<Rol> Rols { get; set; } = null!;
-        public virtual DbSet<RolCuentum> RolCuenta { get; set; } = null!;
+        public virtual DbSet<RolCuenta> RolCuenta { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -374,7 +375,7 @@ namespace Embarcaciones.DAL.DataContext
                 entity.Property(e => e.Nombre).HasMaxLength(50);
             });
 
-            modelBuilder.Entity<RolCuentum>(entity =>
+            modelBuilder.Entity<RolCuenta>(entity =>
             {
                 entity.HasKey(e => e.IdRolCuenta)
                     .HasName("PK__RolCuent__3706DEC9CE71A1B4");

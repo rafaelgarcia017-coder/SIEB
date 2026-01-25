@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Embarcaciones.DAL.DataContext
+namespace Embarcaciones.Models
 {
-    public partial class RolCuentum
+    public partial class RolCuenta
     {
         public int IdRolCuenta { get; set; }
         public int IdCuenta { get; set; }

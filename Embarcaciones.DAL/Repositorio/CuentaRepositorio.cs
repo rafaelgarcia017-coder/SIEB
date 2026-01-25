@@ -1,5 +1,5 @@
 ﻿using Embarcaciones.DAL.DataContext;
-using Embarcaciones.
+using Embarcaciones.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;

@@ -10,6 +10,6 @@
         public string? Direccion { get; set; }
         public string? Correo { get; set; } = null!;
         public int IdUsuarioCreacion { get; set; }
-        public string? FechaCreacion { get; set; }
+        public string FechaCreacion { get; set; }
     }
 }

@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Embarcaciones.DAL.DataContext
+namespace Embarcaciones.Models
 {
     public partial class Cuenta
     {
         public Cuenta()
         {
-            RolCuenta = new HashSet<RolCuentum>();
+            RolCuenta = new HashSet<RolCuenta>();
         }
 
         public int IdCuenta { get; set; }
@@ -21,6 +21,6 @@ namespace Embarcaciones.DAL.DataContext
         public int? IdUsuarioModificacion { get; set; }
         public DateTime? FechaModificacion { get; set; }
 
-        public virtual ICollection<RolCuentum> RolCuenta { get; set; }
+        public virtual ICollection<RolCuenta> RolCuenta { get; set; }
     }
 }
