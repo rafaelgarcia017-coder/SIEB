@@ -9,9 +9,9 @@ namespace Embarcaciones.AplicacionWeb.Models.ViewModels.Catalogos.Departamento
         [Required(ErrorMessage = "Por Favor Ingrese un Departamento")]
         public string Departamento { get; set; }
 
-        public string Descripcion { get; set; }
+        public string? Descripcion { get; set; }
 
-        public int IdUsuarioCreacion { get; set; }
+        public int? IdUsuarioCreacion { get; set; }
 
         public DateTime FechaCreacion { get; set; }
 

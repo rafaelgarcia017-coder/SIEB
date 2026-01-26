@@ -9,7 +9,7 @@ namespace Embarcaciones.BLL.Service
 {
     public interface ICuentaService
     {
-        Task<bool> Login(string cuenta, string clave);
+        Task<Cuenta> Login(string cuenta, string clave);
         // CRUD y consultas
         Task<Cuenta> Obtener(int id);
         Task<List<Cuenta>> ObtenerTodos(); // lista ejecutada

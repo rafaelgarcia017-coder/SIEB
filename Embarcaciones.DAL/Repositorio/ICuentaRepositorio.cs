@@ -18,6 +18,6 @@ namespace Embarcaciones.DAL.Repositorio
         Task<bool> Eliminar(int id);
 
         // Método específico
-        Task<bool> ValidarCuenta(string cuenta, string clave);
+        Task<Cuenta> ValidarCuenta(string cuenta, string clave);
     }
 }

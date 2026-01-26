@@ -54,10 +54,10 @@ namespace Embarcaciones.DAL.Repositorio
         }
 
         // ---------- Método específico ----------
-        public async Task<bool> ValidarCuenta(string cuenta, string clave)
+        public async Task<Cuenta> ValidarCuenta(string cuenta, string clave)
         {
             return await _dbcontext.Cuenta
-                .AnyAsync(c => c.Usuario == cuenta && c.ContrasenaHash == clave);
+                .FirstOrDefaultAsync(c => c.Usuario == cuenta && c.ContrasenaHash == clave);
         }
     }
 }

@@ -18,7 +18,7 @@ namespace Embarcaciones.BLL.Service
             _cuentaRepo = cuentaRepo;
         }
 
-        public async Task<bool> Login(string cuenta, string clave)
+        public async Task<Cuenta> Login(string cuenta, string clave)
         {
             return await _cuentaRepo.ValidarCuenta(cuenta, clave);
         }

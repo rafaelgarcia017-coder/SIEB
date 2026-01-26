@@ -22,17 +22,25 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Seguridad
         [HttpPost]
         public async Task<IActionResult> InicioSesion(InicioSesionVM sesion)
         {
-            var esValido = await _cuentaService.Login(sesion.Cuenta, sesion.Clave);
-            if (!esValido)
+            if (!ModelState.IsValid)
             {
-                ModelState.AddModelError("", "Cuenta o contraseña incorrecta");
+                return View(sesion);
+            }
+
+            var cuenta = await _cuentaService.Login(sesion.Cuenta, sesion.Clave);
+
+            if (cuenta == null || cuenta.IdCuenta == 0)
+            {
+                ModelState.AddModelError(string.Empty, "Cuenta o contraseña incorrecta");
                 return View(sesion);
             }
 
             var claims = new List<Claim>
-                            {
-                                new Claim(ClaimTypes.Name, sesion.Cuenta)
-                            };
+          {
+               new Claim(ClaimTypes.Name, sesion.Cuenta),
+               new Claim(ClaimTypes.NameIdentifier, cuenta.IdCuenta.ToString())
+
+           };
 
             var identity = new ClaimsIdentity(
                 claims, CookieAuthenticationDefaults.AuthenticationScheme);
@@ -45,6 +53,7 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Seguridad
 
             return RedirectToAction("Index", "Home");
         }
+
         public async Task<IActionResult> CerrarSesion()
         {
             await HttpContext.SignOutAsync(

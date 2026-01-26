@@ -11,7 +11,7 @@
         <div class="d-flex justify-content-end">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb mb-0">
-                    <li class="breadcrumb-item"><a href="#">SIEB</a></li>
+                    <li class="breadcrumb-item">SIEB</li>
                     <li class="breadcrumb-item active" aria-current="page">Personas</li>
                     <li class="breadcrumb-item active" aria-current="page">Administrar</li>
                 </ol>
@@ -19,36 +19,49 @@
         </div>
     </div>
     <div class="card-body">
-        <table class="table table-responsive table-bordered">
-            <thead>
-                <tr class="table-info">
-                    <th>Datos Generales</th>
-                    <th>Datos Especificos</th>
-                    <th>Opciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model.ListaPersonas)
-                {
-                    <tr>
-                        <td>
-                            Nombre: <b>@item.NombreCompleto</b><br />
-                            Direccion: <b>@item.Direccion</b><br />
-                            Telefono :<b>@item.Telefono</b><br />
-                            Correo:<b>@item.Correo</b>
-                        </td>
-                        <td>
-                            Fecha Creacion <b>@item.FechaCreacion</b><br />
-                            Usuario Creacion: <b>@item.IdUsuarioCreacion</b>
-                        
-                        </td>
-                        <td>
-                        </td>
-                    </tr>
-       
-                
-                }
-            </tbody>
-        </table>
+
+        <div class="row">
+            <div class="col-md-2">
+                <a href="@Url.Action("NuevaPersona", "Persona")"
+                   class="btn btn-success">
+                    <i class="fa fa-plus"></i> Nuevo
+                </a>
+
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-md-12">
+                <table class="table table-responsive table-bordered">
+                    <thead>
+                        <tr class="table-info">
+                            <th>Datos Generales</th>
+                            <th>Datos Especificos</th>
+                            <th>Opciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.ListaPersonas)
+                        {
+                            <tr>
+                                <td>
+                                    Nombre: <b>@item.NombreCompleto</b><br />
+                                    Telefono :<b>@item.Telefono</b><br />
+                                    Correo:<b>@item.Correo</b>
+                                </td>
+                                <td>
+                                    Tipo Identificacion <b>@item.Identificacion</b><br />
+                                    Identificacion: <b>@item.Identificacion</b><br />
+                                    Direccion: <b>@item.Direccion</b> 
+                                </td>
+                                <td>
+                                </td>
+                            </tr>
+
+
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </div>

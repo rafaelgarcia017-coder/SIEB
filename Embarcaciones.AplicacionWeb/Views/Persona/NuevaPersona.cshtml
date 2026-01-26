@@ -1,0 +1,69 @@
+﻿@using Embarcaciones.AplicacionWeb.Models.ViewModels.Catalogos.Persona;
+
+@model PersonaVM
+
+@{
+    ViewData["Title"] = "Agregar Persona";
+}
+
+ @using (Html.BeginForm("NuevaPersona", "Persona", FormMethod.Post))
+{
+        <div class="card-body">
+        <div class="card-header">
+            <div class="d-flex justify-content-end">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-0">
+                        <li class="breadcrumb-item">SIEB</li>
+                        <li class="breadcrumb-item active" aria-current="page">Personas</li>
+                        <li class="breadcrumb-item active" aria-current="page">AgregarPersona</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-12">
+
+
+                    <div class="card">
+                        <div class="card-header text-white bg-primary">
+                            Agregar Persona
+                        </div>
+                        <div class="card-body">
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Nombre Completo::</label>
+                                    <input type="text" class="form-control" asp-for="NombreCompleto" />                                
+                                    <label>Telefono:</label>
+                                    <input type="text" class="form-control" asp-for="Telefono" />
+                                    <label>Correo:</label>
+                                    <input type="text" class="form-control" asp-for="Correo" />
+
+                                </div>
+                                <div class="col-md-6">
+                                    <label>Tipo Indentificacion:</label>
+                                    <input type="text" class="form-control" asp-for="IdTipoIdentificacion" />                        
+                                    <label>Identificacion:</label>
+                                    <input type="text" class="form-control" asp-for="Identificacion" />
+                                    <label>Direccion:</label>
+                                    <input type="text" class="form-control" asp-for="Direccion" />
+                                </div>
+                            </div>
+
+                            <button class="btn btn-success mt-4"><i class="fa fa-save"></i> Guardar</button>
+                            <a href="@Url.Action("Administrar", "Persona")"
+                               class="btn btn-danger mt-4">
+                                <i class="fa fa-times"></i> Cancelar
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    
+}
+

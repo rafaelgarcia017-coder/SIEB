@@ -14,6 +14,8 @@ builder.Services.AddDbContext<EmbarcacionesBDContext>(x =>
 
 builder.Services.AddScoped<IGenericRepositorio<Persona>, PersonaRepositorio>();
 builder.Services.AddScoped<IPersonaService, PersonaService>();
+builder.Services.AddScoped<IGenericRepositorio<Departamento>, DepartamentoRepositorio>();
+
 
 builder.Services.AddScoped<ICuentaRepositorio, CuentaRepositorio>();
 builder.Services.AddScoped<ICuentaService, CuentaService>();
