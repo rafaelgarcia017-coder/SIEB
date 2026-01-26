@@ -7,8 +7,7 @@ namespace Embarcaciones.Models
     {
         public EmbarcacionPropietario()
         {
-            EmbarcacionIdEmbarcacionConstruccionNavigations = new HashSet<Embarcacion>();
-            EmbarcacionIdEmbarcacionPropietarioNavigations = new HashSet<Embarcacion>();
+            Embarcacions = new HashSet<Embarcacion>();
         }
 
         public int IdEmbarcacionPropietario { get; set; }
@@ -26,14 +25,15 @@ namespace Embarcaciones.Models
         public string? NombreContacto { get; set; }
         public bool? EstaActivo { get; set; }
         public bool? EsHistorico { get; set; }
-        public int? IdUsuarioCreacion { get; set; }
+        public int IdUsuarioCreacion { get; set; }
         public DateTime? FechaCreacion { get; set; }
         public int? IdUsuarioModificacion { get; set; }
         public DateTime? FechaModificacion { get; set; }
 
         public virtual Departamento? IdDepartamentoNavigation { get; set; }
         public virtual Municipio? IdMunicipioNavigation { get; set; }
-        public virtual ICollection<Embarcacion> EmbarcacionIdEmbarcacionConstruccionNavigations { get; set; }
-        public virtual ICollection<Embarcacion> EmbarcacionIdEmbarcacionPropietarioNavigations { get; set; }
+        public virtual Cuenta IdUsuarioCreacionNavigation { get; set; } = null!;
+        public virtual Cuenta? IdUsuarioModificacionNavigation { get; set; }
+        public virtual ICollection<Embarcacion> Embarcacions { get; set; }
     }
 }

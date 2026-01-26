@@ -5,6 +5,11 @@ namespace Embarcaciones.Models
 {
     public partial class EmbarcacionConstruccion
     {
+        public EmbarcacionConstruccion()
+        {
+            Embarcacions = new HashSet<Embarcacion>();
+        }
+
         public int IdEmbarcacionConstruccion { get; set; }
         public decimal? Puntal { get; set; }
         public string? ColorSuperestructura { get; set; }
@@ -34,9 +39,13 @@ namespace Embarcaciones.Models
         public string? Indicativo { get; set; }
         public bool? EstaActivo { get; set; }
         public bool? EsHistorico { get; set; }
-        public int? IdUsuarioCreacion { get; set; }
+        public int IdUsuarioCreacion { get; set; }
         public DateTime? FechaCreacion { get; set; }
         public int? IdUsuarioModificacion { get; set; }
         public DateTime? FechaModificacion { get; set; }
+
+        public virtual Cuenta IdUsuarioCreacionNavigation { get; set; } = null!;
+        public virtual Cuenta? IdUsuarioModificacionNavigation { get; set; }
+        public virtual ICollection<Embarcacion> Embarcacions { get; set; }
     }
 }

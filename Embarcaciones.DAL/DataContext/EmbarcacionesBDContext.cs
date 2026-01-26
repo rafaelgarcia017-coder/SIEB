@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Embarcaciones.Models;
 
 namespace Embarcaciones.DAL.DataContext
 {
@@ -18,7 +19,7 @@ namespace Embarcaciones.DAL.DataContext
 
         public virtual DbSet<Catalogo> Catalogos { get; set; } = null!;
         public virtual DbSet<CatalogoValor> CatalogoValors { get; set; } = null!;
-        public virtual DbSet<Cuentum> Cuenta { get; set; } = null!;
+        public virtual DbSet<Cuenta> Cuenta { get; set; } = null!;
         public virtual DbSet<Departamento> Departamentos { get; set; } = null!;
         public virtual DbSet<Embarcacion> Embarcacions { get; set; } = null!;
         public virtual DbSet<EmbarcacionConstruccion> EmbarcacionConstruccions { get; set; } = null!;
@@ -27,7 +28,7 @@ namespace Embarcaciones.DAL.DataContext
         public virtual DbSet<Pagina> Paginas { get; set; } = null!;
         public virtual DbSet<Persona> Personas { get; set; } = null!;
         public virtual DbSet<Rol> Rols { get; set; } = null!;
-        public virtual DbSet<RolCuentum> RolCuenta { get; set; } = null!;
+        public virtual DbSet<RolCuenta> RolCuenta { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -43,7 +44,7 @@ namespace Embarcaciones.DAL.DataContext
             modelBuilder.Entity<Catalogo>(entity =>
             {
                 entity.HasKey(e => e.IdCatalogo)
-                    .HasName("PK__Catalogo__FD0AC26C3A864186");
+                    .HasName("PK__Catalogo__FD0AC26C43E0F286");
 
                 entity.ToTable("Catalogo", "Fundaciones");
 
@@ -70,7 +71,7 @@ namespace Embarcaciones.DAL.DataContext
             modelBuilder.Entity<CatalogoValor>(entity =>
             {
                 entity.HasKey(e => e.IdCatalogoValor)
-                    .HasName("PK__Catalogo__64C700629FEDFE1D");
+                    .HasName("PK__Catalogo__64C700622629D889");
 
                 entity.ToTable("CatalogoValor", "Fundaciones");
 
@@ -98,14 +99,14 @@ namespace Embarcaciones.DAL.DataContext
                     .HasConstraintName("FK_CatalogoValor_Modificacion");
             });
 
-            modelBuilder.Entity<Cuentum>(entity =>
+            modelBuilder.Entity<Cuenta>(entity =>
             {
                 entity.HasKey(e => e.IdCuenta)
-                    .HasName("PK__Cuenta__D41FD70637D520A2");
+                    .HasName("PK__Cuenta__D41FD706D5D02AC1");
 
                 entity.ToTable("Cuenta", "Seguridad");
 
-                entity.HasIndex(e => e.Usuario, "UQ__Cuenta__E3237CF7B4C250B9")
+                entity.HasIndex(e => e.Usuario, "UQ__Cuenta__E3237CF76FB9B3FB")
                     .IsUnique();
 
                 entity.Property(e => e.ContrasenaHash).HasMaxLength(255);
@@ -135,7 +136,7 @@ namespace Embarcaciones.DAL.DataContext
             modelBuilder.Entity<Departamento>(entity =>
             {
                 entity.HasKey(e => e.IdDepartamento)
-                    .HasName("PK__Departam__787A433D7FAA474C");
+                    .HasName("PK__Departam__787A433DE50BF582");
 
                 entity.ToTable("Departamento", "Fundaciones");
 
@@ -166,7 +167,7 @@ namespace Embarcaciones.DAL.DataContext
             modelBuilder.Entity<Embarcacion>(entity =>
             {
                 entity.HasKey(e => e.IdEmbarcacion)
-                    .HasName("PK__Embarcac__D9F3219E2429CE1A");
+                    .HasName("PK__Embarcac__D9F3219E0DA49C5A");
 
                 entity.ToTable("Embarcacion", "Embarcaciones");
 
@@ -237,7 +238,7 @@ namespace Embarcaciones.DAL.DataContext
             modelBuilder.Entity<EmbarcacionConstruccion>(entity =>
             {
                 entity.HasKey(e => e.IdEmbarcacionConstruccion)
-                    .HasName("PK__Embarcac__189A72FD0CD9BE4C");
+                    .HasName("PK__Embarcac__189A72FD02E8FF43");
 
                 entity.ToTable("EmbarcacionConstruccion", "Embarcaciones");
 
@@ -308,7 +309,7 @@ namespace Embarcaciones.DAL.DataContext
             modelBuilder.Entity<EmbarcacionPropietario>(entity =>
             {
                 entity.HasKey(e => e.IdEmbarcacionPropietario)
-                    .HasName("PK__Embarcac__9A7F72A5D3D0AE1A");
+                    .HasName("PK__Embarcac__9A7F72A5C7C14CBB");
 
                 entity.ToTable("EmbarcacionPropietario", "Embarcaciones");
 
@@ -361,7 +362,7 @@ namespace Embarcaciones.DAL.DataContext
             modelBuilder.Entity<Municipio>(entity =>
             {
                 entity.HasKey(e => e.IdMunicipio)
-                    .HasName("PK__Municipi__610059781D7A824C");
+                    .HasName("PK__Municipi__61005978D35AF7A6");
 
                 entity.ToTable("Municipio", "Fundaciones");
 
@@ -398,7 +399,7 @@ namespace Embarcaciones.DAL.DataContext
             modelBuilder.Entity<Pagina>(entity =>
             {
                 entity.HasKey(e => e.IdPagina)
-                    .HasName("PK__Pagina__034F88B8A0D0901F");
+                    .HasName("PK__Pagina__034F88B86B2BB937");
 
                 entity.ToTable("Pagina", "Seguridad");
 
@@ -429,7 +430,7 @@ namespace Embarcaciones.DAL.DataContext
             modelBuilder.Entity<Persona>(entity =>
             {
                 entity.HasKey(e => e.IdPersona)
-                    .HasName("PK__Persona__2EC8D2AC84B360FD");
+                    .HasName("PK__Persona__2EC8D2AC3A4E9653");
 
                 entity.ToTable("Persona", "Fundaciones");
 
@@ -449,11 +450,6 @@ namespace Embarcaciones.DAL.DataContext
 
                 entity.Property(e => e.Telefono).HasMaxLength(30);
 
-                entity.HasOne(d => d.IdMunicipioNavigation)
-                    .WithMany(p => p.Personas)
-                    .HasForeignKey(d => d.IdMunicipio)
-                    .HasConstraintName("FK_Persona_Municipio");
-
                 entity.HasOne(d => d.IdUsuarioCreacionNavigation)
                     .WithMany(p => p.PersonaIdUsuarioCreacionNavigations)
                     .HasForeignKey(d => d.IdUsuarioCreacion)
@@ -469,7 +465,7 @@ namespace Embarcaciones.DAL.DataContext
             modelBuilder.Entity<Rol>(entity =>
             {
                 entity.HasKey(e => e.IdRol)
-                    .HasName("PK__Rol__2A49584C521C7C95");
+                    .HasName("PK__Rol__2A49584CD52AF031");
 
                 entity.ToTable("Rol", "Seguridad");
 
@@ -495,10 +491,10 @@ namespace Embarcaciones.DAL.DataContext
                     .HasConstraintName("FK_Rol_Modificacion");
             });
 
-            modelBuilder.Entity<RolCuentum>(entity =>
+            modelBuilder.Entity<RolCuenta>(entity =>
             {
                 entity.HasKey(e => e.IdRolCuenta)
-                    .HasName("PK__RolCuent__3706DEC982B7EE31");
+                    .HasName("PK__RolCuent__3706DEC9A4006052");
 
                 entity.ToTable("RolCuenta", "Seguridad");
 
@@ -509,7 +505,7 @@ namespace Embarcaciones.DAL.DataContext
                 entity.Property(e => e.FechaCreacion).HasDefaultValueSql("(sysdatetime())");
 
                 entity.HasOne(d => d.IdCuentaNavigation)
-                    .WithMany(p => p.RolCuentumIdCuentaNavigations)
+                    .WithMany(p => p.RolCuentaIdCuentaNavigations)
                     .HasForeignKey(d => d.IdCuenta)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_RolCuenta_Cuenta");
@@ -521,13 +517,13 @@ namespace Embarcaciones.DAL.DataContext
                     .HasConstraintName("FK_RolCuenta_Rol");
 
                 entity.HasOne(d => d.IdUsuarioCreacionNavigation)
-                    .WithMany(p => p.RolCuentumIdUsuarioCreacionNavigations)
+                    .WithMany(p => p.RolCuentaIdUsuarioCreacionNavigations)
                     .HasForeignKey(d => d.IdUsuarioCreacion)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_RolCuenta_Creacion");
 
                 entity.HasOne(d => d.IdUsuarioModificacionNavigation)
-                    .WithMany(p => p.RolCuentumIdUsuarioModificacionNavigations)
+                    .WithMany(p => p.RolCuentaIdUsuarioModificacionNavigations)
                     .HasForeignKey(d => d.IdUsuarioModificacion)
                     .HasConstraintName("FK_RolCuenta_Modificacion");
             });
