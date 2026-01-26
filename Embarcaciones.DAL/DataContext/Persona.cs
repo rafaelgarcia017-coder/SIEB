@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Embarcaciones.Models
+namespace Embarcaciones.DAL.DataContext
 {
     public partial class Persona
     {

@@ -1,18 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Embarcaciones.Models
+namespace Embarcaciones.DAL.DataContext
 {
-    public partial class Persona
+    public partial class RolCuentum
     {
-        public int IdPersona { get; set; }
-        public string NombreCompleto { get; set; } = null!;
-        public int? IdTipoIdentificacion { get; set; }
-        public string? Identificacion { get; set; }
-        public string? Telefono { get; set; }
-        public string? Correo { get; set; }
-        public string? Direccion { get; set; }
-        public int? IdMunicipio { get; set; }
+        public int IdRolCuenta { get; set; }
+        public int IdCuenta { get; set; }
+        public int IdRol { get; set; }
         public bool? EstaActivo { get; set; }
         public bool? EsHistorico { get; set; }
         public int IdUsuarioCreacion { get; set; }
@@ -20,7 +15,8 @@ namespace Embarcaciones.Models
         public int? IdUsuarioModificacion { get; set; }
         public DateTime? FechaModificacion { get; set; }
 
-        public virtual Municipio? IdMunicipioNavigation { get; set; }
+        public virtual Cuentum IdCuentaNavigation { get; set; } = null!;
+        public virtual Rol IdRolNavigation { get; set; } = null!;
         public virtual Cuentum IdUsuarioCreacionNavigation { get; set; } = null!;
         public virtual Cuentum? IdUsuarioModificacionNavigation { get; set; }
     }

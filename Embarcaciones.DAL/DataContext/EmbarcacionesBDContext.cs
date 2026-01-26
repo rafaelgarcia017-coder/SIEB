@@ -1,5 +1,4 @@
 ﻿using System;
-using Embarcaciones.Models;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
@@ -19,7 +18,7 @@ namespace Embarcaciones.DAL.DataContext
 
         public virtual DbSet<Catalogo> Catalogos { get; set; } = null!;
         public virtual DbSet<CatalogoValor> CatalogoValors { get; set; } = null!;
-        public virtual DbSet<Cuenta> Cuenta { get; set; } = null!;
+        public virtual DbSet<Cuentum> Cuenta { get; set; } = null!;
         public virtual DbSet<Departamento> Departamentos { get; set; } = null!;
         public virtual DbSet<Embarcacion> Embarcacions { get; set; } = null!;
         public virtual DbSet<EmbarcacionConstruccion> EmbarcacionConstruccions { get; set; } = null!;
@@ -28,7 +27,7 @@ namespace Embarcaciones.DAL.DataContext
         public virtual DbSet<Pagina> Paginas { get; set; } = null!;
         public virtual DbSet<Persona> Personas { get; set; } = null!;
         public virtual DbSet<Rol> Rols { get; set; } = null!;
-        public virtual DbSet<RolCuenta> RolCuenta { get; set; } = null!;
+        public virtual DbSet<RolCuentum> RolCuenta { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -44,7 +43,7 @@ namespace Embarcaciones.DAL.DataContext
             modelBuilder.Entity<Catalogo>(entity =>
             {
                 entity.HasKey(e => e.IdCatalogo)
-                    .HasName("PK__Catalogo__FD0AC26CB9AE892B");
+                    .HasName("PK__Catalogo__FD0AC26C3A864186");
 
                 entity.ToTable("Catalogo", "Fundaciones");
 
@@ -55,12 +54,23 @@ namespace Embarcaciones.DAL.DataContext
                 entity.Property(e => e.FechaCreacion).HasDefaultValueSql("(sysdatetime())");
 
                 entity.Property(e => e.Nombre).HasMaxLength(100);
+
+                entity.HasOne(d => d.IdUsuarioCreacionNavigation)
+                    .WithMany(p => p.CatalogoIdUsuarioCreacionNavigations)
+                    .HasForeignKey(d => d.IdUsuarioCreacion)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Catalogo_Creacion");
+
+                entity.HasOne(d => d.IdUsuarioModificacionNavigation)
+                    .WithMany(p => p.CatalogoIdUsuarioModificacionNavigations)
+                    .HasForeignKey(d => d.IdUsuarioModificacion)
+                    .HasConstraintName("FK_Catalogo_Modificacion");
             });
 
             modelBuilder.Entity<CatalogoValor>(entity =>
             {
                 entity.HasKey(e => e.IdCatalogoValor)
-                    .HasName("PK__Catalogo__64C70062344CBCF4");
+                    .HasName("PK__Catalogo__64C700629FEDFE1D");
 
                 entity.ToTable("CatalogoValor", "Fundaciones");
 
@@ -75,16 +85,27 @@ namespace Embarcaciones.DAL.DataContext
                     .HasForeignKey(d => d.IdCatalogo)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_CatalogoValor_Catalogo");
+
+                entity.HasOne(d => d.IdUsuarioCreacionNavigation)
+                    .WithMany(p => p.CatalogoValorIdUsuarioCreacionNavigations)
+                    .HasForeignKey(d => d.IdUsuarioCreacion)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_CatalogoValor_Creacion");
+
+                entity.HasOne(d => d.IdUsuarioModificacionNavigation)
+                    .WithMany(p => p.CatalogoValorIdUsuarioModificacionNavigations)
+                    .HasForeignKey(d => d.IdUsuarioModificacion)
+                    .HasConstraintName("FK_CatalogoValor_Modificacion");
             });
 
-            modelBuilder.Entity<Cuenta>(entity =>
+            modelBuilder.Entity<Cuentum>(entity =>
             {
                 entity.HasKey(e => e.IdCuenta)
-                    .HasName("PK__Cuenta__D41FD70694B58EC3");
+                    .HasName("PK__Cuenta__D41FD70637D520A2");
 
                 entity.ToTable("Cuenta", "Seguridad");
 
-                entity.HasIndex(e => e.Usuario, "UQ__Cuenta__E3237CF707248F7D")
+                entity.HasIndex(e => e.Usuario, "UQ__Cuenta__E3237CF7B4C250B9")
                     .IsUnique();
 
                 entity.Property(e => e.ContrasenaHash).HasMaxLength(255);
@@ -98,12 +119,23 @@ namespace Embarcaciones.DAL.DataContext
                 entity.Property(e => e.FechaCreacion).HasDefaultValueSql("(sysdatetime())");
 
                 entity.Property(e => e.Usuario).HasMaxLength(50);
+
+                entity.HasOne(d => d.IdUsuarioCreacionNavigation)
+                    .WithMany(p => p.InverseIdUsuarioCreacionNavigation)
+                    .HasForeignKey(d => d.IdUsuarioCreacion)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Cuenta_Creacion");
+
+                entity.HasOne(d => d.IdUsuarioModificacionNavigation)
+                    .WithMany(p => p.InverseIdUsuarioModificacionNavigation)
+                    .HasForeignKey(d => d.IdUsuarioModificacion)
+                    .HasConstraintName("FK_Cuenta_Modificacion");
             });
 
             modelBuilder.Entity<Departamento>(entity =>
             {
                 entity.HasKey(e => e.IdDepartamento)
-                    .HasName("PK__Departam__787A433D489AE93B");
+                    .HasName("PK__Departam__787A433D7FAA474C");
 
                 entity.ToTable("Departamento", "Fundaciones");
 
@@ -118,12 +150,23 @@ namespace Embarcaciones.DAL.DataContext
                 entity.Property(e => e.EstaActivo).HasDefaultValueSql("((1))");
 
                 entity.Property(e => e.FechaCreacion).HasDefaultValueSql("(sysdatetime())");
+
+                entity.HasOne(d => d.IdUsuarioCreacionNavigation)
+                    .WithMany(p => p.DepartamentoIdUsuarioCreacionNavigations)
+                    .HasForeignKey(d => d.IdUsuarioCreacion)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Departamento_Creacion");
+
+                entity.HasOne(d => d.IdUsuarioModificacionNavigation)
+                    .WithMany(p => p.DepartamentoIdUsuarioModificacionNavigations)
+                    .HasForeignKey(d => d.IdUsuarioModificacion)
+                    .HasConstraintName("FK_Departamento_Modificacion");
             });
 
             modelBuilder.Entity<Embarcacion>(entity =>
             {
                 entity.HasKey(e => e.IdEmbarcacion)
-                    .HasName("PK__Embarcac__D9F3219E557FE120");
+                    .HasName("PK__Embarcac__D9F3219E2429CE1A");
 
                 entity.ToTable("Embarcacion", "Embarcaciones");
 
@@ -170,20 +213,31 @@ namespace Embarcaciones.DAL.DataContext
                 entity.Property(e => e.ZonaNavegacion).HasMaxLength(50);
 
                 entity.HasOne(d => d.IdEmbarcacionConstruccionNavigation)
-                    .WithMany(p => p.EmbarcacionIdEmbarcacionConstruccionNavigations)
+                    .WithMany(p => p.Embarcacions)
                     .HasForeignKey(d => d.IdEmbarcacionConstruccion)
                     .HasConstraintName("FK_Embarcacion_EmbConst");
 
                 entity.HasOne(d => d.IdEmbarcacionPropietarioNavigation)
-                    .WithMany(p => p.EmbarcacionIdEmbarcacionPropietarioNavigations)
+                    .WithMany(p => p.Embarcacions)
                     .HasForeignKey(d => d.IdEmbarcacionPropietario)
                     .HasConstraintName("FK_Embarcacion_EmbProp");
+
+                entity.HasOne(d => d.IdUsuarioCreacionNavigation)
+                    .WithMany(p => p.EmbarcacionIdUsuarioCreacionNavigations)
+                    .HasForeignKey(d => d.IdUsuarioCreacion)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Embarcacion_Creacion");
+
+                entity.HasOne(d => d.IdUsuarioModificacionNavigation)
+                    .WithMany(p => p.EmbarcacionIdUsuarioModificacionNavigations)
+                    .HasForeignKey(d => d.IdUsuarioModificacion)
+                    .HasConstraintName("FK_Embarcacion_Modificacion");
             });
 
             modelBuilder.Entity<EmbarcacionConstruccion>(entity =>
             {
                 entity.HasKey(e => e.IdEmbarcacionConstruccion)
-                    .HasName("PK__Embarcac__189A72FD120A32C4");
+                    .HasName("PK__Embarcac__189A72FD0CD9BE4C");
 
                 entity.ToTable("EmbarcacionConstruccion", "Embarcaciones");
 
@@ -238,12 +292,23 @@ namespace Embarcaciones.DAL.DataContext
                     .HasColumnName("TRN");
 
                 entity.Property(e => e.UltimoPuntoVisitado).HasMaxLength(100);
+
+                entity.HasOne(d => d.IdUsuarioCreacionNavigation)
+                    .WithMany(p => p.EmbarcacionConstruccionIdUsuarioCreacionNavigations)
+                    .HasForeignKey(d => d.IdUsuarioCreacion)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_EmbConst_Creacion");
+
+                entity.HasOne(d => d.IdUsuarioModificacionNavigation)
+                    .WithMany(p => p.EmbarcacionConstruccionIdUsuarioModificacionNavigations)
+                    .HasForeignKey(d => d.IdUsuarioModificacion)
+                    .HasConstraintName("FK_EmbConst_Modificacion");
             });
 
             modelBuilder.Entity<EmbarcacionPropietario>(entity =>
             {
                 entity.HasKey(e => e.IdEmbarcacionPropietario)
-                    .HasName("PK__Embarcac__9A7F72A55FDCE731");
+                    .HasName("PK__Embarcac__9A7F72A5D3D0AE1A");
 
                 entity.ToTable("EmbarcacionPropietario", "Embarcaciones");
 
@@ -280,12 +345,23 @@ namespace Embarcaciones.DAL.DataContext
                     .WithMany(p => p.EmbarcacionPropietarios)
                     .HasForeignKey(d => d.IdMunicipio)
                     .HasConstraintName("FK_EmbProp_Municipio");
+
+                entity.HasOne(d => d.IdUsuarioCreacionNavigation)
+                    .WithMany(p => p.EmbarcacionPropietarioIdUsuarioCreacionNavigations)
+                    .HasForeignKey(d => d.IdUsuarioCreacion)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_EmbProp_Creacion");
+
+                entity.HasOne(d => d.IdUsuarioModificacionNavigation)
+                    .WithMany(p => p.EmbarcacionPropietarioIdUsuarioModificacionNavigations)
+                    .HasForeignKey(d => d.IdUsuarioModificacion)
+                    .HasConstraintName("FK_EmbProp_Modificacion");
             });
 
             modelBuilder.Entity<Municipio>(entity =>
             {
                 entity.HasKey(e => e.IdMunicipio)
-                    .HasName("PK__Municipi__61005978195C470C");
+                    .HasName("PK__Municipi__610059781D7A824C");
 
                 entity.ToTable("Municipio", "Fundaciones");
 
@@ -306,12 +382,23 @@ namespace Embarcaciones.DAL.DataContext
                     .HasForeignKey(d => d.IdDepartamento)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Municipio_Departamento");
+
+                entity.HasOne(d => d.IdUsuarioCreacionNavigation)
+                    .WithMany(p => p.MunicipioIdUsuarioCreacionNavigations)
+                    .HasForeignKey(d => d.IdUsuarioCreacion)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Municipio_Creacion");
+
+                entity.HasOne(d => d.IdUsuarioModificacionNavigation)
+                    .WithMany(p => p.MunicipioIdUsuarioModificacionNavigations)
+                    .HasForeignKey(d => d.IdUsuarioModificacion)
+                    .HasConstraintName("FK_Municipio_Modificacion");
             });
 
             modelBuilder.Entity<Pagina>(entity =>
             {
                 entity.HasKey(e => e.IdPagina)
-                    .HasName("PK__Pagina__034F88B8D15163ED");
+                    .HasName("PK__Pagina__034F88B8A0D0901F");
 
                 entity.ToTable("Pagina", "Seguridad");
 
@@ -326,12 +413,23 @@ namespace Embarcaciones.DAL.DataContext
                 entity.Property(e => e.Nombre).HasMaxLength(100);
 
                 entity.Property(e => e.UrlPagina).HasMaxLength(255);
+
+                entity.HasOne(d => d.IdUsuarioCreacionNavigation)
+                    .WithMany(p => p.PaginaIdUsuarioCreacionNavigations)
+                    .HasForeignKey(d => d.IdUsuarioCreacion)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Pagina_Creacion");
+
+                entity.HasOne(d => d.IdUsuarioModificacionNavigation)
+                    .WithMany(p => p.PaginaIdUsuarioModificacionNavigations)
+                    .HasForeignKey(d => d.IdUsuarioModificacion)
+                    .HasConstraintName("FK_Pagina_Modificacion");
             });
 
             modelBuilder.Entity<Persona>(entity =>
             {
                 entity.HasKey(e => e.IdPersona)
-                    .HasName("PK__Persona__2EC8D2ACCCCB5FB0");
+                    .HasName("PK__Persona__2EC8D2AC84B360FD");
 
                 entity.ToTable("Persona", "Fundaciones");
 
@@ -355,12 +453,23 @@ namespace Embarcaciones.DAL.DataContext
                     .WithMany(p => p.Personas)
                     .HasForeignKey(d => d.IdMunicipio)
                     .HasConstraintName("FK_Persona_Municipio");
+
+                entity.HasOne(d => d.IdUsuarioCreacionNavigation)
+                    .WithMany(p => p.PersonaIdUsuarioCreacionNavigations)
+                    .HasForeignKey(d => d.IdUsuarioCreacion)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Persona_Creacion");
+
+                entity.HasOne(d => d.IdUsuarioModificacionNavigation)
+                    .WithMany(p => p.PersonaIdUsuarioModificacionNavigations)
+                    .HasForeignKey(d => d.IdUsuarioModificacion)
+                    .HasConstraintName("FK_Persona_Modificacion");
             });
 
             modelBuilder.Entity<Rol>(entity =>
             {
                 entity.HasKey(e => e.IdRol)
-                    .HasName("PK__Rol__2A49584CDEB0AA73");
+                    .HasName("PK__Rol__2A49584C521C7C95");
 
                 entity.ToTable("Rol", "Seguridad");
 
@@ -373,12 +482,23 @@ namespace Embarcaciones.DAL.DataContext
                 entity.Property(e => e.FechaCreacion).HasDefaultValueSql("(sysdatetime())");
 
                 entity.Property(e => e.Nombre).HasMaxLength(50);
+
+                entity.HasOne(d => d.IdUsuarioCreacionNavigation)
+                    .WithMany(p => p.RolIdUsuarioCreacionNavigations)
+                    .HasForeignKey(d => d.IdUsuarioCreacion)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Rol_Creacion");
+
+                entity.HasOne(d => d.IdUsuarioModificacionNavigation)
+                    .WithMany(p => p.RolIdUsuarioModificacionNavigations)
+                    .HasForeignKey(d => d.IdUsuarioModificacion)
+                    .HasConstraintName("FK_Rol_Modificacion");
             });
 
-            modelBuilder.Entity<RolCuenta>(entity =>
+            modelBuilder.Entity<RolCuentum>(entity =>
             {
                 entity.HasKey(e => e.IdRolCuenta)
-                    .HasName("PK__RolCuent__3706DEC9CE71A1B4");
+                    .HasName("PK__RolCuent__3706DEC982B7EE31");
 
                 entity.ToTable("RolCuenta", "Seguridad");
 
@@ -389,7 +509,7 @@ namespace Embarcaciones.DAL.DataContext
                 entity.Property(e => e.FechaCreacion).HasDefaultValueSql("(sysdatetime())");
 
                 entity.HasOne(d => d.IdCuentaNavigation)
-                    .WithMany(p => p.RolCuenta)
+                    .WithMany(p => p.RolCuentumIdCuentaNavigations)
                     .HasForeignKey(d => d.IdCuenta)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_RolCuenta_Cuenta");
@@ -399,6 +519,17 @@ namespace Embarcaciones.DAL.DataContext
                     .HasForeignKey(d => d.IdRol)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_RolCuenta_Rol");
+
+                entity.HasOne(d => d.IdUsuarioCreacionNavigation)
+                    .WithMany(p => p.RolCuentumIdUsuarioCreacionNavigations)
+                    .HasForeignKey(d => d.IdUsuarioCreacion)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_RolCuenta_Creacion");
+
+                entity.HasOne(d => d.IdUsuarioModificacionNavigation)
+                    .WithMany(p => p.RolCuentumIdUsuarioModificacionNavigations)
+                    .HasForeignKey(d => d.IdUsuarioModificacion)
+                    .HasConstraintName("FK_RolCuenta_Modificacion");
             });
 
             OnModelCreatingPartial(modelBuilder);
