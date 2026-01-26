@@ -152,13 +152,13 @@ namespace Embarcaciones.DAL.DataContext
 
                 entity.Property(e => e.FechaCreacion).HasDefaultValueSql("(sysdatetime())");
 
-                entity.HasOne(d => d.IdUsuarioCreacionNavigation)
+                entity.HasOne(d => d.UsuarioCreacionNavigation)
                     .WithMany(p => p.DepartamentoIdUsuarioCreacionNavigations)
                     .HasForeignKey(d => d.IdUsuarioCreacion)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Departamento_Creacion");
 
-                entity.HasOne(d => d.IdUsuarioModificacionNavigation)
+                entity.HasOne(d => d.UsuarioModificacionNavigation)
                     .WithMany(p => p.DepartamentoIdUsuarioModificacionNavigations)
                     .HasForeignKey(d => d.IdUsuarioModificacion)
                     .HasConstraintName("FK_Departamento_Modificacion");

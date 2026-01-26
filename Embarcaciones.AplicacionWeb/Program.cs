@@ -13,8 +13,9 @@ builder.Services.AddDbContext<EmbarcacionesBDContext>(x =>
     x.UseSqlServer(builder.Configuration.GetConnectionString("cadenaSQL")));
 
 builder.Services.AddScoped<IGenericRepositorio<Persona>, PersonaRepositorio>();
-builder.Services.AddScoped<IPersonaService, PersonaService>();
 builder.Services.AddScoped<IGenericRepositorio<Departamento>, DepartamentoRepositorio>();
+builder.Services.AddScoped<IPersonaService, PersonaService>();
+builder.Services.AddScoped<IDepartamentoService, DepartamentoService>();
 
 
 builder.Services.AddScoped<ICuentaRepositorio, CuentaRepositorio>();

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Embarcaciones.BLL.Service
 {
-    public class DepartamentoService
+    public class DepartamentoService:IDepartamentoService
     {
         private readonly IGenericRepositorio<Departamento> _DepartmentaRepo;
         public DepartamentoService(IGenericRepositorio<Departamento> departamentoRepo)

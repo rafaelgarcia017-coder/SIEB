@@ -1,5 +1,6 @@
 ﻿using Embarcaciones.DAL.DataContext;
 using Embarcaciones.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +17,7 @@ namespace Embarcaciones.DAL.Repositorio
             _dbcontext = context;
         }
 
-        public  async Task<bool> Actualizar(Departamento modelo)
+        public async Task<bool> Actualizar(Departamento modelo)
         {
             _dbcontext.Departamentos.Update(modelo);
             await _dbcontext.SaveChangesAsync();
@@ -42,7 +43,12 @@ namespace Embarcaciones.DAL.Repositorio
 
         public  IQueryable<Departamento> ObtenerTodos()
         {
-            IQueryable<Departamento> queryDepartamento = _dbcontext.Departamentos;
+            IQueryable<Departamento> queryDepartamento = _dbcontext.Departamentos
+                                                                                             .Include(d => d.UsuarioCreacionNavigation)
+                                                                                             .Include(d => d.UsuarioModificacionNavigation)
+                                                                                             .Where(w=> (bool)w.EstaActivo);
+
+
             return queryDepartamento;
         }
     }

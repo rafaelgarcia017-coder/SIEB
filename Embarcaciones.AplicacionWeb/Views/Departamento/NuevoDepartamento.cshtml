@@ -6,43 +6,53 @@
     ViewData["Title"] = "Gestion Departamento";
 }
 
-<div class="card-body">
-    <div class="card-header">
-        <div class="d-flex justify-content-end">
-            <nav aria-label="breadcrumb">
-                <ol class="breadcrumb mb-0">
-                    <li class="breadcrumb-item">SIEB</li>
-                    <li class="breadcrumb-item active" aria-current="page">Departamentos</li>
-                    <li class="breadcrumb-item active" aria-current="page">Gestion Departamento</li>
-                </ol>
-            </nav>
-        </div>
-    </div>
+ @using (Html.BeginForm("NuevoDepartamento", "Departamento", FormMethod.Post))
+{
     <div class="card-body">
-        <div class="row">
-            <div class="col-md-12">
+        <div class="card-header">
+            <div class="d-flex justify-content-end">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-0">    
+                        <li class="breadcrumb-item">SIEB</li>
+                        <li class="breadcrumb-item active" aria-current="page">Departamentos</li>
+                        <li class="breadcrumb-item active" aria-current="page">Gestion Departamento</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-12">
 
 
-                <div class="card">
-                    <div class="card-header text-white bg-primary">
-                        Agregar Departamento
-                    </div>
-                    <div class="card-body">
-                        <div class="col-md-3">
-                            <label>Departamento:</label>
-                            <input type="text" class="form-control" asp-for="Departamento" />
-                            <br />
-                            <label>Descripcion:</label>
-                            <input type="text" class="form-control" asp-for="Descripcion" />
-
+                    <div class="card">
+                        <div class="card-header text-white bg-primary">
+                            Agregar Departamento
                         </div>
-                        <button class="btn btn-success mt-4"><i class="fa fa-save"></i> Guardar</button>
-                        <button class="btn btn-danger mt-4"><i class="fa fa-times"></i> Cancelar</button>
+                        <div class="card-body">
+                            <div class="col-md-3">
+                                <label>Departamento:</label>
+                                <input type="text" class="form-control" asp-for="Departamento" />
+                                <br />
+                                <label>Descripcion:</label>
+                                <input type="text" class="form-control" asp-for="Descripcion" />
+
+                            </div>
+                            <button class="btn btn-success mt-4"><i class="fa fa-save"></i> Guardar</button>
+                            <a href="@Url.Action("Administrar", "Departamento")"
+                               class="btn btn-danger mt-4">
+                                <i class="fa fa-times"></i> Cancelar
+                            </a>
+                @*             <button class="btn btn-danger mt-4"><i class="fa fa-times"></i> Cancelar</button> *@
+                        </div>
                     </div>
                 </div>
             </div>
+
+
         </div>
-
-
     </div>
-</div>
+    
+}
+
+

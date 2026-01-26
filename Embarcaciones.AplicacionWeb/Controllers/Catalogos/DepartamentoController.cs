@@ -2,7 +2,10 @@
     .Catalogos.Departamento;
 using Embarcaciones.AplicacionWeb.Models.ViewModels.Catalogos.Persona;
 using Embarcaciones.BLL.Service;
+using Embarcaciones.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace Embarcaciones.AplicacionWeb.Controllers.Catalogos
 {
@@ -14,47 +17,48 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Catalogos
         {
             _departamentoService = departamentoService;
         }
-        public async Task <IActionResult> Administrar()
+        public async Task<IActionResult> Administrar()
         {
-            var obtenerRegistros = await  _departamentoService.ObtenerTodos().ToListAsync();
-            var model = new AdministrarPersonasVM
+            var obtenerRegistros = await _departamentoService.ObtenerTodos().ToListAsync();
+
+            var model = new AdministrarDepartamentoVM
             {
-                ListaPersonas = obtenerRegistros
-                   .Select(s => new PersonaVM
+                ListaDepartamentos = obtenerRegistros
+                   .Select(s => new DepartamentoVM
                    {
-                       IdPersona = s.IdPersona,
-                       NombreCompleto = s.NombreCompleto,
-                       IdTipoIdentificacion = s.IdTipoIdentificacion,
-                       Identificacion = s.Identificacion,
-                       Direccion = s.Direccion,
-                       Telefono = s.Telefono,
-                       Correo = s.Correo,
-                       FechaCreacion = s.FechaCreacion.ToString("dd/MM/yyyy"),
-                       UsuarioCreacion = s.IdUsuarioCreacionNavigation?.Usuario ?? ""
-
-                   }).ToList()
-                // materializa la proyección directamente
+                       IdDepartamento = s.IdDepartamento,
+                       Departamento = s.Departamento1,
+                       Descripcion = s.Descripcion,
+                       FechaCreacion = s.FechaCreacion?.ToString("dd/MM/yyyy"),
+                       UsuarioCreacion = s.UsuarioCreacionNavigation.Usuario
+                   }).ToList()   
             };
-
-            //var depa = new List<DepartamentoVM> {
-            //       new DepartamentoVM{ IdDepartamento = 1 , Departamento = "Managua", Descripcion="Departamento Managua", IdUsuarioCreacion = 1 , FechaCreacion = DateTime.Now},
-            //       new DepartamentoVM{ IdDepartamento = 1 , Departamento = "Masaya", Descripcion="Departamento Masaya", IdUsuarioCreacion = 1 , FechaCreacion = DateTime.Now},
-            //       new DepartamentoVM{ IdDepartamento = 1 , Departamento = "Granada", Descripcion="Departamento Granada", IdUsuarioCreacion = 1 , FechaCreacion = DateTime.Now},
-            //       new DepartamentoVM{ IdDepartamento = 1 , Departamento = "Carazo", Descripcion="Departamento Carazo", IdUsuarioCreacion = 1 , FechaCreacion = DateTime.Now}
-            //     };
-
-            //var modelo = new AdministrarDepartamentoVM
-            //{
-            //    ListaDepartamentos = depa
-            //};
-
-            return View("Administrar", modelo);
+            return View("Administrar", model);
         }
 
         public IActionResult NuevoDepartamento()
         {
             var model = new DepartamentoVM();
-            return View("GestionDepartamento", model);
+            return View("NuevoDepartamento", model);
+        }
+        [HttpPost]
+        public async Task <IActionResult> NuevoDepartamento(DepartamentoVM model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View("NuevoDepartamento", model);
+            }
+
+            var departamento = new Departamento
+            {
+                Departamento1 = model.Departamento,
+                Descripcion = model.Descripcion,
+                IdUsuarioCreacion = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier)?.Value)
+            };
+            var response = await _departamentoService.Agregar(departamento);
+
+
+            return RedirectToAction("Administrar");
         }
     }
 }

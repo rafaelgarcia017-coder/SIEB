@@ -13,9 +13,11 @@ namespace Embarcaciones.AplicacionWeb.Models.ViewModels.Catalogos.Departamento
 
         public int? IdUsuarioCreacion { get; set; }
 
-        public DateTime FechaCreacion { get; set; }
+        public string? FechaCreacion { get; set; }
 
         public int? IdUsuarioModificacion { get; set; }
+
+        public string? UsuarioCreacion { get; set; }
 
         public DateTime? FechaModificacion { get; set; }
     }
