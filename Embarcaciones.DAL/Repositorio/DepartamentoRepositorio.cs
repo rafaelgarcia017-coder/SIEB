@@ -19,7 +19,14 @@ namespace Embarcaciones.DAL.Repositorio
 
         public async Task<bool> Actualizar(Departamento modelo)
         {
-            _dbcontext.Departamentos.Update(modelo);
+            _dbcontext.Departamentos.Attach(modelo);
+
+            // Marcamos SOLO los campos que quieres modificar
+            _dbcontext.Entry(modelo).Property(x => x.Departamento1).IsModified = true;
+            _dbcontext.Entry(modelo).Property(x => x.Descripcion).IsModified = true;
+            _dbcontext.Entry(modelo).Property(x => x.FechaModificacion).IsModified = true;
+            _dbcontext.Entry(modelo).Property(x => x.IdUsuarioModificacion).IsModified = true;
+
             await _dbcontext.SaveChangesAsync();
             return true;
         }

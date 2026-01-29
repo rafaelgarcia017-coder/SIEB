@@ -15,14 +15,7 @@ height: calc(100% - 73px);
 .colorarmy :hover{
   background-color: #6eb163 !important;
 }
-#btn-ingresar{
-  background-color: #4e7f46 !important;
-  border-color: #4e7f46 !important;    
-}
-#btn-ingresar:hover{
-  background-color: #6eb163 !important;
-  border-color: #6eb163 !important;    
-}
+
 
 @media (max-width: 450px) {
 .h-custom {

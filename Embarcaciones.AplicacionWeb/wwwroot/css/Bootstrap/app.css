@@ -1,0 +1,33 @@
+@import url("bootstrap-extended.css");
+@import url("colors.css");
+@import url("components.css");
+
+.loader {
+  border: 8px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 8px solid #1E9FF2;
+  width: 50px;
+  height: 50px;
+  -webkit-animation: spin 2s linear infinite; /* Safari */
+  animation: spin 2s linear infinite;
+  display:inline-block;
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+label.error {
+    display: none;
+    width: 100%;
+    margin-top: .25rem;
+    font-size: 120%;
+    color: #dc3545;
+}

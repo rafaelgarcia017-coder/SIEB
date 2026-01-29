@@ -53,7 +53,11 @@
 
                                 </td>
                                 <td class="td-center">
-                                    <button class="btn btn-primary btn-table"><i class="fa fa-edit"></i></button>
+                                    <a href="@Url.Action("EditarDepartamento", "Departamento", new { id = item.IdDepartamento })" )"
+                                       class="btn btn-primary btn-table">
+                                        <i class="fa fa-edit"></i> 
+                                    </a>
+                                    @* <button class="btn btn-primary btn-table"><i class="fa fa-edit"></i></button> *@
                                     <button class="btn btn-danger btn-table"><i class="fa fa-trash"></i></button>
                                 </td>
                             </tr>

@@ -6,13 +6,13 @@
     ViewData["Title"] = "Gestion Departamento";
 }
 
- @using (Html.BeginForm("NuevoDepartamento", "Departamento", FormMethod.Post))
+@using (Html.BeginForm("GuardarDepartamento", "Departamento", FormMethod.Post))
 {
     <div class="card-body">
         <div class="card-header">
             <div class="d-flex justify-content-end">
                 <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb mb-0">    
+                    <ol class="breadcrumb mb-0">
                         <li class="breadcrumb-item">SIEB</li>
                         <li class="breadcrumb-item active" aria-current="page">Departamentos</li>
                         <li class="breadcrumb-item active" aria-current="page">Gestion Departamento</li>
@@ -31,8 +31,11 @@
                         </div>
                         <div class="card-body">
                             <div class="col-md-3">
+                                @Html.HiddenFor(x => x.IdDepartamento)
+                                @Html.HiddenFor(x => x.Accion)
                                 <label>Departamento:</label>
                                 <input type="text" class="form-control" asp-for="Departamento" />
+                                @Html.ValidationMessageFor(x => x.Departamento, "", new { @class = "text-danger" })
                                 <br />
                                 <label>Descripcion:</label>
                                 <input type="text" class="form-control" asp-for="Descripcion" />
@@ -43,7 +46,7 @@
                                class="btn btn-danger mt-4">
                                 <i class="fa fa-times"></i> Cancelar
                             </a>
-                @*             <button class="btn btn-danger mt-4"><i class="fa fa-times"></i> Cancelar</button> *@
+                            @*             <button class="btn btn-danger mt-4"><i class="fa fa-times"></i> Cancelar</button> *@
                         </div>
                     </div>
                 </div>
@@ -52,7 +55,7 @@
 
         </div>
     </div>
-    
+
 }
 
 

@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Embarcaciones.AplicacionWeb.Models.Utils;
+using System.ComponentModel.DataAnnotations;
 
 namespace Embarcaciones.AplicacionWeb.Models.ViewModels.Catalogos.Departamento
 {
-    public class DepartamentoVM
+    public class DepartamentoVM : FormViewModelBase
     {
         public int IdDepartamento { get; set; }
 
