@@ -46,16 +46,19 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Catalogos
         [HttpPost]
         public async Task <IActionResult> GuardarDepartamento(DepartamentoVM model)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                AddError("Ha Ocurrido un error contacte al administrador");
-                AddExito("Mamee se registro con exito");
-                AddAdvertencia("Oigame no ");
-                AddInfo("OBLIGAME PERRO");
+                AddAdvertencia(this.ErroresFromModel().Texto);
                 return View("NuevoDepartamento", model);
             }
             if (model.Accion == AccionesController.Nuevo)
             {
+                var responseVerify = await _departamentoService.ValidarDuplicados(model.Departamento);
+                if (responseVerify)
+                {
+                    AddAdvertencia("El departamento que intentas registrar ya existe. Revisa la información e intenta nuevamente");
+                    return View("NuevoDepartamento", model);
+                }
                 var departamento = new Departamento
                 {
                     Departamento1 = model.Departamento,

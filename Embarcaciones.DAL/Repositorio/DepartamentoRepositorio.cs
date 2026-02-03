@@ -1,4 +1,5 @@
-﻿using Embarcaciones.DAL.DataContext;
+﻿using Embarcaciones.AplicacionWeb.Models.Utils;
+using Embarcaciones.DAL.DataContext;
 using Embarcaciones.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -57,6 +58,15 @@ namespace Embarcaciones.DAL.Repositorio
 
 
             return queryDepartamento;
+        }
+
+        public async Task<bool> ValidarDuplicados(string valor)
+        {
+            //var valorLimpio = valor.CleanStringV2();
+
+            // Compara con los registros activos normalizados
+            return await _dbcontext.Departamentos
+                .AnyAsync(a => a.EstaActivo == true && a.Departamento1 == valor);
         }
     }
 }

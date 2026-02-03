@@ -47,5 +47,10 @@ namespace Embarcaciones.DAL.Repositorio
             IQueryable<Persona> queryPersona = _dbcontext.Personas;
             return queryPersona;
         }
+
+        public Task<bool> ValidarDuplicados(string valor)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

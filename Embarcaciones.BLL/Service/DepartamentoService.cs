@@ -31,6 +31,11 @@ namespace Embarcaciones.BLL.Service
             return await _DepartmentaRepo.Eliminar(id);
         }
 
+        public async Task<bool> ValidarDuplicados(string valor)
+        {
+            return await _DepartmentaRepo.ValidarDuplicados(valor);
+        }
+
         public async Task<Departamento> Obtener(int id)
         {
             return await _DepartmentaRepo.Obtener(id);

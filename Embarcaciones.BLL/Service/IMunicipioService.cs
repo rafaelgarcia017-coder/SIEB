@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace Embarcaciones.BLL.Service
 {
-  public  interface IDepartamentoService
+ public   interface IMunicipioService
     {
-        Task<bool> Agregar(Departamento persona);
-        Task<bool> Actualizar(Departamento persona);
+        Task<bool> Agregar(Municipio municipio);
+        Task<bool> Actualizar(Municipio municipio);
         Task<bool> ValidarDuplicados(string valor);
         Task<bool> Eliminar(int id);
-        Task<Departamento> Obtener(int id);
-        IQueryable<Departamento>? ObtenerTodos();
+        Task<Municipio> Obtener(int id);
+        IQueryable<Municipio>? ObtenerTodos();
     }
 }

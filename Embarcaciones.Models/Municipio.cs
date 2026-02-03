@@ -22,9 +22,9 @@ namespace Embarcaciones.Models
         public int? IdUsuarioModificacion { get; set; }
         public DateTime? FechaModificacion { get; set; }
 
-        public virtual Departamento IdDepartamentoNavigation { get; set; } = null!;
-        public virtual Cuenta IdUsuarioCreacionNavigation { get; set; } = null!;
-        public virtual Cuenta? IdUsuarioModificacionNavigation { get; set; }
+        public virtual Departamento DepartamentoNavigation { get; set; } = null!;
+        public virtual Cuenta UsuarioCreacionNavigation { get; set; } = null!;
+        public virtual Cuenta? UsuarioModificacionNavigation { get; set; }
         public virtual ICollection<EmbarcacionPropietario> EmbarcacionPropietarios { get; set; }
     }
 }

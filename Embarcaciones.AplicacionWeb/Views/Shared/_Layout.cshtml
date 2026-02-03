@@ -11,23 +11,13 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-    <!-- Font Awesome -->
-@*     <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
-
-          <link rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> *@
-
-    <link rel="stylesheet"  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css"/>
-
-    <!-- Tu CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.3.7/css/dataTables.bootstrap5.css">
     <link href="~/css/MenuPrincipal.css" rel="stylesheet" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/WebApplication2.styles.css" asp-append-version="true" />
-
-    <title>@ViewData["Title"]</title>
+    <title>@ViewData["SIEB"]</title>
 </head>
 <body>
 
@@ -115,158 +105,38 @@
         <main class="main">
             <div id="notifications"></div>
             @RenderBody()
+          
         </main>
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdn.datatables.net/2.3.7/js/dataTables.js"></script>
+        <script src="https://cdn.datatables.net/2.3.7/js/dataTables.bootstrap5.js"></script>
+        <script src="~/js/scripts.js"></script>
+        @RenderSection("scripts", required: false)
+        <script type="text/javascript">
+            @{
+                var msjError = TempData.Peek(Notificacion.Error)?.ToString() ?? string.Empty;
+                var msjInfo = TempData.Peek(Notificacion.Info)?.ToString() ?? string.Empty;
+                var msjExito = TempData.Peek(Notificacion.Exito)?.ToString() ?? string.Empty;
+                var msjAdvertencia = TempData.Peek(Notificacion.Advertencia)?.ToString() ?? string.Empty;
+
+                TempData.Clear();
+            }
+
+                showMessages('@msjError', '@msjInfo', '@msjExito', '@msjAdvertencia');
+            $(document).ready(function () {
+                $("form").on('submit', function () {
+                    if ($('.blockUI.blockOverlay').length < 1) {
+                        BlockUI('Procesando...');
+
+                    }
+                });
+            })
+
+        </script>
     </div>
 
-    <!-- Scripts -->
-    <script src="~/js/jquery-1.10.2.js"></script>
-    <script src="~/js/jquery-1.10.2.min.js"></script>
-    <script src="~/js/jquery-1.10.2.intellisense.js"></script>
-    <a href="~/js/jquery-1.10.2.min.map"></a>
-    <script src="script.js"></script>
-    <script>
-        const body = document.querySelector("body");
-        const darkLight = document.querySelector("#darkLight");
-        const sidebar = document.querySelector(".sidebar");
-        const submenuItems = document.querySelectorAll(".submenu_item");
-        const sidebarOpen = document.querySelector("#sidebarOpen");
-        const sidebarClose = document.querySelector(".collapse_sidebar");
-        const sidebarExpand = document.querySelector(".expand_sidebar");
 
-        // Toggle sidebar open/close
-        sidebarOpen.addEventListener("click", () => sidebar.classList.toggle("close"));
-        sidebarClose.addEventListener("click", () => sidebar.classList.add("close", "hoverable"));
-        sidebarExpand.addEventListener("click", () => sidebar.classList.remove("close", "hoverable"));
-
-        sidebar.addEventListener("mouseenter", () => {
-            if (sidebar.classList.contains("hoverable")) sidebar.classList.remove("close");
-        });
-        sidebar.addEventListener("mouseleave", () => {
-            if (sidebar.classList.contains("hoverable")) sidebar.classList.add("close");
-        });
-
-        // Dark/Light mode toggle
-        darkLight.addEventListener("click", () => {
-            body.classList.toggle("dark");
-            if (body.classList.contains("dark")) darkLight.classList.replace("fa-sun", "fa-moon");
-            else darkLight.classList.replace("fa-moon", "fa-sun");
-        });
-
-        // Submenu toggle
-        submenuItems.forEach((item, index) => {
-            item.addEventListener("click", () => {
-                item.classList.toggle("show_submenu");
-                submenuItems.forEach((item2, index2) => {
-                    if (index !== index2) item2.classList.remove("show_submenu");
-                });
-            });
-        });
-
-        // Sidebar responsive
-        if (window.innerWidth < 768) sidebar.classList.add("close");
-        else sidebar.classList.remove("close");
-
-        var TipoNotificaciones = {
-            Info: 'info'
-            , Error: 'error'
-            , Exito: 'success'
-            , Advertencia: 'warn'
-        };
-        function Notificacion(mensaje, estilo) {
-
-            let alertType;
-            let iconType;
-
-            switch (estilo) {
-                case 'error':
-                    alertType = 'danger';
-                    iconType = 'thumbs-down';
-                    break;
-                case 'info':
-                    alertType = 'info';
-                    iconType = 'info';
-                    break;
-                case 'success':
-                    alertType = 'success';
-                    iconType = 'thumbs-up';
-                    break;
-                case 'warn':
-                    alertType = 'warning';
-                    iconType = 'exclamation-triangle';
-                    break;
-                default:
-                    alertType = 'warning';
-                    iconType = 'exclamation-triangle';
-                    break;
-
-            }
-
-            let html = `
-                <div class="custom-alert alert-${alertType}">
-                    <span class="alert-icon">
-                        <i class="fas fa-${iconType}"></i>
-                    </span>
-                    <span class="alert-text">${mensaje}</span>
-                    <button type="button" class="close-btn" onclick="$(this).parent().fadeOut()">
-                        ×
-                    </button>
-                </div>
-                `;
-
-            $("#notifications").append(html);
-
-            // setTimeout(function () {
-            //     $("#notifications").empty();
-            // }, 4500);
-
-        }
-
-        function showMessages(error, info, exito, advertencia) {
-            if (error) {
-                error = error.replace(/@@/g, '<br/>');
-                Notificacion(error, TipoNotificaciones.Error);
-            }
-
-            if (info) {
-                info = info.replace(/@@/g, '<br/>');
-                Notificacion(info, TipoNotificaciones.Info);
-            }
-
-            if (exito) {
-                exito = exito.replace(/@@/g, '<br/>');
-                Notificacion(exito, TipoNotificaciones.Exito);
-            }
-
-            if (advertencia) {
-                advertencia = advertencia.replace(/@@/g, '<br/>');
-                Notificacion(advertencia, TipoNotificaciones.Advertencia);
-            }
-
-        }
-
-
-        @{
-            var msjError = TempData.Peek(Notificacion.Error)?.ToString() ?? string.Empty;
-            var msjInfo = TempData.Peek(Notificacion.Info)?.ToString() ?? string.Empty;
-            var msjExito = TempData.Peek(Notificacion.Exito)?.ToString() ?? string.Empty;
-            var msjAdvertencia = TempData.Peek(Notificacion.Advertencia)?.ToString() ?? string.Empty;
-
-            TempData.Clear();
-        }
-
-            showMessages('@msjError', '@msjInfo', '@msjExito', '@msjAdvertencia');
-
-
-
-
-
-        // function showMessages(error, info, exito, advertencia) {
-        //     if (error) showToast('error', error);
-        //     if (info) showToast('info', info);
-        //     if (exito) showToast('success', exito);
-        //     if (advertencia) showToast('warning', advertencia);
-        // }
-
-    </script>
 </body>
 </html>

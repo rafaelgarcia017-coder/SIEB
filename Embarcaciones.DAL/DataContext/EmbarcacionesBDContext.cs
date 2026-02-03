@@ -378,19 +378,19 @@ namespace Embarcaciones.DAL.DataContext
                     .HasMaxLength(100)
                     .HasColumnName("Municipio");
 
-                entity.HasOne(d => d.IdDepartamentoNavigation)
+                entity.HasOne(d => d.DepartamentoNavigation)
                     .WithMany(p => p.Municipios)
                     .HasForeignKey(d => d.IdDepartamento)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Municipio_Departamento");
 
-                entity.HasOne(d => d.IdUsuarioCreacionNavigation)
+                entity.HasOne(d => d.UsuarioCreacionNavigation)
                     .WithMany(p => p.MunicipioIdUsuarioCreacionNavigations)
                     .HasForeignKey(d => d.IdUsuarioCreacion)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Municipio_Creacion");
 
-                entity.HasOne(d => d.IdUsuarioModificacionNavigation)
+                entity.HasOne(d => d.UsuarioModificacionNavigation)
                     .WithMany(p => p.MunicipioIdUsuarioModificacionNavigations)
                     .HasForeignKey(d => d.IdUsuarioModificacion)
                     .HasConstraintName("FK_Municipio_Modificacion");
