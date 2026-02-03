@@ -22,6 +22,7 @@ namespace Embarcaciones.DAL.Repositorio
             _dbcontext.Municipios.Attach(modelo);
 
             // Marcamos SOLO los campos que quieres modificar
+            _dbcontext.Entry(modelo).Property(x => x.IdDepartamento).IsModified = true;
             _dbcontext.Entry(modelo).Property(x => x.Municipio1).IsModified = true;
             _dbcontext.Entry(modelo).Property(x => x.Descripcion).IsModified = true;
             _dbcontext.Entry(modelo).Property(x => x.FechaModificacion).IsModified = true;

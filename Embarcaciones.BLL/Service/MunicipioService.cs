@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace Embarcaciones.BLL.Service
 {
-    internal class MunicipioService : IMunicipioService
+    public  class MunicipioService : IMunicipioService
     {
         private readonly IGenericRepositorio<Municipio> _MunicipioRepo;
 
         public MunicipioService(IGenericRepositorio<Municipio> municipio)
-        { 
+        {
             _MunicipioRepo = municipio;
         }
         public async Task<bool> Actualizar(Municipio municipio)
@@ -33,10 +33,10 @@ namespace Embarcaciones.BLL.Service
 
         public async Task<Municipio> Obtener(int id)
         {
-           return await _MunicipioRepo.Obtener(id);
+            return await _MunicipioRepo.Obtener(id);
         }
 
-        public  IQueryable<Municipio> ObtenerTodos()
+        public IQueryable<Municipio> ObtenerTodos()
         {
             return (IQueryable<Municipio>)_MunicipioRepo.ObtenerTodos();
         }

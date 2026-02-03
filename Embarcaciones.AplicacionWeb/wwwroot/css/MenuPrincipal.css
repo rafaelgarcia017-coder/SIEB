@@ -339,24 +339,26 @@ label, .card-header {
 }
 
 .btn-table {
-    width:32px;
-    height:32px;
+    width: 32px;
+    height: 32px;
     border-radius: 24px !important;
 }
 
     .btn-table i {
         position: relative;
         top: -3px;
-        margin-left:-4px;
+        margin-left: -4px;
     }
 
 .th-center {
-    text-align:center;
+    text-align: center;
 }
+
 .td-center {
     text-align: center;
-    align-content:center ;
+    align-content: center;
 }
+
 #notifications {
     cursor: pointer;
     position: fixed;
@@ -370,6 +372,7 @@ label, .card-header {
     padding: 0px 15px;
     bottom: unset;
 }
+
 .custom-alert {
     display: flex;
     align-items: center;
@@ -421,3 +424,25 @@ label, .card-header {
     cursor: pointer;
     color: inherit;
 }
+
+/* Aumentar la altura del Select2 */
+.select2-container .select2-selection--single {
+    height: 38px; /* Ajusta la altura a tu gusto */
+}
+
+    /* Ajustar la altura del texto y centrado vertical */
+    .select2-container .select2-selection--single .select2-selection__rendered {
+        line-height: 38px; /* Debe coincidir con la altura */
+    }
+
+    /* Ajustar el icono de la flecha */
+    .select2-container .select2-selection--single .select2-selection__arrow {
+        height: 38px;
+    }
+
+    .select2-container .select2-selection--single .select2-selection__clear {
+        height: 38px;
+        line-height: 38px;
+        top: 0; /* Asegura que esté alineado con el borde superior */
+        right: 5px; /* Opcional: un pequeño margen a la derecha */
+    }

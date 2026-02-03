@@ -1,0 +1,83 @@
+﻿@using Embarcaciones.AplicacionWeb.Models.ViewModels.Catalogos.Municipio;
+
+@model MunicipioVM
+
+@{
+    ViewData["Title"] = "Nuevo Municipio";
+    ViewBag.Accion = @Model.Accion;
+}
+
+@using (Html.BeginForm("GuardarMunicipio", "Municipio", FormMethod.Post))
+{
+    <div class="card-body">
+        <div class="card-header">
+            <div class="d-flex justify-content-end">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-0">
+                        <li class="breadcrumb-item">SIEB</li>
+                        <li class="breadcrumb-item active" aria-current="page">Municipios</li>
+                        <li class="breadcrumb-item active" aria-current="page">@ViewBag.Accion Municipio</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-12">
+
+
+                    <div class="card">
+                        <div class="card-header text-white bg-primary">
+                            @ViewBag.Accion Municipio
+                        </div>
+                        <div class="card-body">
+                            <div class="col-md-3">
+                                @Html.HiddenFor(x => x.IdMunicipio)
+                                @Html.HiddenFor(x => x.Accion, new {@id= "hd-accion"})
+                                <label>Departamento:</label>
+                                <select id="cmb-departamentos" asp-for="IdDepartamento" class="form-control" asp-items="Model.ListaDepartamentos">
+                                    <option value=""></option>
+                                </select>
+                                
+                                <label class="mt-2">Municipio:</label>
+                                <input type="text" class="form-control" asp-for="NombreMunicipio" />
+                                @Html.ValidationMessageFor(x => x.NombreMunicipio, "", new { @class = "text-danger" })
+
+                                <label class="mt-2">Descripcion:</label>
+                                <input type="text" class="form-control" asp-for="Descripcion" />                          
+
+                            </div>
+                            <button class="btn btn-success mt-4"><i class="fa fa-save"></i> Guardar</button>
+                            <a href="@Url.Action("Administrar", "Municipio")"
+                               class="btn btn-danger mt-4">
+                                <i class="fa fa-times"></i> Cancelar
+                            </a>
+                          
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+}
+@section scripts
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            let accion = $("#hd-accion").val();
+            // if (accion === "Nuevo") {
+            //     $('#cmb-departamentos').val("");
+            // }
+            $('#cmb-departamentos').select2({
+                placeholder: "Seleccione un Departamento",
+                allowClear: true,
+                width: '100%' // hace que ocupe todo el ancho del contenedor
+            });
+        });
+    </script>
+}
+
+

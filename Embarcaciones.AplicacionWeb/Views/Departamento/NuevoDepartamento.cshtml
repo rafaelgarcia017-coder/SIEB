@@ -36,8 +36,7 @@
                                 <label>Departamento:</label>
                                 <input type="text" class="form-control" asp-for="Departamento" />
                                 @Html.ValidationMessageFor(x => x.Departamento, "", new { @class = "text-danger" })
-                                <br />
-                                <label>Descripcion:</label>
+                                <label class="mt-2">Descripcion:</label>
                                 <input type="text" class="form-control" asp-for="Descripcion" />
 
                             </div>
@@ -46,7 +45,7 @@
                                class="btn btn-danger mt-4">
                                 <i class="fa fa-times"></i> Cancelar
                             </a>
-                            @*             <button class="btn btn-danger mt-4"><i class="fa fa-times"></i> Cancelar</button> *@
+            
                         </div>
                     </div>
                 </div>

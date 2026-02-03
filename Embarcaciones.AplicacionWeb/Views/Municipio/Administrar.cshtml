@@ -1,9 +1,9 @@
-﻿@using Embarcaciones.AplicacionWeb.Models.ViewModels.Catalogos.Departamento;
+﻿@using Embarcaciones.AplicacionWeb.Models.ViewModels.Catalogos.Municipio;
 
-@model AdministrarDepartamentoVM
+@model AdministrarMunicipioVM
 
 @{
-    ViewData["Title"] = "Administrar Departamentos";
+    ViewData["Title"] = "Administrar Municipio";
 }
 
 <div class="card-body">
@@ -12,7 +12,7 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb mb-0">
                     <li class="breadcrumb-item">SIEB</li>
-                    <li class="breadcrumb-item active" aria-current="page">Departamentos</li>
+                    <li class="breadcrumb-item active" aria-current="page">Municipios</li>
                     <li class="breadcrumb-item active" aria-current="page">Administrar</li>
                 </ol>
             </nav>
@@ -21,7 +21,7 @@
     <div class="card-body">
         <div class="row">
             <div class="col-md-2">
-                <a href="@Url.Action("NuevoDepartamento", "Departamento")"
+                <a href="@Url.Action("NuevoMunicipio", "Municipio")"
                    class="btn btn-success">
                     <i class="fa fa-plus"></i> Nuevo
                 </a>
@@ -30,7 +30,7 @@
         </div>
         <div class="row mt-3">
             <div class="col-md-12">
-                <table id="tbl-departamentos" class="table table-bordered">
+                <table id="tbl-municipios" class="table table-bordered">
                     <thead>
                         <tr class="table-info">
                             <th>Datos Generales</th>
@@ -39,13 +39,13 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var item in Model.ListaDepartamentos)
+                        @foreach (var item in Model.ListaMunicipios)
                         {
                             <tr>
                                 <td>
                                     Departamento: <b>@item.Departamento</b><br />
-                                    Descripcion: <b>@item.Descripcion</b><br />
-
+                                    Municipio: <b>@item.NombreMunicipio</b><br />                                    
+                                    Descripcion: <b>@item.Descripcion</b>
                                 </td>
                                 <td>
                                     Fecha Creacion <b>@item.FechaCreacion</b><br />
@@ -53,11 +53,10 @@
 
                                 </td>
                                 <td class="td-center">
-                                    <a href="@Url.Action("EditarDepartamento", "Departamento", new { id = item.IdDepartamento })" )"
+                                    <a href="@Url.Action("EditarMunicipio", "Municipio", new { id = item.IdMunicipio })" )"
                                        class="btn btn-primary btn-table">
-                                        <i class="fa fa-edit"></i> 
-                                    </a>
-                                   
+                                        <i class="fa fa-edit"></i>
+                                    </a>                                  
                                     <button class="btn btn-danger btn-table"><i class="fa fa-trash"></i></button>
                                 </td>
                             </tr>
@@ -68,7 +67,7 @@
                 </table>
             </div>
         </div>
-      
+
     </div>
 </div>
 
@@ -77,7 +76,7 @@
 {
     <script type="text/javascript">
         $(document).ready(function () {
-            AplicarDatatable('#tbl-departamentos')
+            AplicarDatatable('#tbl-municipios')
         });
     </script>
 }
