@@ -20,6 +20,11 @@ builder.Services.AddScoped<IPersonaService, PersonaService>();
 builder.Services.AddScoped<IDepartamentoService, DepartamentoService>();
 builder.Services.AddScoped<IMunicipioService, MunicipioService>();
 
+builder.Services.AddScoped<ICatalogoRepositorio, CatalogoRepositorio>();
+builder.Services.AddScoped<ICatalogoValorRepositorio, CatalogoValorRepositorio>();
+builder.Services.AddScoped<ICatalogoValorService, CatalogoValorService>();
+builder.Services.AddScoped<ICatalogoService, CatalogoService>();
+
 builder.Services.AddScoped<ICuentaRepositorio, CuentaRepositorio>();
 builder.Services.AddScoped<ICuentaService, CuentaService>();
 

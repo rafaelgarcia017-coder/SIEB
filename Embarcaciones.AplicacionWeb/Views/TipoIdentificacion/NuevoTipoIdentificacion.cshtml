@@ -1,0 +1,61 @@
+﻿@using Embarcaciones.AplicacionWeb.Models.ViewModels.Catalogos.TipoIdentificacion;
+
+@model TipoIdentificacionVM
+
+@{
+    ViewData["Title"] = "Gestion Tipo Identificacion";
+    ViewBag.Accion = @Model.Accion;
+}
+
+@using (Html.BeginForm("GuardarTipoIdentificacion", "TipoIdentificacion", FormMethod.Post))
+{
+    <div class="card-body">
+        <div class="card-header">
+            <div class="d-flex justify-content-end">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-0">
+                        <li class="breadcrumb-item">SIEB</li>
+                        <li class="breadcrumb-item active" aria-current="page">Tipo Identificacion</li>
+                        <li class="breadcrumb-item active" aria-current="page">@ViewBag.Accion Tipo Identificacion</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-12">
+
+
+                    <div class="card">
+                        <div class="card-header text-white bg-primary">
+                            Agregar Departamento
+                        </div>
+                        <div class="card-body">
+                            <div class="col-md-3">
+                                @Html.HiddenFor(x => x.IdCatalogo)
+                                @Html.HiddenFor(x => x.IdTipoIdentificacion)
+                                @Html.HiddenFor(x => x.Accion)
+                                <label>Tipo Identificacion:</label>
+                                <input type="text" class="form-control" asp-for="TipoIdentificacion" />
+                                @Html.ValidationMessageFor(x => x.TipoIdentificacion, "", new { @class = "text-danger" })
+                                <label class="mt-2">Descripcion:</label>
+                                <input type="text" class="form-control" asp-for="Descripcion" />
+                            </div>
+                            <button class="btn btn-success mt-4"><i class="fa fa-save"></i> Guardar</button>
+                            <a href="@Url.Action("Administrar", "TipoIdentificacion")"
+                               class="btn btn-danger mt-4">
+                                <i class="fa fa-times"></i> Cancelar
+                            </a>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+}
+
+

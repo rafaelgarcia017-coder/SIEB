@@ -81,19 +81,19 @@ namespace Embarcaciones.DAL.DataContext
 
                 entity.Property(e => e.Nombre).HasMaxLength(100);
 
-                entity.HasOne(d => d.IdCatalogoNavigation)
+                entity.HasOne(d => d.CatalogoNavigation)
                     .WithMany(p => p.CatalogoValors)
                     .HasForeignKey(d => d.IdCatalogo)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_CatalogoValor_Catalogo");
 
-                entity.HasOne(d => d.IdUsuarioCreacionNavigation)
+                entity.HasOne(d => d.UsuarioCreacionNavigation)
                     .WithMany(p => p.CatalogoValorIdUsuarioCreacionNavigations)
                     .HasForeignKey(d => d.IdUsuarioCreacion)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_CatalogoValor_Creacion");
 
-                entity.HasOne(d => d.IdUsuarioModificacionNavigation)
+                entity.HasOne(d => d.UsuarioModificacionNavigation)
                     .WithMany(p => p.CatalogoValorIdUsuarioModificacionNavigations)
                     .HasForeignKey(d => d.IdUsuarioModificacion)
                     .HasConstraintName("FK_CatalogoValor_Modificacion");
@@ -450,16 +450,21 @@ namespace Embarcaciones.DAL.DataContext
 
                 entity.Property(e => e.Telefono).HasMaxLength(30);
 
-                entity.HasOne(d => d.IdUsuarioCreacionNavigation)
+                entity.HasOne(d => d.UsuarioCreacionNavigation)
                     .WithMany(p => p.PersonaIdUsuarioCreacionNavigations)
                     .HasForeignKey(d => d.IdUsuarioCreacion)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Persona_Creacion");
 
-                entity.HasOne(d => d.IdUsuarioModificacionNavigation)
+                entity.HasOne(d => d.UsuarioModificacionNavigation)
                     .WithMany(p => p.PersonaIdUsuarioModificacionNavigations)
                     .HasForeignKey(d => d.IdUsuarioModificacion)
                     .HasConstraintName("FK_Persona_Modificacion");
+
+                entity.HasOne(d => d.TipoIdentificacionNavigation)
+     .WithMany()
+      .HasForeignKey(d => d.IdTipoIdentificacion)
+      .HasConstraintName("FK_Persona_TipoIdentificacion");
             });
 
             modelBuilder.Entity<Rol>(entity =>

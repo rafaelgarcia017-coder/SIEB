@@ -39,7 +39,7 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Catalogos
                        Telefono = s.Telefono,
                        Correo = s.Correo,
                        FechaCreacion = s.FechaCreacion.ToString("dd/MM/yyyy"),                  
-                       UsuarioCreacion = s.IdUsuarioCreacionNavigation?.Usuario ?? ""
+                       UsuarioCreacion = s.UsuarioCreacionNavigation?.Usuario ?? ""
 
                    }).ToList()
                 // materializa la proyección directamente
