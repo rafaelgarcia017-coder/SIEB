@@ -3,13 +3,14 @@ using Embarcaciones.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Embarcaciones.DAL.Repositorio
 {
-    public class PersonaRepositorio : IGenericRepositorio<Persona>
+    public class PersonaRepositorio : IPersonaRepositorio
     {
         private readonly EmbarcacionesBDContext _dbcontext;
         public PersonaRepositorio(EmbarcacionesBDContext context)
@@ -55,13 +56,19 @@ namespace Embarcaciones.DAL.Repositorio
             IQueryable<Persona> queryPersona = _dbcontext.Personas
                                                                                   .Include(d => d.UsuarioCreacionNavigation)
                                                                                   .Include(d => d.UsuarioModificacionNavigation)
+                                                                                  .Include(i=> i.TipoIdentificacionNavigation)
                                                                                   .Where(w => (bool)w.EstaActivo);
             return queryPersona;
-        }
+        }   
 
-        public Task<bool> ValidarDuplicados(string valor)
+        public async Task<bool> ValidarPersonasDuplicadas(string nombreCompleto, string identificacion, int idTipoIdentificacion)
         {
-            throw new NotImplementedException();
+            return await _dbcontext.Personas
+                              .AnyAsync(a => (bool)a.EstaActivo == true &&
+                                                      a.NombreCompleto == nombreCompleto &&
+                                                      a.IdTipoIdentificacion == idTipoIdentificacion &&
+                                                      a.Identificacion == identificacion
+                                                     );
         }
     }
 }

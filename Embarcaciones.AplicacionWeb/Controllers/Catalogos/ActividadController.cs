@@ -1,7 +1,6 @@
 ﻿using Embarcaciones.AplicacionWeb.Models.Utils;
-using Embarcaciones.AplicacionWeb.Models.ViewModels.Catalogos.Departamento;
-using Embarcaciones.AplicacionWeb.Models.ViewModels.Catalogos.Municipio;
-using Embarcaciones.AplicacionWeb.Models.ViewModels.Catalogos.TipoIdentificacion;
+using Embarcaciones.AplicacionWeb.Models.ViewModels.Catalogos.Actividad;
+using Embarcaciones.AplicacionWeb.Models.ViewModels.Catalogos.Puerto;
 using Embarcaciones.BLL.Service;
 using Embarcaciones.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -10,34 +9,33 @@ using System.Security.Claims;
 
 namespace Embarcaciones.AplicacionWeb.Controllers.Catalogos
 {
-    public class TipoIdentificacionController : CustomController
+    public class ActividadController : CustomController
     {
         private readonly ICatalogoValorService _catalogoValorService;
         private readonly ICatalogoService _catalogoService;
-        public TipoIdentificacionController(ICatalogoValorService catalogoValorService, ICatalogoService catalogoService)
+
+        public ActividadController(ICatalogoValorService catalogoValorService, ICatalogoService catalogoService)
         {
             _catalogoValorService = catalogoValorService;
             _catalogoService = catalogoService;
         }
-
         private async Task<int> ObtenerIdCatalogo()
         {
-            var id = await _catalogoService.ObtenerIdCatalogo("TIDF");
+            var id = await _catalogoService.ObtenerIdCatalogo("ACTV");
             return id;
         }
-
-        public async Task<IActionResult> Administrar()
+        public async Task< IActionResult> Administrar()
         {
             int idCatalogo = await ObtenerIdCatalogo();
             var obtenerRegistro = await _catalogoValorService.ObtenerTodos(idCatalogo).ToListAsync();
 
-            var model = new AdministraTipoIdentificacionVM
+            var model = new AdministrarActividadVM
             {
-                ListaTipoIdentificacion = obtenerRegistro.Select(s => new TipoIdentificacionVM
+                ListaActividad = obtenerRegistro.Select(s => new ActividadVM
                 {
                     IdCatalogo = s.IdCatalogo,
-                    IdTipoIdentificacion = s.IdCatalogoValor,
-                    ValorTipoIdentificacion = s.Nombre,
+                    IdActividad = s.IdCatalogoValor,
+                    Actividad = s.Nombre,
                     Descripcion = s.Descripcion,
                     FechaCreacion = s.FechaCreacion?.ToString("dd/MM/yyyy"),
                     UsuarioCreacion = s.UsuarioCreacionNavigation.Usuario
@@ -47,35 +45,48 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Catalogos
             return View("Administrar", model);
         }
 
-        public ActionResult NuevoTipoIdentificacion()
+        public ActionResult NuevoActividad()
         {
-            var model = new TipoIdentificacionVM();
+            var model = new ActividadVM();
             model.Accion = AccionesController.Nuevo;
-            return View("NuevoTipoIdentificacion", model);
+            return View("NuevoActividad", model);
         }
 
+        public async Task<IActionResult> EditarActividad(int id)
+        {
+            var actividad = await _catalogoValorService.Obtener(id);
+            var model = new ActividadVM
+            {
+                IdCatalogo = actividad.IdCatalogo,
+                IdActividad = actividad.IdCatalogoValor,
+                Actividad = actividad.Nombre,
+                Descripcion = actividad.Descripcion,
+                Accion = AccionesController.Editar
+            };
+            return View("NuevoTipoIdentificacion", model);
+        }
         [HttpPost]
-        public async Task<IActionResult> GuardarTipoIdentificacion(TipoIdentificacionVM model)
+        public async Task<IActionResult> GuardarActiviadd(ActividadVM model)
         {
             if (!ModelState.IsValid)
             {
                 AddAdvertencia(this.ErroresFromModel().Texto);
-                return View("NuevoTipoIdentificacion", model);
+                return View("NuevoActividad", model);
             }
-         
+
             if (model.Accion == AccionesController.Nuevo)
             {
                 int idCatalogo = await ObtenerIdCatalogo();
-                var responseVerify = await _catalogoValorService.ValidarCatalogo(idCatalogo, model.ValorTipoIdentificacion);
+                var responseVerify = await _catalogoValorService.ValidarCatalogo(idCatalogo, model.Actividad);
                 if (responseVerify)
                 {
-                    AddAdvertencia("El Tipo de Indentificacion que intentas registrar ya existe. Revisa la información e intenta nuevamente");
-                    return View("NuevoTipoIdentificacion", model);
-                }              
+                    AddAdvertencia("La Actividad que intentas registrar ya existe. Revisa la información e intenta nuevamente");
+                    return View("NuevoActividad", model);
+                }
                 var tipoIdentificacion = new CatalogoValor
                 {
                     IdCatalogo = idCatalogo,
-                    Nombre = model.ValorTipoIdentificacion,
+                    Nombre = model.Actividad,
                     Descripcion = model.Descripcion,
                     IdUsuarioCreacion = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier)?.Value)
                 };
@@ -86,8 +97,8 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Catalogos
                 var tipoIdentificacion = new CatalogoValor
                 {
                     IdCatalogo = model.IdCatalogo,
-                    IdCatalogoValor = model.IdTipoIdentificacion,
-                    Nombre = model.ValorTipoIdentificacion,
+                    IdCatalogoValor = model.IdActividad,
+                    Nombre = model.Actividad,
                     Descripcion = model.Descripcion,
                     IdUsuarioModificacion = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier)?.Value),
                     FechaModificacion = DateTime.Now,
@@ -98,21 +109,5 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Catalogos
 
             return RedirectToAction("Administrar");
         }
-
-        public async Task<IActionResult> EditarTipoIdentificacion(int id)
-        {
-            var tipoIdentificacion = await _catalogoValorService.Obtener(id);
-            var model = new TipoIdentificacionVM
-            {
-                IdCatalogo = tipoIdentificacion.IdCatalogo,
-                IdTipoIdentificacion = tipoIdentificacion.IdCatalogoValor,
-                ValorTipoIdentificacion = tipoIdentificacion.Nombre,
-                Descripcion = tipoIdentificacion.Descripcion,
-                Accion = AccionesController.Editar
-            };
-            return View("NuevoTipoIdentificacion", model);
-        }
-
-    } 
-
+    }
 }

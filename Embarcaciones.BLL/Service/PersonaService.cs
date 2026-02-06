@@ -2,6 +2,7 @@
 using Embarcaciones.Models;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,8 +11,8 @@ namespace Embarcaciones.BLL.Service
 {
     public class PersonaService:IPersonaService
     {
-        private readonly IGenericRepositorio<Persona> _personaRepo;
-        public PersonaService(IGenericRepositorio<Persona> personaRepo)
+        private readonly IPersonaRepositorio _personaRepo;
+        public PersonaService(IPersonaRepositorio personaRepo)
         {
             _personaRepo = personaRepo;
         }
@@ -46,6 +47,11 @@ namespace Embarcaciones.BLL.Service
         public IQueryable<Persona> ObtenerTodos()
         {
             return (IQueryable<Persona>)_personaRepo.ObtenerTodos();
+        }  
+
+        public async Task<bool> ValidarDuplicados(string nombreCompleto, string identificacion, int idTipoIdentificacion)
+        {
+            return await _personaRepo.ValidarPersonasDuplicadas(nombreCompleto,identificacion, idTipoIdentificacion);
         }
     }
 }

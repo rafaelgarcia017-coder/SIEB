@@ -3,10 +3,11 @@
 @model PersonaVM
 
 @{
-    ViewData["Title"] = "Agregar Persona";
+    ViewData["Title"] = "Gestion Persona";
+    ViewBag.Accion = Model.Accion;
 }
 
- @using (Html.BeginForm("NuevaPersona", "Persona", FormMethod.Post))
+ @using (Html.BeginForm("GuardarPersona", "Persona", FormMethod.Post))
 {
         <div class="card-body">
         <div class="card-header">
@@ -15,7 +16,7 @@
                     <ol class="breadcrumb mb-0">
                         <li class="breadcrumb-item">SIEB</li>
                         <li class="breadcrumb-item active" aria-current="page">Personas</li>
-                        <li class="breadcrumb-item active" aria-current="page">AgregarPersona</li>
+                        <li class="breadcrumb-item active" aria-current="page">@ViewBag.Accion Persona</li>
                     </ol>
                 </nav>
             </div>
@@ -34,6 +35,8 @@
 
                             <div class="row">
                                 <div class="col-md-6">
+                                    @Html.HiddenFor(x => x.Accion, new { @id = "hd-accion" })
+                                    @Html.HiddenFor(x => x.IdPersona)
                                     <label>Nombre Completo::</label>
                                     <input type="text" class="form-control" asp-for="NombreCompleto" />                                
                                     <label>Telefono:</label>
@@ -44,7 +47,9 @@
                                 </div>
                                 <div class="col-md-6">
                                     <label>Tipo Indentificacion:</label>
-                                    <input type="text" class="form-control" asp-for="IdTipoIdentificacion" />                        
+                                    <select id="cmb-tipo-identificacion" asp-for="IdTipoIdentificacion" class="form-control" asp-items="Model.ListaTipoIdentificacion">
+                                        <option value=""></option>
+                                    </select>                                                   
                                     <label>Identificacion:</label>
                                     <input type="text" class="form-control" asp-for="Identificacion" />
                                     <label>Direccion:</label>
@@ -67,3 +72,19 @@
     
 }
 
+@section scripts
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            let accion = $("#hd-accion").val();
+            // if (accion === "Nuevo") {
+            //     $('#cmb-departamentos').val("");
+            // }
+            $('#cmb-tipo-identificacion').select2({
+                placeholder: "Seleccione un Departamento",
+                allowClear: true,
+                width: '100%' // hace que ocupe todo el ancho del contenedor
+            });
+        });
+    </script>
+}

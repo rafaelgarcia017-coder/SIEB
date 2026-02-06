@@ -53,6 +53,7 @@ namespace Embarcaciones.DAL.Repositorio
         public IQueryable<CatalogoValor> ObtenerTodos(int idCatalogo)
         {
             IQueryable<CatalogoValor> queryCatalogo = _dbcontext.CatalogoValors
+                                                                      .Where(w=> w.IdCatalogo == idCatalogo)
                                                                      .Include(d => d.UsuarioCreacionNavigation)
                                                                      .Include(d => d.UsuarioModificacionNavigation);
 

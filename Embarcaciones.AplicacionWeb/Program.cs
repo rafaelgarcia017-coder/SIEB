@@ -12,7 +12,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<EmbarcacionesBDContext>(x =>
     x.UseSqlServer(builder.Configuration.GetConnectionString("cadenaSQL")));
 
-builder.Services.AddScoped<IGenericRepositorio<Persona>, PersonaRepositorio>();
+builder.Services.AddScoped<IPersonaRepositorio, PersonaRepositorio>();
 builder.Services.AddScoped<IGenericRepositorio<Departamento>, DepartamentoRepositorio>();
 builder.Services.AddScoped<IGenericRepositorio<Municipio>, MunicipioRepositorio>();
 

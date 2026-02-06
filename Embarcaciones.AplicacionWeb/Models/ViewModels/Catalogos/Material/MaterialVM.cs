@@ -1,16 +1,16 @@
 ﻿using Embarcaciones.AplicacionWeb.Models.Utils;
 using System.ComponentModel.DataAnnotations;
 
-namespace Embarcaciones.AplicacionWeb.Models.ViewModels.Catalogos.TipoIdentificacion
+namespace Embarcaciones.AplicacionWeb.Models.ViewModels.Catalogos.Material
 {
-    public class TipoIdentificacionVM:FormViewModelBase
+    public class MaterialVM : FormViewModelBase
     {
-        public int IdTipoIdentificacion { get; set; }
+        public int IdMaterial { get; set; }
 
         public int IdCatalogo { get; set; }
 
-        [Required(ErrorMessage = "Por Favor Ingrese un Departamento")]
-        public string ValorTipoIdentificacion { get; set; }
+        [Required(ErrorMessage = "Por Favor Ingrese una Bandera")]
+        public string Material { get; set; }
 
         public string? Descripcion { get; set; }
 

@@ -1,9 +1,9 @@
-﻿@using Embarcaciones.AplicacionWeb.Models.ViewModels.Catalogos.TipoIdentificacion;
+﻿@using Embarcaciones.AplicacionWeb.Models.ViewModels.Catalogos.Material;
 
-@model AdministraTipoIdentificacionVM
+@model AdministrarMaterialVM
 
 @{
-    ViewData["Title"] = "Administrar Tipo Identificacion";
+    ViewData["Title"] = "Administrar Material";
 }
 
 <div class="card-body">
@@ -12,7 +12,7 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb mb-0">
                     <li class="breadcrumb-item">SIEB</li>
-                    <li class="breadcrumb-item active" aria-current="page">Tipo Identifiacion</li>
+                    <li class="breadcrumb-item active" aria-current="page">Material</li>
                     <li class="breadcrumb-item active" aria-current="page">Administrar</li>
                 </ol>
             </nav>
@@ -21,7 +21,7 @@
     <div class="card-body">
         <div class="row">
             <div class="col-md-2">
-                <a href="@Url.Action("NuevoTipoIdentificacion", "TipoIdentificacion")"
+                <a href="@Url.Action("NuevoMaterial", "Material")"
                    class="btn btn-success">
                     <i class="fa fa-plus"></i> Nuevo
                 </a>
@@ -30,7 +30,7 @@
         </div>
         <div class="row mt-3">
             <div class="col-md-12">
-                <table id="tbl-departamentos" class="table table-bordered">
+                <table id="tbl-material" class="table table-bordered">
                     <thead>
                         <tr class="table-info">
                             <th>Datos Generales</th>
@@ -39,11 +39,11 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var item in Model.ListaTipoIdentificacion)
+                        @foreach (var item in Model.ListaMaterial)
                         {
                             <tr>
                                 <td>
-                                    Tipo Identificacion: <b>@item.ValorTipoIdentificacion</b><br />
+                                    Material: <b>@item.Material</b><br />
                                     Descripcion: <b>@item.Descripcion</b><br />
 
                                 </td>
@@ -53,7 +53,7 @@
 
                                 </td>
                                 <td class="td-center">
-                                    <a href="@Url.Action("EditarTipoIdentificacion", "TipoIdentificacion", new { id = item.IdTipoIdentificacion })" )"
+                                    <a href="@Url.Action("EditarMaterial", "Material", new { id = item.IdMaterial })" )"
                                        class="btn btn-primary btn-table">
                                         <i class="fa fa-edit"></i>
                                     </a>
@@ -77,7 +77,7 @@
 {
     <script type="text/javascript">
         $(document).ready(function () {
-            AplicarDatatable('#tbl-departamentos')
+            AplicarDatatable('#tbl-material')
         });
     </script>
 }

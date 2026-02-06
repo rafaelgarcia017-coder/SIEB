@@ -1,26 +1,36 @@
-﻿using Embarcaciones.AplicacionWeb.Models.ViewModels.Catalogos.Departamento;
+﻿using Embarcaciones.AplicacionWeb.Models.Utils;
+using Embarcaciones.AplicacionWeb.Models.ViewModels.Catalogos.Departamento;
 using Embarcaciones.AplicacionWeb.Models.ViewModels.Catalogos.Persona;
 using Embarcaciones.BLL.Service;
 using Embarcaciones.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Security.Claims;
 
 namespace Embarcaciones.AplicacionWeb.Controllers.Catalogos
 {
-    public class PersonaController : Controller
+    public class PersonaController : CustomController
     {
 
         private readonly IPersonaService _personaService;
+        private readonly ICatalogoService _catalogoService;
+        private readonly ICatalogoValorService _catalogoValorService;
 
-        public PersonaController(IPersonaService personaService)
+        public int idUsuario => Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+
+        public PersonaController(IPersonaService personaService, ICatalogoService catalogoService, ICatalogoValorService catalogoValorService)
         {
             _personaService = personaService;
+            _catalogoService = catalogoService;
+            _catalogoValorService = catalogoValorService;
         }
-        public IActionResult Index()
+
+        private async Task<int> ObtenerIdCatalogo()
         {
-            return View();
+            var id = await _catalogoService.ObtenerIdCatalogo("TIDF");
+            return id;
         }
 
         public async Task<IActionResult> Administrar()
@@ -32,8 +42,8 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Catalogos
                    .Select(s => new PersonaVM
                    {
                        IdPersona = s.IdPersona,
-                       NombreCompleto = s.NombreCompleto,
-                       IdTipoIdentificacion = s.IdTipoIdentificacion,
+                       NombreCompleto = s.NombreCompleto,                     
+                       TipoIdentificacion = s.TipoIdentificacionNavigation?.Nombre ??"" ,
                        Identificacion = s.Identificacion,
                        Direccion = s.Direccion,
                        Telefono = s.Telefono,
@@ -47,81 +57,70 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Catalogos
 
             return View("Administrar", model);
         }
-        public IActionResult NuevaPersona()
+
+        public async Task<PersonaVM> LlenarModelo(PersonaVM viewModel = null)
         {
-            var model = new PersonaVM();
+            viewModel = viewModel ?? new PersonaVM();
+            int  idCatalogo  =  await ObtenerIdCatalogo();
+            var tipoIdentificaciones = _catalogoValorService.ObtenerTodos(idCatalogo).ToList();
+            viewModel.ListaTipoIdentificacion = tipoIdentificaciones.Select(x => new SelectListItem { 
+              Value = x.IdCatalogoValor.ToString(),
+              Text  = x.Nombre            
+            }).ToList();
+
+            return viewModel;
+        }
+        public async Task< IActionResult> NuevaPersona()
+        {
+            var model = await LlenarModelo();
+            model.Accion = AccionesController.Nuevo;
             return View("NuevaPersona", model);
         }
         [HttpPost]
-        public IActionResult NuevaPersona(PersonaVM model)
-        {
-            var user = User;
-            if (ModelState.IsValid) {
-                var persona = new Persona {
-                  NombreCompleto = model.NombreCompleto,
-                  Telefono = model.Telefono,
-                  Direccion = model.Direccion,
-                  Correo = model.Correo,
-                  IdTipoIdentificacion = model.IdTipoIdentificacion,
-                  Identificacion = model.Identificacion,
-                  IdUsuarioCreacion  = Convert.ToInt32( User.FindFirst(ClaimTypes.NameIdentifier)?.Value)
+        public async Task< IActionResult> GuardarPersona(PersonaVM model)
+        {            
+            if (!ModelState.IsValid) {
+                AddAdvertencia(this.ErroresFromModel().Texto);
+                return View("NuevaPersona",await LlenarModelo(model));
+            }
+            if (model.Accion == AccionesController.Nuevo)
+            {
+                var responseVerify = await _personaService.ValidarDuplicados(model.NombreCompleto, model.Identificacion,model.IdTipoIdentificacion ?? 0);
+                if (responseVerify)
+                {
+                    AddAdvertencia("La Persona que intentas registrar ya existe. Revisa la información e intenta nuevamente");
+                    return View("NuevaPersona", LlenarModelo(model));
+                }
+                var persona = new Persona
+                {
+                    NombreCompleto = model.NombreCompleto,
+                    IdTipoIdentificacion = model.IdTipoIdentificacion,
+                    Identificacion = model.Identificacion,
+                    Direccion = model.Direccion,
+                    Telefono = model.Telefono,
+                    Correo = model.Correo,
+                    IdUsuarioCreacion = idUsuario
                 };
+
+                bool response = await _personaService.Agregar(persona);
+            }
+            else {
+                var persona = new Persona
+                {
+                    NombreCompleto = model.NombreCompleto,
+                    IdTipoIdentificacion = model.IdTipoIdentificacion,
+                    Identificacion = model.Identificacion,
+                    Direccion = model.Direccion,
+                    Telefono = model.Telefono,
+                    Correo = model.Correo,
+                    IdUsuarioModificacion = idUsuario,
+                    FechaModificacion =DateTime.Now
+                };
+
+                bool response = await _personaService.Actualizar(persona);
             }
             
-            return View("NuevaPersona", model);
-        }
-
-        ////[HttpGet]
-        ////public async Task<IActionResult> ObtenerPersonas()
-        ////{
-        ////    IQueryable<Persona> personas = await _personaService.ObtenerTodos();
-
-        ////    var personasObtenidas = personas.Select(s => new PersonaVM()
-        ////    {
-        ////        IdPersona = s.IdPersona,
-        ////        NombreCompleto = s.NombreCompleto,
-        ////        Identificacion = s.Identificacion,
-        ////        Direccion = s.Direccion,
-        ////        Telefono = s.Telefono,
-        ////        Correo = s.Correo,
-        ////        FechaCreacion = s.FechaCreacion.ToString("dd/MM/yyyy"),
-        ////        IdUsuarioCreacion = s.IdUsuarioCreacion
-        ////    });
-
-        ////    return StatusCode(StatusCodes.Status200OK, personasObtenidas);
-        ////}
-        [HttpPost]
-        public async Task<IActionResult> Agregar([FromBody] PersonaVM model)
-        {
-            var persona = new Persona
-            {
-                NombreCompleto = model.NombreCompleto,
-                Identificacion = model.Identificacion,
-                Direccion = model.Direccion,
-                Telefono = model.Telefono,
-                Correo = model.Correo
-            };
-
-            bool response = await _personaService.Agregar(persona);
-
-            return StatusCode(StatusCodes.Status200OK, new { valor = response });
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Actualizar([FromBody] PersonaVM model)
-        {
-            var persona = new Persona
-            {
-                NombreCompleto = model.NombreCompleto,
-                Identificacion = model.Identificacion,
-                Direccion = model.Direccion,
-                Telefono = model.Telefono,
-                Correo = model.Correo
-            };
-
-            bool response = await _personaService.Actualizar(persona);
-
-            return StatusCode(StatusCodes.Status200OK, new { valor = response });
+             return RedirectToAction("Administrar");
         }
 
     }

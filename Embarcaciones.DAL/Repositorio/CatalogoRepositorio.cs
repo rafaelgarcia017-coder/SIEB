@@ -23,7 +23,7 @@ namespace Embarcaciones.DAL.Repositorio
             return await _dbcontext.Catalogos
                                                     .Where(x => x.CodigoInterno == codigoInterno)
                                                     .Select(x => x.IdCatalogo)
-                                                    .SingleAsync();
+                                                    .SingleAsync()  ;
         }
     }
 }

@@ -1,16 +1,16 @@
 ﻿using Embarcaciones.AplicacionWeb.Models.Utils;
 using System.ComponentModel.DataAnnotations;
 
-namespace Embarcaciones.AplicacionWeb.Models.ViewModels.Catalogos.TipoIdentificacion
+namespace Embarcaciones.AplicacionWeb.Models.ViewModels.Catalogos.Puerto
 {
-    public class TipoIdentificacionVM:FormViewModelBase
+    public class PuertoVM:FormViewModelBase
     {
-        public int IdTipoIdentificacion { get; set; }
+        public int IdPuerto { get; set; }
 
         public int IdCatalogo { get; set; }
 
-        [Required(ErrorMessage = "Por Favor Ingrese un Departamento")]
-        public string ValorTipoIdentificacion { get; set; }
+        [Required(ErrorMessage = "Por Favor Ingrese un Puerto")]
+        public string Puerto { get; set; }
 
         public string? Descripcion { get; set; }
 

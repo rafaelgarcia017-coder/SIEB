@@ -462,9 +462,9 @@ namespace Embarcaciones.DAL.DataContext
                     .HasConstraintName("FK_Persona_Modificacion");
 
                 entity.HasOne(d => d.TipoIdentificacionNavigation)
-     .WithMany()
-      .HasForeignKey(d => d.IdTipoIdentificacion)
-      .HasConstraintName("FK_Persona_TipoIdentificacion");
+                          .WithMany()
+                          .HasForeignKey(d => d.IdTipoIdentificacion)
+                          .HasConstraintName("FK_Persona_TipoIdentificacion");
             });
 
             modelBuilder.Entity<Rol>(entity =>

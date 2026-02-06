@@ -1,0 +1,19 @@
+﻿using Embarcaciones.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Embarcaciones.DAL.Repositorio
+{
+    public interface IPersonaRepositorio
+    {
+        Task<bool> Agregar(Persona modelo);
+        Task<bool> Actualizar(Persona modelo);
+        Task<bool> Eliminar(int id);
+        Task<bool> ValidarPersonasDuplicadas(string nombreCompleto, string identificacion, int idTipoIdentificacion );
+        Task<Persona> Obtener(int id);
+        IQueryable<Persona> ObtenerTodos();
+    }
+}
