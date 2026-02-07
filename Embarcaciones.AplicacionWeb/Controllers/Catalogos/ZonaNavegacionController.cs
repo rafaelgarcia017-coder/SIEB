@@ -1,7 +1,6 @@
 ﻿using Embarcaciones.AplicacionWeb.Models.Utils;
-using Embarcaciones.AplicacionWeb.Models.ViewModels.Catalogos.Departamento;
 using Embarcaciones.AplicacionWeb.Models.ViewModels.Catalogos.Puerto;
-using Embarcaciones.AplicacionWeb.Models.ViewModels.Catalogos.TipoIdentificacion;
+using Embarcaciones.AplicacionWeb.Models.ViewModels.Catalogos.ZonaNavegacion;
 using Embarcaciones.BLL.Service;
 using Embarcaciones.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -10,12 +9,12 @@ using System.Security.Claims;
 
 namespace Embarcaciones.AplicacionWeb.Controllers.Catalogos
 {
-    public class PuertoController : CustomController
+    public class ZonaNavegacionController : CustomController
     {
         private readonly ICatalogoValorService _catalogoValorService;
         private readonly ICatalogoService _catalogoService;
 
-        public PuertoController (ICatalogoValorService catalogoValorService, ICatalogoService catalogoService)
+        public ZonaNavegacionController(ICatalogoValorService catalogoValorService, ICatalogoService catalogoService)
         {
             _catalogoValorService = catalogoValorService;
             _catalogoService = catalogoService;
@@ -23,21 +22,21 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Catalogos
 
         private async Task<int> ObtenerIdCatalogo()
         {
-            var id = await _catalogoService.ObtenerIdCatalogo("PRTO");
+            var id = await _catalogoService.ObtenerIdCatalogo("ZNNV");
             return id;
         }
-        public async Task< IActionResult> Administrar()
+        public async Task <IActionResult> Administrar()
         {
             int idCatalogo = await ObtenerIdCatalogo();
             var obtenerRegistro = await _catalogoValorService.ObtenerTodos(idCatalogo).ToListAsync();
 
-            var model = new AdministrarPuertoVM
+            var model = new AdministrarZonaNavegacionVM
             {
-                ListaPuertos = obtenerRegistro.Select(s => new PuertoVM
+                ListaZonaNavegacion = obtenerRegistro.Select(s => new ZonaNavegacionVM
                 {
                     IdCatalogo = s.IdCatalogo,
-                    IdPuerto = s.IdCatalogoValor,
-                    Puerto = s.Nombre,
+                    IdZonaNavegacion = s.IdCatalogoValor,
+                    ZonaNavegacion = s.Nombre,
                     Descripcion = s.Descripcion,
                     FechaCreacion = s.FechaCreacion?.ToString("dd/MM/yyyy"),
                     UsuarioCreacion = s.UsuarioCreacionNavigation.Usuario
@@ -45,70 +44,71 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Catalogos
 
             };
             return View("Administrar", model);
-         }
-        public ActionResult NuevoPuerto()
-        {
-            var model = new PuertoVM();
-            model.Accion = AccionesController.Nuevo;
-            return View("NuevoPuerto", model);
         }
+        public ActionResult NuevoZonaNavegacion()
+        {
+            var model = new ZonaNavegacionVM();
+            model.Accion = AccionesController.Nuevo;
+            return View("NuevoZonaNavegacion", model);
+        }
+
+        public async Task<IActionResult> EditarZonaNavegacion(int id)
+        {
+            var tipoIdentificacion = await _catalogoValorService.Obtener(id);
+            var model = new ZonaNavegacionVM
+            {
+                IdCatalogo = tipoIdentificacion.IdCatalogo,
+                IdZonaNavegacion = tipoIdentificacion.IdCatalogoValor,
+                ZonaNavegacion = tipoIdentificacion.Nombre,
+                Descripcion = tipoIdentificacion.Descripcion,
+                Accion = AccionesController.Editar
+            };
+            return View("NuevoZonaNavegacion", model);
+        }
+
         [HttpPost]
-        public async Task<IActionResult> GuardarPuerto(PuertoVM model)
+        public async Task<IActionResult> GuardarZonaNavegacion(ZonaNavegacionVM model)
         {
             if (!ModelState.IsValid)
             {
                 AddAdvertencia(this.ErroresFromModel().Texto);
-                return View("NuevoPuerto", model);
+                return View("NuevoZonaNavegacion", model);
             }
 
             if (model.Accion == AccionesController.Nuevo)
             {
                 int idCatalogo = await ObtenerIdCatalogo();
-                var responseVerify = await _catalogoValorService.ValidarCatalogo(idCatalogo, model.Puerto);
+                var responseVerify = await _catalogoValorService.ValidarCatalogo(idCatalogo, model.ZonaNavegacion);
                 if (responseVerify)
                 {
-                    AddAdvertencia("El Puerto que intentas registrar ya existe. Revisa la información e intenta nuevamente");
+                    AddAdvertencia("La Zona de Navegacion que intentas registrar ya existe. Revisa la información e intenta nuevamente");
                     return View("NuevoPuerto", model);
                 }
-                var tipoIdentificacion = new CatalogoValor
+                var zonaNavegacion = new CatalogoValor
                 {
                     IdCatalogo = idCatalogo,
-                    Nombre = model.Puerto,
+                    Nombre = model.ZonaNavegacion,
                     Descripcion = model.Descripcion,
                     IdUsuarioCreacion = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier)?.Value)
                 };
-                var response = await _catalogoValorService.Agregar(tipoIdentificacion);
+                var response = await _catalogoValorService.Agregar(zonaNavegacion);
             }
             else
             {
-                var tipoIdentificacion = new CatalogoValor
+                var zonaNavegacion = new CatalogoValor
                 {
                     IdCatalogo = model.IdCatalogo,
-                    IdCatalogoValor = model.IdPuerto,
-                    Nombre = model.Puerto,
+                    IdCatalogoValor = model.IdZonaNavegacion,
+                    Nombre = model.ZonaNavegacion,
                     Descripcion = model.Descripcion,
                     IdUsuarioModificacion = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier)?.Value),
                     FechaModificacion = DateTime.Now,
                 };
-                var response = await _catalogoValorService.Actualizar(tipoIdentificacion);
+                var response = await _catalogoValorService.Actualizar(zonaNavegacion);
             }
 
 
             return RedirectToAction("Administrar");
-        }
-
-        public async Task<IActionResult> EditarPuerto(int id)
-        {
-            var tipoIdentificacion = await _catalogoValorService.Obtener(id);
-            var model = new PuertoVM
-            {
-                IdCatalogo = tipoIdentificacion.IdCatalogo,
-                IdPuerto = tipoIdentificacion.IdCatalogoValor,
-                Puerto = tipoIdentificacion.Nombre,
-                Descripcion = tipoIdentificacion.Descripcion,
-                Accion = AccionesController.Editar
-            };
-            return View("NuevoPuerto", model);
         }
     }
 }

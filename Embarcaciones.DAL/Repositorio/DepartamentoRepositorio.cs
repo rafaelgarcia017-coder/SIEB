@@ -49,24 +49,26 @@ namespace Embarcaciones.DAL.Repositorio
             return await _dbcontext.Departamentos.FindAsync(id);
         }
 
-        public  IQueryable<Departamento> ObtenerTodos()
+        public IQueryable<Departamento> ObtenerTodos()
         {
             IQueryable<Departamento> queryDepartamento = _dbcontext.Departamentos
                                                                                              .Include(d => d.UsuarioCreacionNavigation)
                                                                                              .Include(d => d.UsuarioModificacionNavigation)
-                                                                                             .Where(w=> (bool)w.EstaActivo);
+                                                                                             .Where(w => (bool)w.EstaActivo);
 
 
             return queryDepartamento;
         }
 
-        public async Task<bool> ValidarDuplicados(string valor)
+        public async Task<bool> ValidarDuplicados(string valor, int? id)
         {
             //var valorLimpio = valor.CleanStringV2();
 
             // Compara con los registros activos normalizados
             return await _dbcontext.Departamentos
-                .AnyAsync(a => a.EstaActivo == true && a.Departamento1 == valor);
+           .AnyAsync(a => a.EstaActivo == true
+                          && a.Departamento1 == valor
+                          && (!id.HasValue || a.IdDepartamento != id.Value));
         }
     }
 }

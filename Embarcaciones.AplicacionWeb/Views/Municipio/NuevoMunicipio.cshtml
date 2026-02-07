@@ -32,27 +32,41 @@
                         </div>
                         <div class="card-body">
                             <div class="col-md-3">
-                                @Html.HiddenFor(x => x.IdMunicipio)
-                                @Html.HiddenFor(x => x.Accion, new {@id= "hd-accion"})
-                                <label>Departamento:</label>
-                                <select id="cmb-departamentos" asp-for="IdDepartamento" class="form-control" asp-items="Model.ListaDepartamentos">
-                                    <option value=""></option>
-                                </select>
-                                
-                                <label class="mt-2">Municipio:</label>
-                                <input type="text" class="form-control" asp-for="NombreMunicipio" />
-                                @Html.ValidationMessageFor(x => x.NombreMunicipio, "", new { @class = "text-danger" })
+                                <!-- Hidden inputs -->
+                                <input type="hidden" asp-for="IdMunicipio" />
+                                <input type="hidden" asp-for="Accion" id="hd-accion" />
 
-                                <label class="mt-2">Descripcion:</label>
-                                <input type="text" class="form-control" asp-for="Descripcion" />                          
+                                <!-- Departamento -->
+                                <div class="form-group">
+                                    <label asp-for="IdDepartamento"></label>
+                                    <select asp-for="IdDepartamento"
+                                            asp-items="Model.ListaDepartamentos"
+                                            class="form-control"
+                                            id="cmb-departamentos">
+                                        <option value=""></option> <!-- necesario para Select2 allowClear -->
+                                    </select>
+                                    <span asp-validation-for="IdDepartamento" class="text-danger mt-2 fw-bold"></span>
+                                </div>
 
+                                <!-- Nombre del Municipio -->
+                                <div class="form-group">
+                                    <label asp-for="NombreMunicipio" class="mt-2"></label>
+                                    <input asp-for="NombreMunicipio" class="form-control" />
+                                    <span asp-validation-for="NombreMunicipio" class="text-danger mt-2 fw-bold"></span>
+                                </div>
+
+                                <!-- Descripción -->
+                                <div class="form-group">
+                                    <label asp-for="Descripcion" class="mt-2"></label>
+                                    <input asp-for="Descripcion" class="form-control" />
+                                </div>
                             </div>
                             <button class="btn btn-success mt-4"><i class="fa fa-save"></i> Guardar</button>
                             <a href="@Url.Action("Administrar", "Municipio")"
                                class="btn btn-danger mt-4">
                                 <i class="fa fa-times"></i> Cancelar
                             </a>
-                          
+
                         </div>
                     </div>
                 </div>
@@ -76,6 +90,29 @@
                 allowClear: true,
                 width: '100%' // hace que ocupe todo el ancho del contenedor
             });
+
+        @foreach (var field in ViewData.ModelState)
+        {
+            if (field.Value.Errors.Count > 0)
+            {
+                <text>
+                                            var input = $('[name="@field.Key"]');
+
+                            // Para inputs normales
+                            if (!input.hasClass('select2-hidden-accessible')) {
+                                input.addClass('is-invalid');
+                            }
+
+                            // Para Select2
+                            if (input.hasClass('select2-hidden-accessible')) {
+                                // agrega is-invalid al contenedor visible de Select2
+                                input.next('.select2-container')
+                                     .find('.select2-selection')
+                                     .addClass('is-invalid');
+                            }
+                </text>
+            }
+        }
         });
     </script>
 }

@@ -11,7 +11,7 @@ namespace Embarcaciones.BLL.Service
     {
         Task<bool> Agregar(Municipio municipio);
         Task<bool> Actualizar(Municipio municipio);
-        Task<bool> ValidarDuplicados(string valor);
+        Task<bool> ValidarDuplicados(string valor, int? id = null);
         Task<bool> Eliminar(int id);
         Task<Municipio> Obtener(int id);
         IQueryable<Municipio>? ObtenerTodos();

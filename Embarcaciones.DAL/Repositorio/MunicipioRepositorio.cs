@@ -51,20 +51,21 @@ namespace Embarcaciones.DAL.Repositorio
 
         public IQueryable<Municipio> ObtenerTodos()
         {
-            IQueryable<Municipio> queryMunicipio = _dbcontext.Municipios
-                                                                                  .Include(d => d.UsuarioCreacionNavigation)
-                                                                                  .Include(d => d.UsuarioModificacionNavigation)
-                                                                                  .Include(d => d.DepartamentoNavigation)
-                                                                                  .Where(w => (bool)w.EstaActivo);
+            return _dbcontext.Municipios
+   .Include(d => d.UsuarioCreacionNavigation)
+   .Include(d => d.UsuarioModificacionNavigation)
+   .Include(d => d.DepartamentoNavigation)
+   .Where(w => w.EstaActivo == true)
+   .OrderBy(m => m.Municipio1);
 
-
-            return queryMunicipio;
         }
 
-        public async Task<bool> ValidarDuplicados(string valor)
+        public async Task<bool> ValidarDuplicados(string valor, int? id)
         {
             return await _dbcontext.Municipios
-            .AnyAsync(a => a.EstaActivo == true && a.Municipio1 == valor);
+                .AnyAsync(a => a.EstaActivo == true
+                               && a.Municipio1 == valor
+                               && (!id.HasValue || a.IdMunicipio != id.Value));
         }
     }
 }

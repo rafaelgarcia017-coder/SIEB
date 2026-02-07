@@ -1,13 +1,13 @@
-﻿@using Embarcaciones.AplicacionWeb.Models.ViewModels.Catalogos.TipoIdentificacion;
+﻿@using Embarcaciones.AplicacionWeb.Models.ViewModels.Catalogos.Color;
 
-@model TipoIdentificacionVM
+@model ColorVM
 
 @{
-    ViewData["Title"] = "Gestion Tipo Identificacion";
+    ViewData["Title"] = "Gestion Color";
     ViewBag.Accion = @Model.Accion;
 }
 
-@using (Html.BeginForm("GuardarTipoIdentificacion", "TipoIdentificacion", FormMethod.Post))
+@using (Html.BeginForm("GuardarColor", "Color", FormMethod.Post))
 {
     <div class="card-body">
         <div class="card-header">
@@ -15,8 +15,8 @@
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb mb-0">
                         <li class="breadcrumb-item">SIEB</li>
-                        <li class="breadcrumb-item active" aria-current="page">Tipo Identificacion</li>
-                        <li class="breadcrumb-item active" aria-current="page">@ViewBag.Accion Tipo Identificacion</li>
+                        <li class="breadcrumb-item active" aria-current="page">Color</li>
+                        <li class="breadcrumb-item active" aria-current="page">@ViewBag.Accion Color</li>
                     </ol>
                 </nav>
             </div>
@@ -28,21 +28,21 @@
 
                     <div class="card">
                         <div class="card-header text-white bg-primary">
-                            @ViewBag.Accion Tipo Identificacion
+                            @ViewBag.Accion Color
                         </div>
                         <div class="card-body">
                             <div class="col-md-3">
                                 @Html.HiddenFor(x => x.IdCatalogo)
-                                @Html.HiddenFor(x => x.IdTipoIdentificacion)
+                                @Html.HiddenFor(x => x.IdColor)
                                 @Html.HiddenFor(x => x.Accion)
-                                <label>Tipo Identificacion:</label>
-                                <input type="text" class="form-control" asp-for="ValorTipoIdentificacion" />
-                                @Html.ValidationMessageFor(x => x.ValorTipoIdentificacion, "", new { @class = "text-danger" })
+                                <label>Color:</label>
+                                <input type="text" class="form-control" asp-for="Color" />
+                                @Html.ValidationMessageFor(x => x.Color, "", new { @class = "text-danger" })
                                 <label class="mt-2">Descripcion:</label>
                                 <input type="text" class="form-control" asp-for="Descripcion" />
                             </div>
                             <button class="btn btn-success mt-4"><i class="fa fa-save"></i> Guardar</button>
-                            <a href="@Url.Action("Administrar", "TipoIdentificacion")"
+                            <a href="@Url.Action("Administrar", "Color")"
                                class="btn btn-danger mt-4">
                                 <i class="fa fa-times"></i> Cancelar
                             </a>

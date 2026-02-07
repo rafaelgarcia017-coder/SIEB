@@ -4,6 +4,7 @@
 
 @{
     ViewData["Title"] = "Gestion Departamento";
+    ViewBag.Accion = Model.Accion;
 }
 
 @using (Html.BeginForm("GuardarDepartamento", "Departamento", FormMethod.Post))
@@ -27,7 +28,7 @@
 
                     <div class="card">
                         <div class="card-header text-white bg-primary">
-                            Agregar Departamento
+                            @ViewBag.Accion Departamento
                         </div>
                         <div class="card-body">
                             <div class="col-md-3">

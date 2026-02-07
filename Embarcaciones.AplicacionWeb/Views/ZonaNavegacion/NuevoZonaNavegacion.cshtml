@@ -1,13 +1,13 @@
-﻿@using Embarcaciones.AplicacionWeb.Models.ViewModels.Catalogos.TipoIdentificacion;
+﻿@using Embarcaciones.AplicacionWeb.Models.ViewModels.Catalogos.ZonaNavegacion;
 
-@model TipoIdentificacionVM
+@model ZonaNavegacionVM
 
 @{
-    ViewData["Title"] = "Gestion Tipo Identificacion";
-    ViewBag.Accion = @Model.Accion;
+    ViewData["Title"] = "Gestion Zona Navegacion";
+    ViewBag.Accion = Model.Accion;
 }
 
-@using (Html.BeginForm("GuardarTipoIdentificacion", "TipoIdentificacion", FormMethod.Post))
+@using (Html.BeginForm("GuardarZonaNavegacion", "ZonaNavegacion", FormMethod.Post))
 {
     <div class="card-body">
         <div class="card-header">
@@ -15,8 +15,8 @@
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb mb-0">
                         <li class="breadcrumb-item">SIEB</li>
-                        <li class="breadcrumb-item active" aria-current="page">Tipo Identificacion</li>
-                        <li class="breadcrumb-item active" aria-current="page">@ViewBag.Accion Tipo Identificacion</li>
+                        <li class="breadcrumb-item active" aria-current="page">Zona Navegacion</li>
+                        <li class="breadcrumb-item active" aria-current="page">@ViewBag.Accion Zona Navegacion</li>
                     </ol>
                 </nav>
             </div>
@@ -28,21 +28,21 @@
 
                     <div class="card">
                         <div class="card-header text-white bg-primary">
-                            @ViewBag.Accion Tipo Identificacion
+                            @ViewBag.Accion Zona Navegacion
                         </div>
                         <div class="card-body">
                             <div class="col-md-3">
                                 @Html.HiddenFor(x => x.IdCatalogo)
-                                @Html.HiddenFor(x => x.IdTipoIdentificacion)
+                                @Html.HiddenFor(x => x.IdZonaNavegacion)
                                 @Html.HiddenFor(x => x.Accion)
-                                <label>Tipo Identificacion:</label>
-                                <input type="text" class="form-control" asp-for="ValorTipoIdentificacion" />
-                                @Html.ValidationMessageFor(x => x.ValorTipoIdentificacion, "", new { @class = "text-danger" })
+                                <label>Zona Navegacion:</label>
+                                <input type="text" class="form-control" asp-for="ZonaNavegacion" />
+                                @Html.ValidationMessageFor(x => x.ZonaNavegacion, "", new { @class = "text-danger" })
                                 <label class="mt-2">Descripcion:</label>
                                 <input type="text" class="form-control" asp-for="Descripcion" />
                             </div>
                             <button class="btn btn-success mt-4"><i class="fa fa-save"></i> Guardar</button>
-                            <a href="@Url.Action("Administrar", "TipoIdentificacion")"
+                            <a href="@Url.Action("Administrar", "ZonaNavegacion")"
                                class="btn btn-danger mt-4">
                                 <i class="fa fa-times"></i> Cancelar
                             </a>

@@ -63,7 +63,7 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Catalogos
                 Descripcion = actividad.Descripcion,
                 Accion = AccionesController.Editar
             };
-            return View("NuevoTipoIdentificacion", model);
+            return View("NuevoActividad", model);
         }
         [HttpPost]
         public async Task<IActionResult> GuardarActiviadd(ActividadVM model)

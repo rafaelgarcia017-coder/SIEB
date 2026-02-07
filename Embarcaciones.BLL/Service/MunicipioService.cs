@@ -41,9 +41,9 @@ namespace Embarcaciones.BLL.Service
             return (IQueryable<Municipio>)_MunicipioRepo.ObtenerTodos();
         }
 
-        public async Task<bool> ValidarDuplicados(string valor)
+        public async Task<bool> ValidarDuplicados(string valor, int? id = null)
         {
-            return await _MunicipioRepo.ValidarDuplicados(valor);
+            return await _MunicipioRepo.ValidarDuplicados(valor,id);
         }
     }
 }

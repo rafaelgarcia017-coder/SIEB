@@ -4,7 +4,7 @@
 
 @{
     ViewData["Title"] = "Gestion Actividad";
-    ViewBag.Accion = @Model.Accion;
+    ViewBag.Accion = Model.Accion;
 }
 
 @using (Html.BeginForm("GuardarActiviadd", "Actividad", FormMethod.Post))
@@ -28,7 +28,7 @@
 
                     <div class="card">
                         <div class="card-header text-white bg-primary">
-                            @ViewBag.Accio Actividad
+                            @ViewBag.Accion Actividad
                         </div>
                         <div class="card-body">
                             <div class="col-md-3">

@@ -29,7 +29,7 @@ body {
     }
 /* navbar */
 .navbar {
-    position: fixed;
+    position: fixed !important;
     top: 0;
     width: 100%;
     left: 0;
@@ -446,3 +446,7 @@ label, .card-header {
         top: 0; /* Asegura que esté alineado con el borde superior */
         right: 5px; /* Opcional: un pequeño margen a la derecha */
     }
+
+#btn-cerrar-sesion {
+    border-radius:22px !important;
+}

@@ -1,7 +1,6 @@
 ﻿using Embarcaciones.AplicacionWeb.Models.Utils;
-using Embarcaciones.AplicacionWeb.Models.ViewModels.Catalogos.Departamento;
+using Embarcaciones.AplicacionWeb.Models.ViewModels.Catalogos.Color;
 using Embarcaciones.AplicacionWeb.Models.ViewModels.Catalogos.Puerto;
-using Embarcaciones.AplicacionWeb.Models.ViewModels.Catalogos.TipoIdentificacion;
 using Embarcaciones.BLL.Service;
 using Embarcaciones.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -10,12 +9,12 @@ using System.Security.Claims;
 
 namespace Embarcaciones.AplicacionWeb.Controllers.Catalogos
 {
-    public class PuertoController : CustomController
+    public class ColorController : CustomController
     {
         private readonly ICatalogoValorService _catalogoValorService;
         private readonly ICatalogoService _catalogoService;
 
-        public PuertoController (ICatalogoValorService catalogoValorService, ICatalogoService catalogoService)
+        public ColorController(ICatalogoValorService catalogoValorService, ICatalogoService catalogoService)
         {
             _catalogoValorService = catalogoValorService;
             _catalogoService = catalogoService;
@@ -23,21 +22,21 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Catalogos
 
         private async Task<int> ObtenerIdCatalogo()
         {
-            var id = await _catalogoService.ObtenerIdCatalogo("PRTO");
+            var id = await _catalogoService.ObtenerIdCatalogo("COLR");
             return id;
         }
-        public async Task< IActionResult> Administrar()
+        public async Task<IActionResult> Administrar()
         {
             int idCatalogo = await ObtenerIdCatalogo();
             var obtenerRegistro = await _catalogoValorService.ObtenerTodos(idCatalogo).ToListAsync();
 
-            var model = new AdministrarPuertoVM
+            var model = new AdministrarColorVM
             {
-                ListaPuertos = obtenerRegistro.Select(s => new PuertoVM
+                ListaColor = obtenerRegistro.Select(s => new ColorVM
                 {
                     IdCatalogo = s.IdCatalogo,
-                    IdPuerto = s.IdCatalogoValor,
-                    Puerto = s.Nombre,
+                    IdColor = s.IdCatalogoValor,
+                    Color = s.Nombre,
                     Descripcion = s.Descripcion,
                     FechaCreacion = s.FechaCreacion?.ToString("dd/MM/yyyy"),
                     UsuarioCreacion = s.UsuarioCreacionNavigation.Usuario
@@ -45,70 +44,70 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Catalogos
 
             };
             return View("Administrar", model);
-         }
-        public ActionResult NuevoPuerto()
+        }
+        public ActionResult NuevoColor()
         {
-            var model = new PuertoVM();
+            var model = new ColorVM();
             model.Accion = AccionesController.Nuevo;
-            return View("NuevoPuerto", model);
+            return View("NuevoColor", model);
+        }
+
+        public async Task<IActionResult> EditarColor(int id)
+        {
+            var color = await _catalogoValorService.Obtener(id);
+            var model = new ColorVM
+            {
+                IdCatalogo = color.IdCatalogo,
+                IdColor = color.IdCatalogoValor,
+                Color = color.Nombre,
+                Descripcion = color.Descripcion,
+                Accion = AccionesController.Editar
+            };
+            return View("NuevoColor", model);
         }
         [HttpPost]
-        public async Task<IActionResult> GuardarPuerto(PuertoVM model)
+        public async Task<IActionResult> GuardarColor(ColorVM model)
         {
             if (!ModelState.IsValid)
             {
                 AddAdvertencia(this.ErroresFromModel().Texto);
-                return View("NuevoPuerto", model);
+                return View("NuevoColor", model);
             }
 
             if (model.Accion == AccionesController.Nuevo)
             {
                 int idCatalogo = await ObtenerIdCatalogo();
-                var responseVerify = await _catalogoValorService.ValidarCatalogo(idCatalogo, model.Puerto);
+                var responseVerify = await _catalogoValorService.ValidarCatalogo(idCatalogo, model.Color);
                 if (responseVerify)
                 {
-                    AddAdvertencia("El Puerto que intentas registrar ya existe. Revisa la información e intenta nuevamente");
-                    return View("NuevoPuerto", model);
+                    AddAdvertencia("El Color que intentas registrar ya existe. Revisa la información e intenta nuevamente");
+                    return View("NuevoColor", model);
                 }
-                var tipoIdentificacion = new CatalogoValor
+                var color = new CatalogoValor
                 {
                     IdCatalogo = idCatalogo,
-                    Nombre = model.Puerto,
+                    Nombre = model.Color,
                     Descripcion = model.Descripcion,
                     IdUsuarioCreacion = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier)?.Value)
                 };
-                var response = await _catalogoValorService.Agregar(tipoIdentificacion);
+                var response = await _catalogoValorService.Agregar(color);
             }
             else
             {
-                var tipoIdentificacion = new CatalogoValor
+                var color = new CatalogoValor
                 {
                     IdCatalogo = model.IdCatalogo,
-                    IdCatalogoValor = model.IdPuerto,
-                    Nombre = model.Puerto,
+                    IdCatalogoValor = model.IdColor,
+                    Nombre = model.Color,
                     Descripcion = model.Descripcion,
                     IdUsuarioModificacion = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier)?.Value),
                     FechaModificacion = DateTime.Now,
                 };
-                var response = await _catalogoValorService.Actualizar(tipoIdentificacion);
+                var response = await _catalogoValorService.Actualizar(color);
             }
 
 
             return RedirectToAction("Administrar");
-        }
-
-        public async Task<IActionResult> EditarPuerto(int id)
-        {
-            var tipoIdentificacion = await _catalogoValorService.Obtener(id);
-            var model = new PuertoVM
-            {
-                IdCatalogo = tipoIdentificacion.IdCatalogo,
-                IdPuerto = tipoIdentificacion.IdCatalogoValor,
-                Puerto = tipoIdentificacion.Nombre,
-                Descripcion = tipoIdentificacion.Descripcion,
-                Accion = AccionesController.Editar
-            };
-            return View("NuevoPuerto", model);
         }
     }
 }
