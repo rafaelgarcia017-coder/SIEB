@@ -69,46 +69,58 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Catalogos
         [HttpPost]
         public async Task<IActionResult> GuardarZonaNavegacion(ZonaNavegacionVM model)
         {
-            if (!ModelState.IsValid)
+            try
             {
-                AddAdvertencia(this.ErroresFromModel().Texto);
-                return View("NuevoZonaNavegacion", model);
-            }
-
-            if (model.Accion == AccionesController.Nuevo)
-            {
-                int idCatalogo = await ObtenerIdCatalogo();
-                var responseVerify = await _catalogoValorService.ValidarCatalogo(idCatalogo, model.ZonaNavegacion);
-                if (responseVerify)
+                if (!ModelState.IsValid)
                 {
-                    AddAdvertencia("La Zona de Navegacion que intentas registrar ya existe. Revisa la información e intenta nuevamente");
-                    return View("NuevoPuerto", model);
+                    AddAdvertencia(this.ErroresFromModel().Texto);
+                    return View("NuevoZonaNavegacion", model);
                 }
-                var zonaNavegacion = new CatalogoValor
+
+                if (model.Accion == AccionesController.Nuevo)
                 {
-                    IdCatalogo = idCatalogo,
-                    Nombre = model.ZonaNavegacion,
-                    Descripcion = model.Descripcion,
-                    IdUsuarioCreacion = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier)?.Value)
-                };
-                var response = await _catalogoValorService.Agregar(zonaNavegacion);
+                    int idCatalogo = await ObtenerIdCatalogo();
+                    var responseVerify = await _catalogoValorService.ValidarCatalogo(idCatalogo, model.ZonaNavegacion);
+                    if (responseVerify)
+                    {
+                        AddAdvertencia("La Zona de Navegacion que intentas registrar ya existe. Revisa la información e intenta nuevamente");
+                        return View("NuevoPuerto", model);
+                    }
+                    var zonaNavegacion = new CatalogoValor
+                    {
+                        IdCatalogo = idCatalogo,
+                        Nombre = model.ZonaNavegacion,
+                        Descripcion = model.Descripcion,
+                        IdUsuarioCreacion = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier)?.Value)
+                    };
+                    var response = await _catalogoValorService.Agregar(zonaNavegacion);
+                }
+                else
+                {
+                    var zonaNavegacion = new CatalogoValor
+                    {
+                        IdCatalogo = model.IdCatalogo,
+                        IdCatalogoValor = model.IdZonaNavegacion,
+                        Nombre = model.ZonaNavegacion,
+                        Descripcion = model.Descripcion,
+                        IdUsuarioModificacion = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier)?.Value),
+                        FechaModificacion = DateTime.Now,
+                    };
+                    var response = await _catalogoValorService.Actualizar(zonaNavegacion);
+                }
+
+                AddExito(model.Accion == AccionesController.Nuevo
+                                                                                ? "Zona de Navegacion registrada satisfactoriamente."
+                                                                                : "Zona de Navegacion actualizada satisfactoriamente.");
+                return RedirectToAction("Administrar");
             }
-            else
+            catch (Exception)
             {
-                var zonaNavegacion = new CatalogoValor
-                {
-                    IdCatalogo = model.IdCatalogo,
-                    IdCatalogoValor = model.IdZonaNavegacion,
-                    Nombre = model.ZonaNavegacion,
-                    Descripcion = model.Descripcion,
-                    IdUsuarioModificacion = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier)?.Value),
-                    FechaModificacion = DateTime.Now,
-                };
-                var response = await _catalogoValorService.Actualizar(zonaNavegacion);
+                AddError("Ha ocurrido un error. Contacte al Administrador.");
+                return View("NuevoZonaNavegacion", model);
+                throw;
             }
-
-
-            return RedirectToAction("Administrar");
+           
         }
     }
 }

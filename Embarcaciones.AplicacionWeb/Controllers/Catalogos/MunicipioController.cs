@@ -30,8 +30,8 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Catalogos
                 ListaMunicipios = obtenerRegistros.Select(s => new MunicipioVM
                 {
                     IdMunicipio = s.IdMunicipio,
-                    IdDepartamento = s.IdDepartamento,
-                    Departamento = s.DepartamentoNavigation.Departamento1,
+                    Departamento = s.IdDepartamento,
+                    NombreDepartamento = s.DepartamentoNavigation.Departamento1,
                     NombreMunicipio = s.Municipio1,
                     Descripcion = s.Descripcion,
                     FechaCreacion = s.FechaCreacion?.ToString("dd/MM/yyyy"),
@@ -69,7 +69,7 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Catalogos
                     return View("NuevoMunicipio", LlenarModelo(model));
                 }
 
-                if (model.IdDepartamento == null)
+                if (model.Departamento == null)
                 {
                     AddAdvertencia("Debe seleccionar un Departamento.");
                     return View("NuevoMunicipio", LlenarModelo(model));
@@ -119,7 +119,7 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Catalogos
             return new Municipio
             {
                 IdMunicipio = model.IdMunicipio,
-                IdDepartamento = model.IdDepartamento!.Value,
+                IdDepartamento = model.Departamento!.Value,
                 Municipio1 = model.NombreMunicipio,
                 Descripcion = model.Descripcion,
                 IdUsuarioCreacion = model.Accion == AccionesController.Nuevo ? usuarioId : 0,
@@ -133,7 +133,7 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Catalogos
             var departamento = await _municipioService.Obtener(id);
             var model = LlenarModelo(new MunicipioVM());
 
-            model.IdDepartamento = departamento.IdDepartamento;
+            model.Departamento = departamento.IdDepartamento;
             model.IdMunicipio = departamento.IdMunicipio;
             model.NombreMunicipio = departamento.Municipio1;
             model.Descripcion = departamento.Descripcion;

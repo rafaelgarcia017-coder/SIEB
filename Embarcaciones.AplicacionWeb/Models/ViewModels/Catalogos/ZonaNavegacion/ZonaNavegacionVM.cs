@@ -9,7 +9,7 @@ namespace Embarcaciones.AplicacionWeb.Models.ViewModels.Catalogos.ZonaNavegacion
 
         public int IdCatalogo { get; set; }
 
-        [Required(ErrorMessage = "Por Favor Ingrese un Puerto")]
+        [Required(ErrorMessage = "Por Favor Ingrese una Zona de Navegacion")]
         public string ZonaNavegacion { get; set; }
 
         public string? Descripcion { get; set; }

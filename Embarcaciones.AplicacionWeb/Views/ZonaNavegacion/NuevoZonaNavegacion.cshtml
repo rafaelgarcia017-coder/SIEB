@@ -34,12 +34,16 @@
                             <div class="col-md-3">
                                 @Html.HiddenFor(x => x.IdCatalogo)
                                 @Html.HiddenFor(x => x.IdZonaNavegacion)
-                                @Html.HiddenFor(x => x.Accion)
-                                <label>Zona Navegacion:</label>
-                                <input type="text" class="form-control" asp-for="ZonaNavegacion" />
-                                @Html.ValidationMessageFor(x => x.ZonaNavegacion, "", new { @class = "text-danger" })
-                                <label class="mt-2">Descripcion:</label>
-                                <input type="text" class="form-control" asp-for="Descripcion" />
+                                @Html.HiddenFor(x => x.Accion)                              
+                                <div class="form-group">
+                                    <label class="mt-2">Zona Navegacion:</label>
+                                    <input asp-for="ZonaNavegacion" class="form-control" />
+                                    <span asp-validation-for="ZonaNavegacion" class="text-danger mt-2 fw-bold"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label class="mt-2">Descripcion:</label>
+                                    <input asp-for="Descripcion" class="form-control" />
+                                </div>
                             </div>
                             <button class="btn btn-success mt-4"><i class="fa fa-save"></i> Guardar</button>
                             <a href="@Url.Action("Administrar", "ZonaNavegacion")"

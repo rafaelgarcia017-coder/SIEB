@@ -68,46 +68,58 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Catalogos
         [HttpPost]
         public async Task<IActionResult> GuardarColor(ColorVM model)
         {
-            if (!ModelState.IsValid)
+            try
             {
-                AddAdvertencia(this.ErroresFromModel().Texto);
-                return View("NuevoColor", model);
-            }
-
-            if (model.Accion == AccionesController.Nuevo)
-            {
-                int idCatalogo = await ObtenerIdCatalogo();
-                var responseVerify = await _catalogoValorService.ValidarCatalogo(idCatalogo, model.Color);
-                if (responseVerify)
+                if (!ModelState.IsValid)
                 {
-                    AddAdvertencia("El Color que intentas registrar ya existe. Revisa la información e intenta nuevamente");
+                    AddAdvertencia(this.ErroresFromModel().Texto);
                     return View("NuevoColor", model);
                 }
-                var color = new CatalogoValor
+
+                if (model.Accion == AccionesController.Nuevo)
                 {
-                    IdCatalogo = idCatalogo,
-                    Nombre = model.Color,
-                    Descripcion = model.Descripcion,
-                    IdUsuarioCreacion = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier)?.Value)
-                };
-                var response = await _catalogoValorService.Agregar(color);
+                    int idCatalogo = await ObtenerIdCatalogo();
+                    var responseVerify = await _catalogoValorService.ValidarCatalogo(idCatalogo, model.Color);
+                    if (responseVerify)
+                    {
+                        AddAdvertencia("El Color que intentas registrar ya existe. Revisa la información e intenta nuevamente");
+                        return View("NuevoColor", model);
+                    }
+                    var color = new CatalogoValor
+                    {
+                        IdCatalogo = idCatalogo,
+                        Nombre = model.Color,
+                        Descripcion = model.Descripcion,
+                        IdUsuarioCreacion = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier)?.Value)
+                    };
+                    var response = await _catalogoValorService.Agregar(color);
+                }
+                else
+                {
+                    var color = new CatalogoValor
+                    {
+                        IdCatalogo = model.IdCatalogo,
+                        IdCatalogoValor = model.IdColor,
+                        Nombre = model.Color,
+                        Descripcion = model.Descripcion,
+                        IdUsuarioModificacion = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier)?.Value),
+                        FechaModificacion = DateTime.Now,
+                    };
+                    var response = await _catalogoValorService.Actualizar(color);
+                }
+
+                AddExito(model.Accion == AccionesController.Nuevo
+            ? "Color registrado satisfactoriamente."
+            : "Color actualizado satisfactoriamente.");
+                return RedirectToAction("Administrar");
             }
-            else
+            catch (Exception ex)
             {
-                var color = new CatalogoValor
-                {
-                    IdCatalogo = model.IdCatalogo,
-                    IdCatalogoValor = model.IdColor,
-                    Nombre = model.Color,
-                    Descripcion = model.Descripcion,
-                    IdUsuarioModificacion = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier)?.Value),
-                    FechaModificacion = DateTime.Now,
-                };
-                var response = await _catalogoValorService.Actualizar(color);
+                AddError("Ha ocurrido un error. Contacte al Administrador.");
+                return View("NuevoColor", model);
+                throw;
             }
-
-
-            return RedirectToAction("Administrar");
+  
         }
     }
 }

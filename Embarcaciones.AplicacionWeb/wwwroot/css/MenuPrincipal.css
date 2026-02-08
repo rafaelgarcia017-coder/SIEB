@@ -1,5 +1,16 @@
 ﻿@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
 
+:root {
+    --white-color: #fff;
+    --blue-color: #4070f4;
+    --grey-color: #707070;
+    --grey-color-light: #aaa;
+    /* Layout */
+    --header-height: 40px;
+    --sidebar-width: 220px;
+    --sidebar-width-collapsed: 80px;
+}
+
 * {
     box-sizing: border-box;
     font-family: "Poppins", sans-serif;
@@ -7,7 +18,7 @@
 
 :root {
     --white-color: #fff;
-    --blue-color: #4070f4;
+    --blue-color: #0749ff;
     --grey-color: #707070;
     --grey-color-light: #aaa;
 }
@@ -86,23 +97,22 @@ body {
         font-size: 20px;
         color: var(--grey-color);
     }
-/* sidebar */
+
 .sidebar {
     background-color: var(--white-color);
-    width: 260px;
+    width: var(--sidebar-width);
     position: fixed;
-    top: 0;
+    top: var(--header-height);
     left: 0;
-    height: 100%;
-    padding: 80px 20px;
+    height: calc(100vh - var(--header-height));
+    padding: 20px;
     z-index: 100;
-    overflow-y: scroll;
-    box-shadow: 0 0 1px var(--grey-color-light);
-    transition: all 0.5s ease;
+    overflow-y: auto;
+    transition: all 0.3s ease;
 }
 
     .sidebar.close {
-        padding: 60px 0;
+        padding: 40px 0;
         width: 80px;
     }
 
@@ -112,6 +122,7 @@ body {
 
 .menu_content {
     position: relative;
+        left: -36px;
 }
 
 .menu_title {
@@ -250,7 +261,7 @@ body {
     justify-content: space-around;
     padding: 18px 0;
     text-align: center;
-    width: 100%;
+    width: 85%;
     color: var(--grey-color);
     border-top: 1px solid var(--grey-color-light);
     background-color: var(--white-color);
@@ -307,22 +318,15 @@ body {
     display: flex;
 }
 
-/* Sidebar */
-.sidebar {
-    width: 260px;
-    position: fixed;
-    top: 60px; /* Debajo del navbar */
-    left: 0;
-    height: calc(100vh - 60px);
-    padding: 20px;
-    transition: all 0.3s ease;
-}
-
 /* Main */
 .main {
     flex: 1;
-    margin-left: 260px; /* Ajusta según ancho sidebar */
-    transition: margin-left 0.3s ease;
+    margin-left: var(--sidebar-width);
+    padding: 20px;
+    padding-top: calc(var(--header-height) + 8px); /* para que no tape el header */
+    height: calc(100vh - var(--header-height));
+    overflow-y: auto;
+    box-sizing: border-box;
 }
 
 /* Sidebar colapsado */
@@ -331,7 +335,7 @@ body {
 }
 
     .sidebar.close ~ .main {
-        margin-left: 80px; /* Ajusta margen main si sidebar se colapsa */
+        margin-left: 45px; /* Ajusta margen main si sidebar se colapsa */
     }
 
 label, .card-header {

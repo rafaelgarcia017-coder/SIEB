@@ -9,7 +9,7 @@ namespace Embarcaciones.AplicacionWeb.Models.ViewModels.Catalogos.Color
 
         public int IdCatalogo { get; set; }
 
-        [Required(ErrorMessage = "Por Favor Ingrese un Puerto")]
+        [Required(ErrorMessage = "Por Favor Ingrese un Color")]
         public string Color { get; set; }
 
         public string? Descripcion { get; set; }
