@@ -9,7 +9,7 @@ namespace Embarcaciones.AplicacionWeb.Models.ViewModels.Catalogos.Actividad
 
         public int IdCatalogo { get; set; }
 
-        [Required(ErrorMessage = "Por Favor Ingrese una Bandera")]
+        [Required(ErrorMessage = "Por Favor Ingrese una Actividad")]
         public string Actividad { get; set; }
 
         public string? Descripcion { get; set; }

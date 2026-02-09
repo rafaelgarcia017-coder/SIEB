@@ -35,11 +35,15 @@
                                 @Html.HiddenFor(x => x.IdCatalogo)
                                 @Html.HiddenFor(x => x.IdBandera)
                                 @Html.HiddenFor(x => x.Accion)
-                                <label>Bandera::</label>
-                                <input type="text" class="form-control" asp-for="Bandera" />
-                                @Html.ValidationMessageFor(x => x.Bandera, "", new { @class = "text-danger" })
-                                <label class="mt-2">Descripcion:</label>
-                                <input type="text" class="form-control" asp-for="Descripcion" />
+                                <div class="form-group">
+                                    <label class="mt-2">Bandera:</label>
+                                    <input asp-for="Bandera" class="form-control" />
+                                    <span asp-validation-for="Bandera" class="text-danger mt-2 fw-bold"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label class="mt-2">Descripcion:</label>
+                                    <input asp-for="Descripcion" class="form-control" />
+                                </div>
                             </div>
                             <button class="btn btn-success mt-4"><i class="fa fa-save"></i> Guardar</button>
                             <a href="@Url.Action("Administrar", "Bandera")"

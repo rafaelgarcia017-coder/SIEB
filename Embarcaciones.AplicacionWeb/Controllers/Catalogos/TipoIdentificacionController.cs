@@ -57,46 +57,59 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Catalogos
         [HttpPost]
         public async Task<IActionResult> GuardarTipoIdentificacion(TipoIdentificacionVM model)
         {
-            if (!ModelState.IsValid)
+            try
             {
-                AddAdvertencia(this.ErroresFromModel().Texto);
-                return View("NuevoTipoIdentificacion", model);
-            }
-         
-            if (model.Accion == AccionesController.Nuevo)
-            {
-                int idCatalogo = await ObtenerIdCatalogo();
-                var responseVerify = await _catalogoValorService.ValidarCatalogo(idCatalogo, model.ValorTipoIdentificacion);
-                if (responseVerify)
+                if (!ModelState.IsValid)
                 {
-                    AddAdvertencia("El Tipo de Indentificacion que intentas registrar ya existe. Revisa la información e intenta nuevamente");
+                    AddAdvertencia(this.ErroresFromModel().Texto);
                     return View("NuevoTipoIdentificacion", model);
-                }              
-                var tipoIdentificacion = new CatalogoValor
+                }
+
+                if (model.Accion == AccionesController.Nuevo)
                 {
-                    IdCatalogo = idCatalogo,
-                    Nombre = model.ValorTipoIdentificacion,
-                    Descripcion = model.Descripcion,
-                    IdUsuarioCreacion = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier)?.Value)
-                };
-                var response = await _catalogoValorService.Agregar(tipoIdentificacion);
+                    int idCatalogo = await ObtenerIdCatalogo();
+                    var responseVerify = await _catalogoValorService.ValidarCatalogo(idCatalogo, model.ValorTipoIdentificacion);
+                    if (responseVerify)
+                    {
+                        AddAdvertencia("El Tipo de Indentificacion que intentas registrar ya existe. Revisa la información e intenta nuevamente");
+                        return View("NuevoTipoIdentificacion", model);
+                    }
+                    var tipoIdentificacion = new CatalogoValor
+                    {
+                        IdCatalogo = idCatalogo,
+                        Nombre = model.ValorTipoIdentificacion,
+                        Descripcion = model.Descripcion,
+                        IdUsuarioCreacion = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier)?.Value)
+                    };
+                    var response = await _catalogoValorService.Agregar(tipoIdentificacion);
+                }
+                else
+                {
+                    var tipoIdentificacion = new CatalogoValor
+                    {
+                        IdCatalogo = model.IdCatalogo,
+                        IdCatalogoValor = model.IdTipoIdentificacion,
+                        Nombre = model.ValorTipoIdentificacion,
+                        Descripcion = model.Descripcion,
+                        IdUsuarioModificacion = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier)?.Value),
+                        FechaModificacion = DateTime.Now,
+                    };
+                    var response = await _catalogoValorService.Actualizar(tipoIdentificacion);
+                }
+
+                AddExito(model.Accion == AccionesController.Nuevo
+                                                                ? "Tipo de Identificacion registrada satisfactoriamente."
+                                                                : "Tipo de Identificacion actualizada satisfactoriamente.");
+
+                return RedirectToAction("Administrar");
             }
-            else
+            catch (Exception)
             {
-                var tipoIdentificacion = new CatalogoValor
-                {
-                    IdCatalogo = model.IdCatalogo,
-                    IdCatalogoValor = model.IdTipoIdentificacion,
-                    Nombre = model.ValorTipoIdentificacion,
-                    Descripcion = model.Descripcion,
-                    IdUsuarioModificacion = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier)?.Value),
-                    FechaModificacion = DateTime.Now,
-                };
-                var response = await _catalogoValorService.Actualizar(tipoIdentificacion);
+                AddError("Ha ocurrido un error. Contacte al Administrador.");
+                return View("NuevoZonaNavegacion", model);
+                throw;
             }
-
-
-            return RedirectToAction("Administrar");
+           
         }
 
         public async Task<IActionResult> EditarTipoIdentificacion(int id)

@@ -46,40 +46,53 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Catalogos
         [HttpPost]
         public async Task <IActionResult> GuardarDepartamento(DepartamentoVM model)
         {
-            if (!ModelState.IsValid)
+            try
             {
-                AddAdvertencia(this.ErroresFromModel().Texto);
-                return View("NuevoDepartamento", model);
-            }
-            if (model.Accion == AccionesController.Nuevo)
-            {
-                var responseVerify = await _departamentoService.ValidarDuplicados(model.Departamento);
-                if (responseVerify)
+                if (!ModelState.IsValid)
                 {
-                    AddAdvertencia("El departamento que intentas registrar ya existe. Revisa la información e intenta nuevamente");
+                    AddAdvertencia(this.ErroresFromModel().Texto);
                     return View("NuevoDepartamento", model);
                 }
-                var departamento = new Departamento
+                if (model.Accion == AccionesController.Nuevo)
                 {
-                    Departamento1 = model.Departamento,
-                    Descripcion = model.Descripcion,
-                    IdUsuarioCreacion = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier)?.Value)
-                };
-                var response = await _departamentoService.Agregar(departamento);
+                    var responseVerify = await _departamentoService.ValidarDuplicados(model.Departamento);
+                    if (responseVerify)
+                    {
+                        AddAdvertencia("El departamento que intentas registrar ya existe. Revisa la información e intenta nuevamente");
+                        return View("NuevoDepartamento", model);
+                    }
+                    var departamento = new Departamento
+                    {
+                        Departamento1 = model.Departamento,
+                        Descripcion = model.Descripcion,
+                        IdUsuarioCreacion = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier)?.Value)
+                    };
+                    var response = await _departamentoService.Agregar(departamento);
+                }
+                else
+                {
+                    var departamento = new Departamento
+                    {
+                        IdDepartamento = model.IdDepartamento,
+                        Departamento1 = model.Departamento,
+                        Descripcion = model.Descripcion,
+                        IdUsuarioModificacion = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier)?.Value),
+                        FechaModificacion = DateTime.Now
+                    };
+                    var response = await _departamentoService.Actualizar(departamento);
+                }
+                AddExito(model.Accion == AccionesController.Nuevo
+                                                                            ? "Departamento registrado satisfactoriamente."
+                                                                            : "Departamento actualizado satisfactoriamente.");
+                return RedirectToAction("Administrar");
             }
-            else
+            catch (Exception)
             {
-                var departamento = new Departamento
-                {
-                    IdDepartamento = model.IdDepartamento,
-                    Departamento1 = model.Departamento,
-                    Descripcion = model.Descripcion,
-                    IdUsuarioModificacion = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier)?.Value),
-                    FechaModificacion = DateTime.Now
-                };
-                var response = await _departamentoService.Actualizar(departamento);
+                AddError("Ha ocurrido un error. Contacte al Administrador.");
+                return View("NuevoDepartamento", model);
+                throw;
             }
-            return RedirectToAction("Administrar");
+
         }
 
         public async Task< IActionResult> EditarDepartamento(int id)

@@ -12,7 +12,7 @@ namespace Embarcaciones.DAL.Repositorio
         Task<bool> Agregar(Persona modelo);
         Task<bool> Actualizar(Persona modelo);
         Task<bool> Eliminar(int id);
-        Task<bool> ValidarPersonasDuplicadas(string nombreCompleto, string identificacion, int idTipoIdentificacion );
+        Task<bool> ValidarPersonasDuplicadas(string nombreCompleto, string? identificacion, int? idTipoIdentificacion, int? idPersona );
         Task<Persona> Obtener(int id);
         IQueryable<Persona> ObtenerTodos();
     }

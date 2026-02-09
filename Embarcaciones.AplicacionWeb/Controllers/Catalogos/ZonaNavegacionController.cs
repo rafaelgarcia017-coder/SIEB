@@ -114,7 +114,7 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Catalogos
                                                                                 : "Zona de Navegacion actualizada satisfactoriamente.");
                 return RedirectToAction("Administrar");
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 AddError("Ha ocurrido un error. Contacte al Administrador.");
                 return View("NuevoZonaNavegacion", model);

@@ -66,48 +66,60 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Catalogos
             return View("NuevoActividad", model);
         }
         [HttpPost]
-        public async Task<IActionResult> GuardarActiviadd(ActividadVM model)
+        public async Task<IActionResult> GuardarActividad(ActividadVM model)
         {
-            if (!ModelState.IsValid)
+            try
             {
-                AddAdvertencia(this.ErroresFromModel().Texto);
-                return View("NuevoActividad", model);
-            }
-
-            if (model.Accion == AccionesController.Nuevo)
-            {
-                int idCatalogo = await ObtenerIdCatalogo();
-                var responseVerify = await _catalogoValorService.ValidarCatalogo(idCatalogo, model.Actividad);
-                if (responseVerify)
+                if (!ModelState.IsValid)
                 {
-                    AddAdvertencia("La Actividad que intentas registrar ya existe. Revisa la información e intenta nuevamente");
+                    AddAdvertencia(this.ErroresFromModel().Texto);
                     return View("NuevoActividad", model);
                 }
-                var tipoIdentificacion = new CatalogoValor
+
+                if (model.Accion == AccionesController.Nuevo)
                 {
-                    IdCatalogo = idCatalogo,
-                    Nombre = model.Actividad,
-                    Descripcion = model.Descripcion,
-                    IdUsuarioCreacion = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier)?.Value)
-                };
-                var response = await _catalogoValorService.Agregar(tipoIdentificacion);
+                    int idCatalogo = await ObtenerIdCatalogo();
+                    var responseVerify = await _catalogoValorService.ValidarCatalogo(idCatalogo, model.Actividad);
+                    if (responseVerify)
+                    {
+                        AddAdvertencia("La Actividad que intentas registrar ya existe. Revisa la información e intenta nuevamente");
+                        return View("NuevoActividad", model);
+                    }
+                    var tipoIdentificacion = new CatalogoValor
+                    {
+                        IdCatalogo = idCatalogo,
+                        Nombre = model.Actividad,
+                        Descripcion = model.Descripcion,
+                        IdUsuarioCreacion = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier)?.Value)
+                    };
+                    var response = await _catalogoValorService.Agregar(tipoIdentificacion);
+                }
+                else
+                {
+                    var tipoIdentificacion = new CatalogoValor
+                    {
+                        IdCatalogo = model.IdCatalogo,
+                        IdCatalogoValor = model.IdActividad,
+                        Nombre = model.Actividad,
+                        Descripcion = model.Descripcion,
+                        IdUsuarioModificacion = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier)?.Value),
+                        FechaModificacion = DateTime.Now,
+                    };
+                    var response = await _catalogoValorService.Actualizar(tipoIdentificacion);
+                }
+
+                AddExito(model.Accion == AccionesController.Nuevo
+                                                                        ? "Actividad registrada satisfactoriamente."
+                                                                        : "Actividad actualizada satisfactoriamente.");
+                return RedirectToAction("Administrar");
             }
-            else
+            catch (Exception ex)
             {
-                var tipoIdentificacion = new CatalogoValor
-                {
-                    IdCatalogo = model.IdCatalogo,
-                    IdCatalogoValor = model.IdActividad,
-                    Nombre = model.Actividad,
-                    Descripcion = model.Descripcion,
-                    IdUsuarioModificacion = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier)?.Value),
-                    FechaModificacion = DateTime.Now,
-                };
-                var response = await _catalogoValorService.Actualizar(tipoIdentificacion);
+                AddError("Ha ocurrido un error. Contacte al Administrador.");
+                return View("NuevoActividad", model);
+                throw;
             }
-
-
-            return RedirectToAction("Administrar");
+    
         }
     }
 }

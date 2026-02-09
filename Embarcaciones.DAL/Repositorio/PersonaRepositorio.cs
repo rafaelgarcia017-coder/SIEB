@@ -20,13 +20,15 @@ namespace Embarcaciones.DAL.Repositorio
         public async Task<bool> Actualizar(Persona modelo)
         {
             _dbcontext.Personas.Attach(modelo);
-           
-            _dbcontext.Entry(modelo).Property(x=> x.NombreCompleto).IsModified = true;
+
+            _dbcontext.Entry(modelo).Property(x => x.NombreCompleto).IsModified = true;
             _dbcontext.Entry(modelo).Property(x => x.Direccion).IsModified = true;
             _dbcontext.Entry(modelo).Property(x => x.Correo).IsModified = true;
             _dbcontext.Entry(modelo).Property(x => x.Telefono).IsModified = true;
             _dbcontext.Entry(modelo).Property(x => x.IdTipoIdentificacion).IsModified = true;
             _dbcontext.Entry(modelo).Property(x => x.Identificacion).IsModified = true;
+            _dbcontext.Entry(modelo).Property(x => x.IdUsuarioModificacion).IsModified = true;
+            _dbcontext.Entry(modelo).Property(x => x.FechaModificacion).IsModified = true;
             await _dbcontext.SaveChangesAsync();
             return true;
         }
@@ -56,19 +58,59 @@ namespace Embarcaciones.DAL.Repositorio
             IQueryable<Persona> queryPersona = _dbcontext.Personas
                                                                                   .Include(d => d.UsuarioCreacionNavigation)
                                                                                   .Include(d => d.UsuarioModificacionNavigation)
-                                                                                  .Include(i=> i.TipoIdentificacionNavigation)
+                                                                                  .Include(i => i.TipoIdentificacionNavigation)
                                                                                   .Where(w => (bool)w.EstaActivo);
             return queryPersona;
-        }   
-
-        public async Task<bool> ValidarPersonasDuplicadas(string nombreCompleto, string identificacion, int idTipoIdentificacion)
-        {
-            return await _dbcontext.Personas
-                              .AnyAsync(a => (bool)a.EstaActivo == true &&
-                                                      a.NombreCompleto == nombreCompleto &&
-                                                      a.IdTipoIdentificacion == idTipoIdentificacion &&
-                                                      a.Identificacion == identificacion
-                                                     );
         }
+
+        public async Task<bool> ValidarPersonasDuplicadas(string nombreCompleto, string identificacion, int? idTipoIdentificacion, int? id)
+        {
+
+            var nombreNormalizado = nombreCompleto?.Trim().ToUpper();
+            var identificacionTrim = identificacion?.Trim();
+
+            // 1️⃣ Solo por nombre
+            if (!string.IsNullOrWhiteSpace(nombreNormalizado) &&
+                string.IsNullOrWhiteSpace(identificacionTrim) &&
+                !idTipoIdentificacion.HasValue)
+            {
+                return await _dbcontext.Personas.AnyAsync(a =>
+                    a.EstaActivo == true &&
+                    a.NombreCompleto.Trim().ToUpper() == nombreNormalizado &&
+                    (!id.HasValue || a.IdPersona != id.Value)
+                );
+            }
+            // 2️⃣ Nombre + tipo de identificación (sin identificación)
+            else if (!string.IsNullOrWhiteSpace(nombreNormalizado) &&
+                     idTipoIdentificacion.HasValue &&
+                     string.IsNullOrWhiteSpace(identificacionTrim))
+            {
+                return await _dbcontext.Personas.AnyAsync(a =>
+                    a.EstaActivo == true &&
+                    a.NombreCompleto.Trim().ToUpper() == nombreNormalizado &&
+                    a.IdTipoIdentificacion == idTipoIdentificacion.Value &&
+                    (!id.HasValue || a.IdPersona != id.Value)
+                );
+            }
+            // 3️⃣ Nombre + tipo + identificación
+            else if (!string.IsNullOrWhiteSpace(nombreNormalizado) &&
+                     idTipoIdentificacion.HasValue &&
+                     !string.IsNullOrWhiteSpace(identificacionTrim))
+            {
+                return await _dbcontext.Personas.AnyAsync(a =>
+                    a.EstaActivo == true &&
+                    a.NombreCompleto.Trim().ToUpper() == nombreNormalizado &&
+                    a.IdTipoIdentificacion == idTipoIdentificacion.Value &&
+                    a.Identificacion == identificacionTrim &&
+                    (!id.HasValue || a.IdPersona != id.Value)
+                );
+            }
+
+            // 4️⃣ Caso sin nada que validar
+            return false;
+
+        }
+
+
     }
 }

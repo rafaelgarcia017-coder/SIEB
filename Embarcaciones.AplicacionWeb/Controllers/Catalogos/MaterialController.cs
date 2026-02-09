@@ -66,46 +66,58 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Catalogos
         [HttpPost]
         public async Task<IActionResult> GuardarMaterial(MaterialVM model)
         {
-            if (!ModelState.IsValid)
+            try
             {
-                AddAdvertencia(this.ErroresFromModel().Texto);
-                return View("NuevoMaterial", model);
-            }
-
-            if (model.Accion == AccionesController.Nuevo)
-            {
-                int idCatalogo = await ObtenerIdCatalogo();
-                var responseVerify = await _catalogoValorService.ValidarCatalogo(idCatalogo, model.Material);
-                if (responseVerify)
+                if (!ModelState.IsValid)
                 {
-                    AddAdvertencia("El Material que intentas registrar ya existe. Revisa la información e intenta nuevamente");
+                    AddAdvertencia(this.ErroresFromModel().Texto);
                     return View("NuevoMaterial", model);
                 }
-                var material = new CatalogoValor
+
+                if (model.Accion == AccionesController.Nuevo)
                 {
-                    IdCatalogo = idCatalogo,
-                    Nombre = model.Material,
-                    Descripcion = model.Descripcion,
-                    IdUsuarioCreacion = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier)?.Value)
-                };
-                var response = await _catalogoValorService.Agregar(material);
+                    int idCatalogo = await ObtenerIdCatalogo();
+                    var responseVerify = await _catalogoValorService.ValidarCatalogo(idCatalogo, model.Material);
+                    if (responseVerify)
+                    {
+                        AddAdvertencia("El Material que intentas registrar ya existe. Revisa la información e intenta nuevamente");
+                        return View("NuevoMaterial", model);
+                    }
+                    var material = new CatalogoValor
+                    {
+                        IdCatalogo = idCatalogo,
+                        Nombre = model.Material,
+                        Descripcion = model.Descripcion,
+                        IdUsuarioCreacion = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier)?.Value)
+                    };
+                    var response = await _catalogoValorService.Agregar(material);
+                }
+                else
+                {
+                    var material = new CatalogoValor
+                    {
+                        IdCatalogo = model.IdCatalogo,
+                        IdCatalogoValor = model.IdMaterial,
+                        Nombre = model.Material,
+                        Descripcion = model.Descripcion,
+                        IdUsuarioModificacion = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier)?.Value),
+                        FechaModificacion = DateTime.Now,
+                    };
+                    var response = await _catalogoValorService.Actualizar(material);
+                }
+                AddExito(model.Accion == AccionesController.Nuevo
+                                                                ? "Material registrado satisfactoriamente."
+                                                                : "Material actualizada satisfactoriamente.");
+
+                return RedirectToAction("Administrar");
             }
-            else
+            catch (Exception ex)
             {
-                var material = new CatalogoValor
-                {
-                    IdCatalogo = model.IdCatalogo,
-                    IdCatalogoValor = model.IdMaterial,
-                    Nombre = model.Material,
-                    Descripcion = model.Descripcion,
-                    IdUsuarioModificacion = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier)?.Value),
-                    FechaModificacion = DateTime.Now,
-                };
-                var response = await _catalogoValorService.Actualizar(material);
+                AddError("Ha ocurrido un error. Contacte al Administrador.");
+                return View("NuevoMaterial", model);
+                throw;
             }
 
-
-            return RedirectToAction("Administrar");
         }
     }
 }

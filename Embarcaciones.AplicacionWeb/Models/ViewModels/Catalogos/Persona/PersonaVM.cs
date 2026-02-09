@@ -1,11 +1,13 @@
 ﻿using Embarcaciones.AplicacionWeb.Models.Utils;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.ComponentModel.DataAnnotations;
 
 namespace Embarcaciones.AplicacionWeb.Models.ViewModels.Catalogos.Persona
 {
     public class PersonaVM:FormViewModelBase
     {
         public int IdPersona { get; set; }
+        [Required(ErrorMessage = "Por Favor Ingrese el Nombre Completo")]
         public string NombreCompleto { get; set; } = null!;
         public int? IdTipoIdentificacion { get; set; }
         public string? TipoIdentificacion { get; set; }

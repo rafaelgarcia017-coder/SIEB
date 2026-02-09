@@ -42,13 +42,13 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Catalogos
                    .Select(s => new PersonaVM
                    {
                        IdPersona = s.IdPersona,
-                       NombreCompleto = s.NombreCompleto,                     
-                       TipoIdentificacion = s.TipoIdentificacionNavigation?.Nombre ??"" ,
+                       NombreCompleto = s.NombreCompleto,
+                       TipoIdentificacion = s.TipoIdentificacionNavigation?.Nombre ?? "",
                        Identificacion = s.Identificacion,
                        Direccion = s.Direccion,
                        Telefono = s.Telefono,
                        Correo = s.Correo,
-                       FechaCreacion = s.FechaCreacion.ToString("dd/MM/yyyy"),                  
+                       FechaCreacion = s.FechaCreacion.ToString("dd/MM/yyyy"),
                        UsuarioCreacion = s.UsuarioCreacionNavigation?.Usuario ?? ""
 
                    }).ToList()
@@ -61,66 +61,108 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Catalogos
         public async Task<PersonaVM> LlenarModelo(PersonaVM viewModel = null)
         {
             viewModel = viewModel ?? new PersonaVM();
-            int  idCatalogo  =  await ObtenerIdCatalogo();
+            int idCatalogo = await ObtenerIdCatalogo();
             var tipoIdentificaciones = _catalogoValorService.ObtenerTodos(idCatalogo).ToList();
-            viewModel.ListaTipoIdentificacion = tipoIdentificaciones.Select(x => new SelectListItem { 
-              Value = x.IdCatalogoValor.ToString(),
-              Text  = x.Nombre            
+            viewModel.ListaTipoIdentificacion = tipoIdentificaciones.Select(x => new SelectListItem
+            {
+                Value = x.IdCatalogoValor.ToString(),
+                Text = x.Nombre
             }).ToList();
 
             return viewModel;
         }
-        public async Task< IActionResult> NuevaPersona()
+        public async Task<IActionResult> NuevaPersona()
         {
             var model = await LlenarModelo();
             model.Accion = AccionesController.Nuevo;
             return View("NuevaPersona", model);
         }
         [HttpPost]
-        public async Task< IActionResult> GuardarPersona(PersonaVM model)
-        {            
-            if (!ModelState.IsValid) {
-                AddAdvertencia(this.ErroresFromModel().Texto);
-                return View("NuevaPersona",await LlenarModelo(model));
-            }
-            if (model.Accion == AccionesController.Nuevo)
+        public async Task<IActionResult> GuardarPersona(PersonaVM model)
+        {
+            try
             {
-                var responseVerify = await _personaService.ValidarDuplicados(model.NombreCompleto, model.Identificacion,model.IdTipoIdentificacion ?? 0);
-                if (responseVerify)
+                if (!ModelState.IsValid)
                 {
-                    AddAdvertencia("La Persona que intentas registrar ya existe. Revisa la información e intenta nuevamente");
-                    return View("NuevaPersona", LlenarModelo(model));
+                    AddAdvertencia(this.ErroresFromModel().Texto);
+                    return View("NuevaPersona", await LlenarModelo(model));
                 }
-                var persona = new Persona
+                if (model.Accion == AccionesController.Nuevo)
                 {
-                    NombreCompleto = model.NombreCompleto,
-                    IdTipoIdentificacion = model.IdTipoIdentificacion,
-                    Identificacion = model.Identificacion,
-                    Direccion = model.Direccion,
-                    Telefono = model.Telefono,
-                    Correo = model.Correo,
-                    IdUsuarioCreacion = idUsuario
-                };
+                    var responseVerify = await _personaService.ValidarDuplicados(model.NombreCompleto, model.Identificacion ?? null, model.IdTipoIdentificacion ?? null, null);
+                    if (responseVerify)
+                    {
+                        AddAdvertencia("La Persona que intentas registrar ya existe. Revisa la información e intenta nuevamente");
+                        return View("NuevaPersona", await LlenarModelo(model));
+                    }
+                    var persona = new Persona
+                    {
+                        NombreCompleto = model.NombreCompleto,
+                        IdTipoIdentificacion = model.IdTipoIdentificacion,
+                        Identificacion = model.Identificacion,
+                        Direccion = model.Direccion,
+                        Telefono = model.Telefono,
+                        Correo = model.Correo,
+                        IdUsuarioCreacion = idUsuario
+                    };
 
-                bool response = await _personaService.Agregar(persona);
-            }
-            else {
-                var persona = new Persona
+                    bool response = await _personaService.Agregar(persona);
+                }
+                else
                 {
-                    NombreCompleto = model.NombreCompleto,
-                    IdTipoIdentificacion = model.IdTipoIdentificacion,
-                    Identificacion = model.Identificacion,
-                    Direccion = model.Direccion,
-                    Telefono = model.Telefono,
-                    Correo = model.Correo,
-                    IdUsuarioModificacion = idUsuario,
-                    FechaModificacion =DateTime.Now
-                };
+                    var responseVerify = await _personaService.ValidarDuplicados(model.NombreCompleto, model.Identificacion ?? string.Empty, model.IdTipoIdentificacion ?? null, model.IdPersona);
+                    if (responseVerify)
+                    {
+                        AddAdvertencia("La Persona que intentas registrar ya existe. Revisa la información e intenta nuevamente");
+                        return View("NuevaPersona", await LlenarModelo(model));
+                    }
+                    var persona = new Persona
+                    {
+                        IdPersona = model.IdPersona,
+                        NombreCompleto = model.NombreCompleto,
+                        IdTipoIdentificacion = model.IdTipoIdentificacion,
+                        Identificacion = model.Identificacion,
+                        Direccion = model.Direccion,
+                        Telefono = model.Telefono,
+                        Correo = model.Correo,
+                        IdUsuarioModificacion = idUsuario,
+                        FechaModificacion = DateTime.Now
+                    };
 
-                bool response = await _personaService.Actualizar(persona);
+                    bool response = await _personaService.Actualizar(persona);
+                }
+
+                AddExito(model.Accion == AccionesController.Nuevo
+                                                                     ? "Persona registrada satisfactoriamente."
+                                                                     : "Persona actualizada satisfactoriamente.");
+
+                return RedirectToAction("Administrar");
             }
-            
-             return RedirectToAction("Administrar");
+            catch (Exception ex)
+            {
+                AddError("Ha ocurrido un error. Contacte al Administrador.");
+                return View("NuevaPersona", await LlenarModelo(model));
+                throw;
+            }
+
+        }
+
+        public async Task<IActionResult> EditarPersona(int id)
+        {
+            var persona = await _personaService.Obtener(id);
+
+            var model = new PersonaVM
+            {
+                IdPersona = persona.IdPersona,
+                NombreCompleto = persona.NombreCompleto,
+                Correo = persona.Correo,
+                Telefono = persona.Telefono,
+                IdTipoIdentificacion = persona.IdTipoIdentificacion,
+                Identificacion = persona.Identificacion,
+                Direccion = persona.Direccion,
+                Accion = AccionesController.Editar
+            };
+            return View("NuevaPersona", await LlenarModelo(model));
         }
 
     }

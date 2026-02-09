@@ -53,44 +53,54 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Catalogos
         [HttpPost]
         public async Task<IActionResult> GuardarBandera(BanderaVM model)
         {
-            if (!ModelState.IsValid)
+            try
             {
-                AddAdvertencia(this.ErroresFromModel().Texto);
-                return View("NuevoBandera", model);
-            }
-
-            if (model.Accion == AccionesController.Nuevo)
-            {
-                int idCatalogo = await ObtenerIdCatalogo();
-                var responseVerify = await _catalogoValorService.ValidarCatalogo(idCatalogo, model.Bandera);
-                if (responseVerify)
+                if (!ModelState.IsValid)
                 {
-                    AddAdvertencia("La Bandera que intentas registrar ya existe. Revisa la información e intenta nuevamente");
+                    AddAdvertencia(this.ErroresFromModel().Texto);
                     return View("NuevoBandera", model);
                 }
-                var bandera = new CatalogoValor
+
+                if (model.Accion == AccionesController.Nuevo)
                 {
-                    IdCatalogo = idCatalogo,
-                    Nombre = model.Bandera,
-                    Descripcion = model.Descripcion,
-                    IdUsuarioCreacion = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier)?.Value)
-                };
-                var response = await _catalogoValorService.Agregar(bandera);
+                    int idCatalogo = await ObtenerIdCatalogo();
+                    var responseVerify = await _catalogoValorService.ValidarCatalogo(idCatalogo, model.Bandera);
+                    if (responseVerify)
+                    {
+                        AddAdvertencia("La Bandera que intentas registrar ya existe. Revisa la información e intenta nuevamente");
+                        return View("NuevoBandera", model);
+                    }
+                    var bandera = new CatalogoValor
+                    {
+                        IdCatalogo = idCatalogo,
+                        Nombre = model.Bandera,
+                        Descripcion = model.Descripcion,
+                        IdUsuarioCreacion = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier)?.Value)
+                    };
+                    var response = await _catalogoValorService.Agregar(bandera);
+                }
+                else
+                {
+                    var bandera = new CatalogoValor
+                    {
+                        IdCatalogo = model.IdCatalogo,
+                        IdCatalogoValor = model.IdBandera,
+                        Nombre = model.Bandera,
+                        Descripcion = model.Descripcion,
+                        IdUsuarioModificacion = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier)?.Value),
+                        FechaModificacion = DateTime.Now,
+                    };
+                    var response = await _catalogoValorService.Actualizar(bandera);
+                }
+                return RedirectToAction("Administrar");
             }
-            else
+            catch (Exception ex)
             {
-                var bandera = new CatalogoValor
-                {
-                    IdCatalogo = model.IdCatalogo,
-                    IdCatalogoValor = model.IdBandera,
-                    Nombre = model.Bandera,
-                    Descripcion = model.Descripcion,
-                    IdUsuarioModificacion = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier)?.Value),
-                    FechaModificacion = DateTime.Now,
-                };
-                var response = await _catalogoValorService.Actualizar(bandera);
+                AddError("Ha ocurrido un error. Contacte al Administrador.");
+                return View("NuevoBandera", model);
+                throw;
             }
-            return RedirectToAction("Administrar");
+     
         }
         public async Task<IActionResult> EditarBandera(int id)
         {

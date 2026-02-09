@@ -14,7 +14,7 @@ namespace Embarcaciones.BLL.Service
         Task<bool> Eliminar(int id);
         Task<Persona> Obtener(int id);
         IQueryable<Persona> ObtenerTodos();
-        Task<bool> ValidarDuplicados(string nombreCompleto, string identificacion, int idTipoIdentificacion);
+        Task<bool> ValidarDuplicados(string nombreCompleto, string? identificacion, int? idTipoIdentificacion, int? IdPersona);
         Task<Persona> ObtenerPorNombre(string nombre);
     }
 }

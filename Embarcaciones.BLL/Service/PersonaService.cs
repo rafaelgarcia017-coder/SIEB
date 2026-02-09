@@ -49,9 +49,9 @@ namespace Embarcaciones.BLL.Service
             return (IQueryable<Persona>)_personaRepo.ObtenerTodos();
         }  
 
-        public async Task<bool> ValidarDuplicados(string nombreCompleto, string identificacion, int idTipoIdentificacion)
+        public async Task<bool> ValidarDuplicados(string nombreCompleto, string? identificacion, int? idTipoIdentificacion, int? idPersona)
         {
-            return await _personaRepo.ValidarPersonasDuplicadas(nombreCompleto,identificacion, idTipoIdentificacion);
+            return await _personaRepo.ValidarPersonasDuplicadas(nombreCompleto,identificacion, idTipoIdentificacion, idPersona);
         }
     }
 }

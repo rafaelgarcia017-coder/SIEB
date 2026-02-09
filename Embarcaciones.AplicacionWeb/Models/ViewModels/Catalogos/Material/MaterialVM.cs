@@ -9,7 +9,7 @@ namespace Embarcaciones.AplicacionWeb.Models.ViewModels.Catalogos.Material
 
         public int IdCatalogo { get; set; }
 
-        [Required(ErrorMessage = "Por Favor Ingrese una Bandera")]
+        [Required(ErrorMessage = "Por Favor Ingrese un Material")]
         public string Material { get; set; }
 
         public string? Descripcion { get; set; }

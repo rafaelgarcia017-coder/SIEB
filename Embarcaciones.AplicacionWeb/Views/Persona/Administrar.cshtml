@@ -53,7 +53,13 @@
                                     Identificacion: <b>@item.Identificacion</b><br />
                                     Direccion: <b>@item.Direccion</b> 
                                 </td>
-                                <td>
+                                <td class="td-center">
+                                    <a href="@Url.Action("EditarPersona", "Persona", new { id = item.IdPersona })" )"
+                                       class="btn btn-primary btn-table">
+                                        <i class="fa fa-edit"></i>
+                                    </a>
+
+                                    <button class="btn btn-danger btn-table"><i class="fa fa-trash"></i></button>
                                 </td>
                             </tr>
 
