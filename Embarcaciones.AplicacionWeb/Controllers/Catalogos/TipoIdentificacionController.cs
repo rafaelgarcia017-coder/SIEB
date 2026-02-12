@@ -26,7 +26,7 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Catalogos
             return id;
         }
 
-        public async Task<IActionResult> Administrar()
+        public async Task<AdministraTipoIdentificacionVM> LlenarAdministrar()
         {
             int idCatalogo = await ObtenerIdCatalogo();
             var obtenerRegistro = await _catalogoValorService.ObtenerTodos(idCatalogo).ToListAsync();
@@ -44,7 +44,34 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Catalogos
                 }).ToList()
 
             };
-            return View("Administrar", model);
+            return model;
+        }
+
+        public async Task<IActionResult> Administrar()
+        {
+            var modelo = await LlenarAdministrar();
+            return View("Administrar", modelo);
+        }
+        [HttpPost]
+        public async Task<ActionResult> EliminarTipoIdentificacion(int id)
+        {
+            var puedeEliminar = await _catalogoValorService.ValidarEliminar(id, "TIDF");
+
+            if (!puedeEliminar)
+                return Json(new { success = false, mensaje = "No se puede eliminar este registro porque está asociado a otros datos. Para continuar, primero desvincule o elimine los registros relacionados." });
+
+            var tipoIdentificacion = new CatalogoValor
+            {
+                IdCatalogoValor = id,
+                //EstaActivo = false,
+                //EsHistorico = true,
+                IdUsuarioModificacion = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier)?.Value),
+                FechaModificacion = DateTime.Now
+            };
+
+            await _catalogoValorService.Eliminar(tipoIdentificacion);
+
+            return Json(new { success = true, mensaje = "Se eliminó con éxito." });
         }
 
         public ActionResult NuevoTipoIdentificacion()
@@ -109,7 +136,7 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Catalogos
                 return View("NuevoZonaNavegacion", model);
                 throw;
             }
-           
+
         }
 
         public async Task<IActionResult> EditarTipoIdentificacion(int id)
@@ -126,6 +153,6 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Catalogos
             return View("NuevoTipoIdentificacion", model);
         }
 
-    } 
+    }
 
 }

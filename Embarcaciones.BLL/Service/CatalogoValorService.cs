@@ -26,9 +26,9 @@ namespace Embarcaciones.BLL.Service
             return await _catValorRepositorio.Agregar(entity);
         }
 
-        public Task<bool> Eliminar(int id)
+        public async Task<bool> Eliminar(CatalogoValor entity)
         {
-            throw new NotImplementedException();
+            return await _catValorRepositorio.Eliminar(entity);
         }
 
         public async Task<CatalogoValor> Obtener(int id)
@@ -44,6 +44,10 @@ namespace Embarcaciones.BLL.Service
         public async Task<bool> ValidarCatalogo(int idCatalogo, string valor)
         {
             return await _catValorRepositorio.ValidarCatalogo (idCatalogo,valor);
+        }
+        public async Task<bool> ValidarEliminar(int idCatalogo, string valor)
+        {
+            return await _catValorRepositorio.ValidarEliminar(idCatalogo, valor);
         }
     }
 }

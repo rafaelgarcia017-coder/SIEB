@@ -13,7 +13,8 @@ namespace Embarcaciones.BLL.Service
         IQueryable<CatalogoValor> ObtenerTodos(int idCatalogo);
         Task<bool> Agregar(CatalogoValor entity);
         Task<bool> Actualizar(CatalogoValor entity);
-        Task<bool> Eliminar(int id);
+        Task<bool> Eliminar(CatalogoValor entity);
         Task<bool> ValidarCatalogo(int idCatalogo, string valor);
+        Task<bool> ValidarEliminar(int idCatalogo, string valor);
     }
 }
