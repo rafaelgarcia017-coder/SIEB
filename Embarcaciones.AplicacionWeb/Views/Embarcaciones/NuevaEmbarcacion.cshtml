@@ -37,136 +37,285 @@
 
 
 
-<div class="card-body">
-    <div class="card-header">
-        <div class="d-flex justify-content-end">
-            <nav aria-label="breadcrumb">
-                <ol class="breadcrumb mb-0">
-                    <li class="breadcrumb-item">SIEB</li>
-                    <li class="breadcrumb-item active" aria-current="page">Embarcacion</li>
-                    <li class="breadcrumb-item active" aria-current="page">@ViewBag.Accion Embarcacion</li>
-                    <input type="hidden" asp-for="EmbarcacionPropietario.EmpresaPropietario" />
-                    <input type="hidden" asp-for="Accion" id="hd-accion" />
-                </ol>
-            </nav>
-        </div>
-    </div>
-    <div class="card-body">
-        <div class="card-header text-white bg-primary">
-            Datos del Propietario
-        </div>
-        <div class="card-body">
-            <div class="row g-3">
-                <!-- g-3 añade espacio entre columnas y filas -->
-
-                <div class="col-md-6">
-                    <label asp-for="EmbarcacionPropietario.NombreCompleto" class="form-label"></label>
-                    <input asp-for="EmbarcacionPropietario.NombreCompleto" class="form-control" />
+<div class="row">
+    <div class="col-md-12">
+        <div class="card shadow-sm">
+            <div class="card-header">
+                <div class="d-flex justify-content-end">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb mb-0">
+                            <li class="breadcrumb-item">SIEB</li>
+                            <li class="breadcrumb-item active" aria-current="page">Embarcacion</li>
+                            <li class="breadcrumb-item active" aria-current="page">@ViewBag.Accion Embarcacion</li>
+                            <input type="hidden" asp-for="EmbarcacionPropietario.EmpresaPropietario" />
+                            <input type="hidden" asp-for="Accion" id="hd-accion" />
+                        </ol>
+                    </nav>
                 </div>
-
-                <div class="col-md-3">
-                    <label asp-for="EmbarcacionPropietario.Nacionalidad" class="form-label"></label>
-                    <select asp-for="EmbarcacionPropietario.Nacionalidad"
-                            asp-items="Model.EmbarcacionPropietario.ListaNacionalidad"
-                            class="form-select" id="cmb-nacionalidad">
-                        <option value=""></option>
-                    </select>
+            </div>
+            <div class="card-body shadow-sm">
+                <div class="card-header text-white bg-primary">
+                    Datos del Propietario
                 </div>
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-md-3">
+                            <label asp-for="EmbarcacionPropietario.NombreCompleto" class="form-label"></label>
+                            <input asp-for="EmbarcacionPropietario.NombreCompleto" class="form-control" />
+                        </div>
 
-                <div class="col-md-3 d-flex justify-content-center align-items-center">
-                    <!-- Aquí va la imagen -->
-                    <div class="contenedor-imagen">
-                        <label for="ImagenFile" style="cursor:pointer;">
-                            <img id="preview"
-                                 src="@(string.IsNullOrEmpty(Model?.EmbarcacionPropietario.UrlImagen) ? "/imagenes/placeholder.png" : Url.Content(Model.EmbarcacionPropietario.UrlImagen))"
-                                 class="img-preview" />
-                        </label>
-                        <input asp-for="EmbarcacionPropietario.ImagenFile"
-                               type="file"
-                               id="ImagenFile"
-                               accept="image/*"
-                               style="display:none;" />
+                        <div class="col-md-3">
+                            <label asp-for="EmbarcacionPropietario.TipoIdentificacion" class="form-label"></label>
+                            <select asp-for="EmbarcacionPropietario.TipoIdentificacion"
+                                    asp-items="Model.EmbarcacionPropietario.ListaTipoIdentificacion"
+                                    class="form-select" id="cmb-tipo-identificacion">
+                                <option value=""></option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label asp-for="EmbarcacionPropietario.Identificacion" class="form-label"></label>
+                            <input asp-for="EmbarcacionPropietario.Identificacion" class="form-control" />
+                        </div>
+
+                        <div class="col-md-3">
+                            <label asp-for="EmbarcacionPropietario.Nacionalidad" class="form-label"></label>
+                            <select asp-for="EmbarcacionPropietario.Nacionalidad"
+                                    asp-items="Model.EmbarcacionPropietario.ListaNacionalidad"
+                                    class="form-select" id="cmb-nacionalidad">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label asp-for="EmbarcacionPropietario.Telefono" class="form-label"></label>
+                            <input asp-for="EmbarcacionPropietario.Telefono" class="form-control" />
+                        </div>
+
+                        <!-- Tercera fila -->
+                        <div class="col-md-3">
+                            <label asp-for="EmbarcacionPropietario.Departamento" class="form-label"></label>
+                            <select asp-for="EmbarcacionPropietario.Departamento"
+                                    asp-items="Model.EmbarcacionPropietario.ListaDepartamentos"
+                                    class="form-select" id="cmb-departamentos">
+                                <option value=""></option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label asp-for="EmbarcacionPropietario.Municipio" class="form-label"></label>
+                            <select asp-for="EmbarcacionPropietario.Municipio"
+                                    asp-items="Model.EmbarcacionPropietario.ListaMunicipio"
+                                    class="form-select" id="cmb-municipio">
+                                <option value=""></option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label asp-for="EmbarcacionPropietario.LicenciaNavegacion" class="form-label"></label>
+                            <input asp-for="EmbarcacionPropietario.LicenciaNavegacion" class="form-control" />
+                        </div>
+
+                        <!-- Cuarta fila -->
+                        <div class="col-md-3 ">
+                            <label asp-for="EmbarcacionPropietario.NombreContacto" class="form-label"></label>
+                            <input asp-for="EmbarcacionPropietario.NombreContacto" class="form-control" />
+                        </div>
+
+                        <div class="col-md-3">
+                            <label asp-for="EmbarcacionPropietario.NumeroCarnetMarinero" class="form-label"></label>
+                            <input asp-for="EmbarcacionPropietario.NumeroCarnetMarinero" class="form-control" />
+                        </div>
+
+                        <div class="col-md-3">
+                            <label asp-for="EmbarcacionPropietario.EmpresaPropietario" class="form-label"></label>
+                            <input asp-for="EmbarcacionPropietario.EmpresaPropietario" class="form-control" />
+                        </div>
+
+                        <!-- Quinta fila -->
+                        <div class="col-md-3">
+                            <label asp-for="EmbarcacionPropietario.TelefonoContacto" class="form-label"></label>
+                            <input asp-for="EmbarcacionPropietario.TelefonoContacto" class="form-control" />
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="EmbarcacionPropietario.Observaciones" class="form-label"></label>
+                            <textarea asp-for="EmbarcacionPropietario.Observaciones" class="form-control" rows="5"></textarea>
+                        </div>
+                        <div class="col-md-3 d-flex justify-content-center align-items-center">
+                            <!-- Aquí va la imagen -->
+                            <div class="contenedor-imagen">
+                                <label for="ImagenFile" style="cursor:pointer;">
+                                    <img id="preview"
+                                         src="@(string.IsNullOrEmpty(Model?.EmbarcacionPropietario.UrlImagen) ? "~/images/placeholder.png" : Url.Content(Model.EmbarcacionPropietario.UrlImagen))"
+                                         class="img-preview" />
+                                </label>
+                                <input asp-for="EmbarcacionPropietario.ImagenFile"
+                                       type="file"
+                                       id="ImagenFile"
+                                       accept="image/*"
+                                       style="display:none;" />
+                            </div>
+                        </div>
                     </div>
                 </div>
+            </div>
 
-                <!-- Segunda fila -->
-                <div class="col-md-4">
-                    <label asp-for="EmbarcacionPropietario.TipoIdentificacion" class="form-label"></label>
-                    <select asp-for="EmbarcacionPropietario.TipoIdentificacion"
-                            asp-items="Model.EmbarcacionPropietario.ListaTipoIdentificacion"
-                            class="form-select" id="cmb-tipo-identificacion">
-                        <option value=""></option>
-                    </select>
+            <div class="card-body shadow-sm">
+                <div class="card-header text-white bg-success">
+                    Datos de la Embarcacion
                 </div>
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-md-3">
+                            <label asp-for="DatosEmbarcaciones.MatriculaActual" class="form-label"></label>
+                            <input asp-for="DatosEmbarcaciones.MatriculaActual" class="form-control" />
+                        </div>
 
-                <div class="col-md-4">
-                    <label asp-for="EmbarcacionPropietario.Identificacion" class="form-label"></label>
-                    <input asp-for="EmbarcacionPropietario.Identificacion" class="form-control" />
+                        <div class="col-md-3">
+                            <label asp-for="DatosEmbarcaciones.TipoEmbarcacion" class="form-label"></label>
+                            <select asp-for="DatosEmbarcaciones.TipoEmbarcacion"
+                                    asp-items="Model.DatosEmbarcaciones.ListaTipoEmbarcacion"
+                                    class="form-select" id="cmb-tipo-identificacion">
+                                <option value=""></option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label asp-for="DatosEmbarcaciones.MatriculaAnterior" class="form-label"></label>
+                            <input asp-for="DatosEmbarcaciones.MatriculaAnterior" class="form-control" />
+                        </div>
+
+              
+                        <div class="col-md-3">
+                            <label asp-for="DatosEmbarcaciones.NombreActual" class="form-label"></label>
+                            <input asp-for="DatosEmbarcaciones.NombreActual" class="form-control" />
+                        </div>
+                        <div class="col-md-3">
+                            <label asp-for="DatosEmbarcaciones.NumeroOmi" class="form-label"></label>
+                            <input asp-for="DatosEmbarcaciones.NumeroOmi" class="form-control" />
+                        </div>
+                        <div class="col-md-3">
+                            <label asp-for="DatosEmbarcaciones.PropietarioAnterior" class="form-label"></label>
+                            <input asp-for="DatosEmbarcaciones.PropietarioAnterior " class="form-control" />
+                        </div>
+                        <div class="col-md-3">
+                            <label asp-for="DatosEmbarcaciones.IndicativoLLamada" class="form-label"></label>
+                            <input asp-for="DatosEmbarcaciones.IndicativoLLamada " class="form-control" />
+                        </div>
+
+                        <!-- Tercera fila -->
+                        <div class="col-md-3">
+                            <label asp-for="DatosEmbarcaciones.PuertoRegistroActual" class="form-label"></label>
+                            <select asp-for="DatosEmbarcaciones.PuertoRegistroActual"
+                                    asp-items="Model.DatosEmbarcaciones.ListaPuertoRegistroActual"
+                                    class="form-select" id="cmb-departamentos">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label asp-for="DatosEmbarcaciones.FechaAbanderamiento" class="form-label"></label>
+                            <input asp-for="DatosEmbarcaciones.FechaAbanderamiento " class="form-control" />
+                        </div>
+
+                        <div class="col-md-3">
+                            <label asp-for="DatosEmbarcaciones.BanderaActual" class="form-label"></label>
+                            <select asp-for="DatosEmbarcaciones.BanderaActual"
+                                    asp-items="Model.DatosEmbarcaciones.ListaBanderaActual"
+                                    class="form-select" id="cmb-departamentos">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label asp-for="DatosEmbarcaciones.BanderaAnterior" class="form-label"></label>
+                            <select asp-for="DatosEmbarcaciones.BanderaAnterior"
+                                    asp-items="Model.DatosEmbarcaciones.ListaBanderaAnterior"
+                                    class="form-select" id="cmb-municipio">
+                                <option value=""></option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label asp-for="DatosEmbarcaciones.FechaExpiracion" class="form-label"></label>
+                            <input asp-for="DatosEmbarcaciones.FechaExpiracion" class="form-control" />
+                        </div>
+
+                        <!-- Cuarta fila -->
+                        <div class="col-md-3 ">
+                            <label asp-for="DatosEmbarcaciones.PermisoNavegacion" class="form-label"></label>
+                            <input asp-for="DatosEmbarcaciones.PermisoNavegacion" class="form-control" />
+                        </div>
+
+                        <div class="col-md-3">
+                            <label asp-for="DatosEmbarcaciones.FechaExpiracion" class="form-label"></label>
+                            <input asp-for="DatosEmbarcaciones.FechaExpiracion" class="form-control" />
+                        </div>
+
+                        <div class="col-md-3">
+                            <label asp-for="DatosEmbarcaciones.LicenciaPesca" class="form-label"></label>
+                            <input asp-for="DatosEmbarcaciones.LicenciaPesca" class="form-control" />
+                        </div>
+
+                        <!-- Quinta fila -->
+                        <div class="col-md-3">
+                            <label asp-for="DatosEmbarcaciones.LicenciaEspecialPesca" class="form-label"></label>
+                            <input asp-for="DatosEmbarcaciones.LicenciaEspecialPesca" class="form-control" />
+                        </div>
+
+                        <div class="col-md-3">
+                            <label asp-for="DatosEmbarcaciones.Actividad" class="form-label"></label>
+                            <select asp-for="DatosEmbarcaciones.Actividad"
+                                    asp-items="Model.DatosEmbarcaciones.ListaActividad"
+                                    class="form-select" id="cmb-municipio">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label asp-for="DatosEmbarcaciones.ZonaNavegacion" class="form-label"></label>
+                            <select asp-for="DatosEmbarcaciones.ZonaNavegacion"
+                                    asp-items="Model.DatosEmbarcaciones.ListaZonaNavegacion"
+                                    class="form-select" id="cmb-municipio">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label asp-for="DatosEmbarcaciones.Distrito" class="form-label"></label>
+                            <input asp-for="DatosEmbarcaciones.Distrito" class="form-control" />
+                        </div>
+
+                        <!-- Quinta fila -->
+                        <div class="col-md-3">
+                            <label asp-for="DatosEmbarcaciones.Cap_Pce" class="form-label"></label>
+                            <input asp-for="DatosEmbarcaciones.Cap_Pce" class="form-control" />
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="DatosEmbarcaciones.Observaciones" class="form-label"></label>
+                            <textarea asp-for="DatosEmbarcaciones.Observaciones" class="form-control" rows="5"></textarea>
+                        </div>
+                        <div class="col-md-3 d-flex justify-content-center align-items-center">
+                            <!-- Aquí va la imagen -->
+                            <div class="contenedor-imagen">
+                                <label for="ImagenFile" style="cursor:pointer;">
+                                    <img id="preview"
+                                         src="@(string.IsNullOrEmpty(Model?.DatosEmbarcaciones.UrlImagen) ? "~/images/placeholder.png" : Url.Content(Model.DatosEmbarcaciones.UrlImagen))"
+                                         class="img-preview" />
+                                </label>
+                                <input asp-for="DatosEmbarcaciones.ImagenFile"
+                                       type="file"
+                                       id="ImagenFile"
+                                       accept="image/*"
+                                       style="display:none;" />
+                            </div>
+                        </div>
+                    </div>
                 </div>
-
-                <div class="col-md-4">
-                    <label asp-for="EmbarcacionPropietario.Telefono" class="form-label"></label>
-                    <input asp-for="EmbarcacionPropietario.Telefono" class="form-control" />
-                </div>
-
-                <!-- Tercera fila -->
-                <div class="col-md-4">
-                    <label asp-for="EmbarcacionPropietario.Departamento" class="form-label"></label>
-                    <select asp-for="EmbarcacionPropietario.Departamento"
-                            asp-items="Model.EmbarcacionPropietario.ListaDepartamentos"
-                            class="form-select" id="cmb-departamentos">
-                        <option value=""></option>
-                    </select>
-                </div>
-
-                <div class="col-md-4">
-                    <label asp-for="EmbarcacionPropietario.Municipio" class="form-label"></label>
-                    <select asp-for="EmbarcacionPropietario.Municipio"
-                            asp-items="Model.EmbarcacionPropietario.ListaMunicipio"
-                            class="form-select" id="cmb-municipio">
-                        <option value=""></option>
-                    </select>
-                </div>
-
-                <div class="col-md-4">
-                    <label asp-for="EmbarcacionPropietario.LicenciaNavegacion" class="form-label"></label>
-                    <input asp-for="EmbarcacionPropietario.LicenciaNavegacion" class="form-control" />
-                </div>
-
-                <!-- Cuarta fila -->
-                <div class="col-md-6">
-                    <label asp-for="EmbarcacionPropietario.NombreContacto" class="form-label"></label>
-                    <input asp-for="EmbarcacionPropietario.NombreContacto" class="form-control" />
-                </div>
-
-                <div class="col-md-3">
-                    <label asp-for="EmbarcacionPropietario.NumeroCarnetMarinero" class="form-label"></label>
-                    <input asp-for="EmbarcacionPropietario.NumeroCarnetMarinero" class="form-control" />
-                </div>
-
-                <div class="col-md-3">
-                    <label asp-for="EmbarcacionPropietario.EmpresaPropietario" class="form-label"></label>
-                    <input asp-for="EmbarcacionPropietario.EmpresaPropietario" class="form-control" />
-                </div>
-
-                <!-- Quinta fila -->
-                <div class="col-md-4">
-                    <label asp-for="EmbarcacionPropietario.TelefonoContacto" class="form-label"></label>
-                    <input asp-for="EmbarcacionPropietario.TelefonoContacto" class="form-control" />
-                </div>
-
-            </div> <!-- fin row -->
-
+            </div>
             <div class="mt-4">
                 <button class="btn btn-success"><i class="fa fa-save"></i> Guardar</button>
                 <a href="@Url.Action("Administrar", "Embarcaciones")" class="btn btn-danger ms-2">
                     <i class="fa fa-times"></i> Cancelar
                 </a>
             </div>
-
         </div>
     </div>
-
 </div>
 
 <script>

@@ -9,73 +9,72 @@
 
 @using (Html.BeginForm("GuardarMunicipio", "Municipio", FormMethod.Post))
 {
-    <div class="card-body">
-        <div class="card-header">
-            <div class="d-flex justify-content-end">
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb mb-0">
-                        <li class="breadcrumb-item">SIEB</li>
-                        <li class="breadcrumb-item active" aria-current="page">Municipios</li>
-                        <li class="breadcrumb-item active" aria-current="page">@ViewBag.Accion Municipio</li>
-                    </ol>
-                </nav>
-            </div>
-        </div>
-        <div class="card-body">
-            <div class="row">
-                <div class="col-md-12">
-
-
-                    <div class="card">
-                        <div class="card-header text-white bg-primary">
-                            @ViewBag.Accion Municipio
-                        </div>
-                        <div class="card-body">
-                            <div class="col-md-3">
-                                <!-- Hidden inputs -->
-                                <input type="hidden" asp-for="IdMunicipio" />
-                                <input type="hidden" asp-for="Accion" id="hd-accion" />
-
-                                <!-- Departamento -->
-                                <div class="form-group">
-                                    <label asp-for="Departamento"></label>
-                                    <select asp-for="Departamento"
-                                            asp-items="Model.ListaDepartamentos"
-                                            class="form-control"
-                                            id="cmb-departamentos">
-                                        <option value=""></option> <!-- necesario para Select2 allowClear -->
-                                    </select>
-                                    <span asp-validation-for="Departamento" class="text-danger mt-2 fw-bold"></span>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card shadow-sm">
+                <div class="card-header">
+                    <div class="d-flex justify-content-end">
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb mb-0">
+                                <li class="breadcrumb-item">SIEB</li>
+                                <li class="breadcrumb-item active" aria-current="page">Municipios</li>
+                                <li class="breadcrumb-item active" aria-current="page">@ViewBag.Accion Municipio</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card shadow-sm">
+                                <div class="card-header text-white bg-primary">
+                                    @ViewBag.Accion Municipio
                                 </div>
+                                <div class="card-body">
+                                    <div class="col-md-3">
+                                        <!-- Hidden inputs -->
+                                        <input type="hidden" asp-for="IdMunicipio" />
+                                        <input type="hidden" asp-for="Accion" id="hd-accion" />
 
-                                <!-- Nombre del Municipio -->
-                                <div class="form-group">
-                                    <label asp-for="NombreMunicipio" class="mt-2"></label>
-                                    <input asp-for="NombreMunicipio" class="form-control" />
-                                    <span asp-validation-for="NombreMunicipio" class="text-danger mt-2 fw-bold"></span>
-                                </div>
+                                        <!-- Departamento -->
+                                        <div class="form-group">
+                                            <label asp-for="Departamento"></label>
+                                            <select asp-for="Departamento"
+                                                    asp-items="Model.ListaDepartamentos"
+                                                    class="form-control"
+                                                    id="cmb-departamentos">
+                                                <option value=""></option> <!-- necesario para Select2 allowClear -->
+                                            </select>
+                                            <span asp-validation-for="Departamento" class="text-danger mt-2 fw-bold"></span>
+                                        </div>
 
-                                <!-- Descripción -->
-                                <div class="form-group">
-                                    <label asp-for="Descripcion" class="mt-2"></label>
-                                    <input asp-for="Descripcion" class="form-control" />
+                                        <!-- Nombre del Municipio -->
+                                        <div class="form-group">
+                                            <label asp-for="NombreMunicipio" class="mt-2"></label>
+                                            <input asp-for="NombreMunicipio" class="form-control" />
+                                            <span asp-validation-for="NombreMunicipio" class="text-danger mt-2 fw-bold"></span>
+                                        </div>
+
+                                        <!-- Descripción -->
+                                        <div class="form-group">
+                                            <label asp-for="Descripcion" class="mt-2"></label>
+                                            <input asp-for="Descripcion" class="form-control" />
+                                        </div>
+                                    </div>
+                                    <button class="btn btn-success mt-4"><i class="fa fa-save"></i> Guardar</button>
+                                    <a href="@Url.Action("Administrar", "Municipio")"
+                                       class="btn btn-danger mt-4">
+                                        <i class="fa fa-times"></i> Cancelar
+                                    </a>
+
                                 </div>
                             </div>
-                            <button class="btn btn-success mt-4"><i class="fa fa-save"></i> Guardar</button>
-                            <a href="@Url.Action("Administrar", "Municipio")"
-                               class="btn btn-danger mt-4">
-                                <i class="fa fa-times"></i> Cancelar
-                            </a>
-
                         </div>
                     </div>
                 </div>
             </div>
-
-
         </div>
     </div>
-
 }
 @section scripts
 {
@@ -96,24 +95,24 @@
             if (field.Value.Errors.Count > 0)
             {
                 <text>
-                                            var input = $('[name="@field.Key"]');
+                            var input = $('[name="@field.Key"]');
 
                             // Para inputs normales
                             if (!input.hasClass('select2-hidden-accessible')) {
                                 input.addClass('is-invalid');
-                            }
+                                            }
 
                             // Para Select2
                             if (input.hasClass('select2-hidden-accessible')) {
                                 // agrega is-invalid al contenedor visible de Select2
                                 input.next('.select2-container')
-                                     .find('.select2-selection')
-                                     .addClass('is-invalid');
-                            }
+                                    .find('.select2-selection')
+                                    .addClass('is-invalid');
+                                            }
                 </text>
             }
         }
-        });
+                });
     </script>
 }
 

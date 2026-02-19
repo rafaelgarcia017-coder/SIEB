@@ -6,72 +6,77 @@
     ViewData["Title"] = "Administrar Color";
 }
 
-<div class="card-body">
-    <div class="card-header">
-        <div class="d-flex justify-content-end">
-            <nav aria-label="breadcrumb">
-                <ol class="breadcrumb mb-0">
-                    <li class="breadcrumb-item">SIEB</li>
-                    <li class="breadcrumb-item active" aria-current="page">Color</li>
-                    <li class="breadcrumb-item active" aria-current="page">Administrar</li>
-                </ol>
-            </nav>
-        </div>
-    </div>
-    <div class="card-body">
-        <div class="row">
-            <div class="col-md-2">
-                <a href="@Url.Action("NuevoColor", "Color")"
-                   class="btn btn-success">
-                    <i class="fa fa-plus"></i> Nuevo
-                </a>
+<form>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card shadow-sm">
+                <div class="card-header">
+                    <div class="d-flex justify-content-end">
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb mb-0">
+                                <li class="breadcrumb-item">SIEB</li>
+                                <li class="breadcrumb-item active" aria-current="page">Color</li>
+                                <li class="breadcrumb-item active" aria-current="page">Administrar</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <a href="@Url.Action("NuevoColor", "Color")"
+                               class="btn btn-success">
+                                <i class="fa fa-plus"></i> Nuevo
+                            </a>
 
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-12">
+                            <table id="tbl-color" class="table table-bordered">
+                                <thead>
+                                    <tr class="table-info">
+                                        <th>Datos Generales</th>
+                                        <th>Datos Especificos</th>
+                                        <th class="th-center">Opciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.ListaColor)
+                                    {
+                                        <tr>
+                                            <td>
+                                                Tipo Identificacion: <b>@item.Color</b><br />
+                                                Descripcion: <b>@item.Descripcion</b><br />
+
+                                            </td>
+                                            <td>
+                                                Fecha Creacion <b>@item.FechaCreacion</b><br />
+                                                Usuario Creacion: <b>@item.UsuarioCreacion</b>
+
+                                            </td>
+                                            <td class="td-center">
+                                                <a href="@Url.Action("EditarColor", "Color", new { id = item.IdColor })" )"
+                                                   class="btn btn-primary btn-table">
+                                                    <i class="fa fa-edit"></i>
+                                                </a>
+
+                                                <button class="btn btn-danger btn-table"><i class="fa fa-trash"></i></button>
+                                            </td>
+                                        </tr>
+
+
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
             </div>
         </div>
-        <div class="row mt-3">
-            <div class="col-md-12">
-                <table id="tbl-color" class="table table-bordered">
-                    <thead>
-                        <tr class="table-info">
-                            <th>Datos Generales</th>
-                            <th>Datos Especificos</th>
-                            <th class="th-center">Opciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var item in Model.ListaColor)
-                        {
-                            <tr>
-                                <td>
-                                    Tipo Identificacion: <b>@item.Color</b><br />
-                                    Descripcion: <b>@item.Descripcion</b><br />
-
-                                </td>
-                                <td>
-                                    Fecha Creacion <b>@item.FechaCreacion</b><br />
-                                    Usuario Creacion: <b>@item.UsuarioCreacion</b>
-
-                                </td>
-                                <td class="td-center">
-                                    <a href="@Url.Action("EditarColor", "Color", new { id = item.IdColor })" )"
-                                       class="btn btn-primary btn-table">
-                                        <i class="fa fa-edit"></i>
-                                    </a>
-
-                                    <button class="btn btn-danger btn-table"><i class="fa fa-trash"></i></button>
-                                </td>
-                            </tr>
-
-
-                        }
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
     </div>
-</div>
-
+</form>
 
 @section scripts
 {

@@ -18,6 +18,7 @@ namespace Embarcaciones.AplicacionWeb.Models.ViewModels.Procesos.Embarcaciones
         public string EmpresaPropietario { get; set; }
         public string NombreContacto { get; set; }
         public string TelefonoContacto { get; set; }
+        public string  Observaciones { get; set; }
         public string UrlImagen { get; set; }
 
         public IFormFile ImagenFile { get; set; }

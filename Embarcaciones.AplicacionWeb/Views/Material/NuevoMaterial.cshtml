@@ -9,57 +9,56 @@
 
 @using (Html.BeginForm("GuardarMaterial", "Material", FormMethod.Post))
 {
-    <div class="card-body">
-        <div class="card-header">
-            <div class="d-flex justify-content-end">
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb mb-0">
-                        <li class="breadcrumb-item">SIEB</li>
-                        <li class="breadcrumb-item active" aria-current="page">Material</li>
-                        <li class="breadcrumb-item active" aria-current="page">@ViewBag.Accion Material</li>
-                    </ol>
-                </nav>
-            </div>
-        </div>
-        <div class="card-body">
-            <div class="row">
-                <div class="col-md-12">
-
-
-                    <div class="card">
-                        <div class="card-header text-white bg-primary">
-                            @ViewBag.Accion Material
-                        </div>
-                        <div class="card-body">
-                            <div class="col-md-3">
-                                @Html.HiddenFor(x => x.IdCatalogo)
-                                @Html.HiddenFor(x => x.IdMaterial)
-                                @Html.HiddenFor(x => x.Accion)
-                                <div class="form-group">
-                                    <label class="mt-2">Material:</label>
-                                    <input asp-for="Material" class="form-control" />
-                                    <span asp-validation-for="Material" class="text-danger mt-2 fw-bold"></span>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card shadow-sm">
+                <div class="card-header">
+                    <div class="d-flex justify-content-end">
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb mb-0">
+                                <li class="breadcrumb-item">SIEB</li>
+                                <li class="breadcrumb-item active" aria-current="page">Material</li>
+                                <li class="breadcrumb-item active" aria-current="page">@ViewBag.Accion Material</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card shadow-sm">
+                                <div class="card-header text-white bg-primary">
+                                    @ViewBag.Accion Material
                                 </div>
-                                <div class="form-group">
-                                    <label class="mt-2">Descripcion:</label>
-                                    <input asp-for="Descripcion" class="form-control" />
+                                <div class="card-body">
+                                    <div class="col-md-3">
+                                        @Html.HiddenFor(x => x.IdCatalogo)
+                                        @Html.HiddenFor(x => x.IdMaterial)
+                                        @Html.HiddenFor(x => x.Accion)
+                                        <div class="form-group">
+                                            <label class="mt-2">Material:</label>
+                                            <input asp-for="Material" class="form-control" />
+                                            <span asp-validation-for="Material" class="text-danger mt-2 fw-bold"></span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="mt-2">Descripcion:</label>
+                                            <input asp-for="Descripcion" class="form-control" />
+                                        </div>
+                                    </div>
+                                    <button class="btn btn-success mt-4"><i class="fa fa-save"></i> Guardar</button>
+                                    <a href="@Url.Action("Administrar", "Material")"
+                                       class="btn btn-danger mt-4">
+                                        <i class="fa fa-times"></i> Cancelar
+                                    </a>
+
                                 </div>
                             </div>
-                            <button class="btn btn-success mt-4"><i class="fa fa-save"></i> Guardar</button>
-                            <a href="@Url.Action("Administrar", "Material")"
-                               class="btn btn-danger mt-4">
-                                <i class="fa fa-times"></i> Cancelar
-                            </a>
-
                         </div>
                     </div>
                 </div>
             </div>
-
-
         </div>
     </div>
-
 }
 
 
