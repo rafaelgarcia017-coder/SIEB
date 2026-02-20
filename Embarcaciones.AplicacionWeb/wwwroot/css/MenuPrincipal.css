@@ -26,6 +26,8 @@ header.navbar {
 /* Ajustar contenido para no quedar debajo del header */
 main.flex-grow-1,
 #sidebar {
+    overflow: auto;
+    height: 880px !important;
     margin-top: 60px;
     /* altura aproximada del header */
 }
