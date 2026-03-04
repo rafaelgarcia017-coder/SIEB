@@ -25,10 +25,10 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Procesos
         {
             viewModel  ??= new EmbarcacionesVM();
 
-            viewModel.EmbarcacionPropietario.ListaDepartamentos = new List<SelectListItem>();
-            viewModel.EmbarcacionPropietario.ListaMunicipio = new List<SelectListItem>();
-            viewModel.EmbarcacionPropietario.ListaNacionalidad = new List<SelectListItem>();
-            viewModel.EmbarcacionPropietario.ListaTipoIdentificacion = new List<SelectListItem>();
+            viewModel.Propietario.ListaDepartamentos = new List<SelectListItem>();
+            viewModel.Propietario.ListaMunicipio = new List<SelectListItem>();
+            viewModel.Propietario.ListaNacionalidad = new List<SelectListItem>();
+            viewModel.Propietario.ListaTipoIdentificacion = new List<SelectListItem>();
 
             return viewModel;
         }

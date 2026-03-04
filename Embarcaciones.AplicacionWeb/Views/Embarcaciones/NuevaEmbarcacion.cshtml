@@ -33,6 +33,12 @@
         height: 100%;
         object-fit: cover;
     }
+
+    .accordion-button:not(.collapsed)::after,
+    .accordion-button.collapsed::after {
+        filter: invert(1);
+    }
+
 </style>
 
 
@@ -47,7 +53,7 @@
                                 <li class="breadcrumb-item">SIEB</li>
                                 <li class="breadcrumb-item active" aria-current="page">Embarcacion</li>
                                 <li class="breadcrumb-item active" aria-current="page">@ViewBag.Accion Embarcacion</li>
-                                <input type="hidden" asp-for="EmbarcacionPropietario.EmpresaPropietario" />
+                                <input type="hidden" asp-for="Propietario.EmpresaPropietario" />
                                 <input type="hidden" asp-for="Accion" id="hd-accion" />
                             </ol>
                         </nav>
@@ -55,10 +61,14 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-
-
+                        <div class="mt-1 mb-2 ms-1">
+                            <button class="btn btn-success"><i class="fa fa-save"></i> Guardar</button>
+                            <a href="@Url.Action("Administrar", "Embarcaciones")" class="btn btn-danger ms-1">
+                                <i class="fa fa-times"></i> Cancelar
+                            </a>
+                        </div>
                         <div class="card shadow border-0">
-                            <div class="card-header bg-info text-white">
+                            <div class="card-header">
                                 <h4 class="mb-0">Registro de Embarcación</h4>
                             </div>
 
@@ -81,13 +91,13 @@
                                                 <div class="row g-3">
                                                     <div class="col-md-3">
                                                         <label class="form-label">Nombre Completo:</label>
-                                                        <input asp-for="EmbarcacionPropietario.NombreCompleto" class="form-control" />
+                                                        <input asp-for="Propietario.NombreCompleto" class="form-control" />
                                                     </div>
 
                                                     <div class="col-md-3">
-                                                        <label class="form-label">Tipo Identificacion:</label>                      
-                                                        <select asp-for="EmbarcacionPropietario.TipoIdentificacion"
-                                                                asp-items="Model.EmbarcacionPropietario.ListaTipoIdentificacion"
+                                                        <label class="form-label">Tipo Identificacion:</label>
+                                                        <select asp-for="Propietario.TipoIdentificacion"
+                                                                asp-items="Model.Propietario.ListaTipoIdentificacion"
                                                                 class="form-select" id="cmb-tipo-identificacion">
                                                             <option value=""></option>
                                                         </select>
@@ -95,27 +105,27 @@
 
                                                     <div class="col-md-3">
                                                         <label class="form-label">Identificacion:</label>
-                                                        <input asp-for="EmbarcacionPropietario.Identificacion" class="form-control" />
+                                                        <input asp-for="Propietario.Identificacion" class="form-control" />
                                                     </div>
 
                                                     <div class="col-md-3">
-                                                        <label class="form-label">Nacionalidad:</label>                                                       
-                                                        <select asp-for="EmbarcacionPropietario.Nacionalidad"
-                                                                asp-items="Model.EmbarcacionPropietario.ListaNacionalidad"
+                                                        <label class="form-label">Nacionalidad:</label>
+                                                        <select asp-for="Propietario.Nacionalidad"
+                                                                asp-items="Model.Propietario.ListaNacionalidad"
                                                                 class="form-select" id="cmb-nacionalidad">
                                                             <option value=""></option>
                                                         </select>
                                                     </div>
                                                     <div class="col-md-3">
                                                         <label class="form-label">Telefono:</label>
-                                                        <input asp-for="EmbarcacionPropietario.Telefono" class="form-control" />
+                                                        <input asp-for="Propietario.Telefono" class="form-control" />
                                                     </div>
 
                                                     <!-- Tercera fila -->
-                                                    <div class="col-md-3">                                                 
+                                                    <div class="col-md-3">
                                                         <label class="form-label">Departamento:</label>
-                                                        <select asp-for="EmbarcacionPropietario.Departamento"
-                                                                asp-items="Model.EmbarcacionPropietario.ListaDepartamentos"
+                                                        <select asp-for="Propietario.Departamento"
+                                                                asp-items="Model.Propietario.ListaDepartamentos"
                                                                 class="form-select" id="cmb-departamentos">
                                                             <option value=""></option>
                                                         </select>
@@ -123,8 +133,8 @@
 
                                                     <div class="col-md-3">
                                                         <label class="form-label">Municipio:</label>
-                                                        <select asp-for="EmbarcacionPropietario.Municipio"
-                                                                asp-items="Model.EmbarcacionPropietario.ListaMunicipio"
+                                                        <select asp-for="Propietario.Municipio"
+                                                                asp-items="Model.Propietario.ListaMunicipio"
                                                                 class="form-select" id="cmb-municipio">
                                                             <option value=""></option>
                                                         </select>
@@ -132,43 +142,43 @@
 
                                                     <div class="col-md-3">
                                                         <label class="form-label">Licencia Navegacion:</label>
-                                                        <input asp-for="EmbarcacionPropietario.LicenciaNavegacion" class="form-control" />
+                                                        <input asp-for="Propietario.LicenciaNavegacion" class="form-control" />
                                                     </div>
 
                                                     <!-- Cuarta fila -->
                                                     <div class="col-md-3 ">
                                                         <label class="form-label">Nombre Contacto:</label>
-                                                        <input asp-for="EmbarcacionPropietario.NombreContacto" class="form-control" />
+                                                        <input asp-for="Propietario.NombreContacto" class="form-control" />
                                                     </div>
 
                                                     <div class="col-md-3">
                                                         <label class="form-label">N° Carnet:</label>
-                                                        <input asp-for="EmbarcacionPropietario.NumeroCarnetMarinero" class="form-control" />
+                                                        <input asp-for="Propietario.NumeroCarnetMarinero" class="form-control" />
                                                     </div>
 
                                                     <div class="col-md-3">
                                                         <label class="form-label">Empresa:</label>
-                                                        <input asp-for="EmbarcacionPropietario.EmpresaPropietario" class="form-control" />
+                                                        <input asp-for="Propietario.EmpresaPropietario" class="form-control" />
                                                     </div>
 
                                                     <!-- Quinta fila -->
                                                     <div class="col-md-3">
                                                         <label class="form-label">Telefono:</label>
-                                                        <input asp-for="EmbarcacionPropietario.TelefonoContacto" class="form-control" />
+                                                        <input asp-for="Propietario.TelefonoContacto" class="form-control" />
                                                     </div>
                                                     <div class="col-md-6">
                                                         <label class="form-label">Observaciones:</label>
-                                                        <textarea asp-for="EmbarcacionPropietario.Observaciones" class="form-control" rows="5"></textarea>
+                                                        <textarea asp-for="Propietario.Observaciones" class="form-control" rows="5"></textarea>
                                                     </div>
                                                     <div class="col-md-3 d-flex justify-content-center align-items-center">
                                                         <!-- Aquí va la imagen -->
                                                         <div class="contenedor-imagen">
                                                             <label for="ImagenFile" style="cursor:pointer;">
                                                                 <img id="preview"
-                                                                     src="@(string.IsNullOrEmpty(Model?.EmbarcacionPropietario.UrlImagen) ? "~/images/placeholder.png" : Url.Content(Model.EmbarcacionPropietario.UrlImagen))"
+                                                                     src="@(string.IsNullOrEmpty(Model?.Propietario.UrlImagen) ? "~/images/placeholder.png" : Url.Content(Model.Propietario.UrlImagen))"
                                                                      class="img-preview" />
                                                             </label>
-                                                            <input asp-for="EmbarcacionPropietario.ImagenFile"
+                                                            <input asp-for="Propietario.ImagenFile"
                                                                    type="file"
                                                                    id="ImagenFile"
                                                                    accept="image/*"
@@ -196,67 +206,63 @@
                                                 <div class="row g-3">
                                                     <div class="col-md-3">
                                                         <label class="form-label">Matricula:</label>
-                                                        <input asp-for="DatosEmbarcaciones.MatriculaActual" class="form-control" />
+                                                        <input asp-for="Embarcacion.MatriculaActual" class="form-control" />
                                                     </div>
 
                                                     <div class="col-md-3">
                                                         <label class="form-label">Tipo Embarcacion:</label>
-                                                        <select asp-for="DatosEmbarcaciones.TipoEmbarcacion"
-                                                                asp-items="Model.DatosEmbarcaciones.ListaTipoEmbarcacion"
+                                                        <select asp-for="Embarcacion.TipoEmbarcacion"
+                                                                asp-items="Model.Embarcacion.ListaTipoEmbarcacion"
                                                                 class="form-select" id="cmb-tipo-identificacion">
                                                             <option value=""></option>
                                                         </select>
                                                     </div>
-
                                                     <div class="col-md-3">
                                                         <label class="form-label"> Matricula Anterior:</label>
-                                                        <input asp-for="DatosEmbarcaciones.MatriculaAnterior" class="form-control" />
+                                                        <input asp-for="Embarcacion.MatriculaAnterior" class="form-control" />
                                                     </div>
-
-
                                                     <div class="col-md-3">
                                                         <label class="form-label"> Nombre:</label>
-                                                        <input asp-for="DatosEmbarcaciones.NombreActual" class="form-control" />
+                                                        <input asp-for="Embarcacion.NombreActual" class="form-control" />
                                                     </div>
                                                     <div class="col-md-3">
                                                         <label class="form-label">OMI:</label>
-                                                        <input asp-for="DatosEmbarcaciones.NumeroOmi" class="form-control" />
+                                                        <input asp-for="Embarcacion.NumeroOmi" class="form-control" />
                                                     </div>
                                                     <div class="col-md-3">
                                                         <label class="form-label">Propietario Anterior:</label>
-                                                        <input asp-for="DatosEmbarcaciones.PropietarioAnterior " class="form-control" />
+                                                        <input asp-for="Embarcacion.PropietarioAnterior " class="form-control" />
                                                     </div>
                                                     <div class="col-md-3">
                                                         <label class="form-label">Indicativo LLamada:</label>
-                                                        <input asp-for="DatosEmbarcaciones.IndicativoLLamada " class="form-control" />
+                                                        <input asp-for="Embarcacion.IndicativoLLamada " class="form-control" />
                                                     </div>
-
                                                     <!-- Tercera fila -->
                                                     <div class="col-md-3">
                                                         <label class="form-label">Puerto:</label>
-                                                        <select asp-for="DatosEmbarcaciones.PuertoRegistroActual"
-                                                                asp-items="Model.DatosEmbarcaciones.ListaPuertoRegistroActual"
+                                                        <select asp-for="Embarcacion.PuertoRegistroActual"
+                                                                asp-items="Model.Embarcacion.ListaPuertoRegistroActual"
                                                                 class="form-select" id="cmb-departamentos">
                                                             <option value=""></option>
                                                         </select>
                                                     </div>
                                                     <div class="col-md-3">
                                                         <label class="form-label">Fecha Abanderamiento:</label>
-                                                        <input asp-for="DatosEmbarcaciones.FechaAbanderamiento " class="form-control" />
+                                                        <input asp-for="Embarcacion.FechaAbanderamiento " class="form-control" />
                                                     </div>
 
                                                     <div class="col-md-3">
                                                         <label class="form-label">Bandera:</label>
-                                                        <select asp-for="DatosEmbarcaciones.BanderaActual"
-                                                                asp-items="Model.DatosEmbarcaciones.ListaBanderaActual"
+                                                        <select asp-for="Embarcacion.BanderaActual"
+                                                                asp-items="Model.Embarcacion.ListaBanderaActual"
                                                                 class="form-select" id="cmb-departamentos">
                                                             <option value=""></option>
                                                         </select>
                                                     </div>
                                                     <div class="col-md-3">
                                                         <label class="form-label">Bandera Anterior:</label>
-                                                        <select asp-for="DatosEmbarcaciones.BanderaAnterior"
-                                                                asp-items="Model.DatosEmbarcaciones.ListaBanderaAnterior"
+                                                        <select asp-for="Embarcacion.BanderaAnterior"
+                                                                asp-items="Model.Embarcacion.ListaBanderaAnterior"
                                                                 class="form-select" id="cmb-municipio">
                                                             <option value=""></option>
                                                         </select>
@@ -264,70 +270,70 @@
 
                                                     <div class="col-md-3">
                                                         <label class="form-label">Fecha Expiracion:</label>
-                                                        <input asp-for="DatosEmbarcaciones.FechaExpiracion" class="form-control" />
+                                                        <input asp-for="Embarcacion.FechaExpiracion" class="form-control" />
                                                     </div>
 
                                                     <!-- Cuarta fila -->
                                                     <div class="col-md-3 ">
                                                         <label class="form-label">Permiso Navegacion:</label>
-                                                        <input asp-for="DatosEmbarcaciones.PermisoNavegacion" class="form-control" />
+                                                        <input asp-for="Embarcacion.PermisoNavegacion" class="form-control" />
                                                     </div>
 
                                                     <div class="col-md-3">
                                                         <label class="form-label">Fecha Expiracion:</label>
-                                                        <input asp-for="DatosEmbarcaciones.FechaExpiracion" class="form-control" />
+                                                        <input asp-for="Embarcacion.FechaExpiracion" class="form-control" />
                                                     </div>
 
                                                     <div class="col-md-3">
                                                         <label class="form-label">Licencia Pesca:</label>
-                                                        <input asp-for="DatosEmbarcaciones.LicenciaPesca" class="form-control" />
+                                                        <input asp-for="Embarcacion.LicenciaPesca" class="form-control" />
                                                     </div>
 
                                                     <!-- Quinta fila -->
                                                     <div class="col-md-3">
                                                         <label class="form-label">Lic. Especial Pesca:</label>
-                                                        <input asp-for="DatosEmbarcaciones.LicenciaEspecialPesca" class="form-control" />
+                                                        <input asp-for="Embarcacion.LicenciaEspecialPesca" class="form-control" />
                                                     </div>
 
                                                     <div class="col-md-3">
                                                         <label class="form-label">Actividad:</label>
-                                                        <select asp-for="DatosEmbarcaciones.Actividad"
-                                                                asp-items="Model.DatosEmbarcaciones.ListaActividad"
+                                                        <select asp-for="Embarcacion.Actividad"
+                                                                asp-items="Model.Embarcacion.ListaActividad"
                                                                 class="form-select" id="cmb-municipio">
                                                             <option value=""></option>
                                                         </select>
                                                     </div>
                                                     <div class="col-md-3">
                                                         <label class="form-label">Zona Navegacion:</label>
-                                                        <select asp-for="DatosEmbarcaciones.ZonaNavegacion"
-                                                                asp-items="Model.DatosEmbarcaciones.ListaZonaNavegacion"
+                                                        <select asp-for="Embarcacion.ZonaNavegacion"
+                                                                asp-items="Model.Embarcacion.ListaZonaNavegacion"
                                                                 class="form-select" id="cmb-municipio">
                                                             <option value=""></option>
                                                         </select>
                                                     </div>
                                                     <div class="col-md-3">
                                                         <label class="form-label">Distrito:</label>
-                                                        <input asp-for="DatosEmbarcaciones.Distrito" class="form-control" />
+                                                        <input asp-for="Embarcacion.Distrito" class="form-control" />
                                                     </div>
 
                                                     <!-- Quinta fila -->
                                                     <div class="col-md-3">
                                                         <label class="form-label">CAP/PCE:</label>
-                                                        <input asp-for="DatosEmbarcaciones.Cap_Pce" class="form-control" />
+                                                        <input asp-for="Embarcacion.Cap_Pce" class="form-control" />
                                                     </div>
                                                     <div class="col-md-6">
                                                         <label class="form-label">Observaciones:</label>
-                                                        <textarea asp-for="DatosEmbarcaciones.Observaciones" class="form-control" rows="5"></textarea>
+                                                        <textarea asp-for="Embarcacion.Observaciones" class="form-control" rows="5"></textarea>
                                                     </div>
                                                     <div class="col-md-3 d-flex justify-content-center align-items-center">
                                                         <!-- Aquí va la imagen -->
                                                         <div class="contenedor-imagen">
                                                             <label for="ImagenFile" style="cursor:pointer;">
                                                                 <img id="preview"
-                                                                     src="@(string.IsNullOrEmpty(Model?.DatosEmbarcaciones.UrlImagen) ? "~/images/placeholder.png" : Url.Content(Model.DatosEmbarcaciones.UrlImagen))"
+                                                                     src="@(string.IsNullOrEmpty(Model?.Embarcacion.UrlImagen) ? "~/images/placeholder.png" : Url.Content(Model.Embarcacion.UrlImagen))"
                                                                      class="img-preview" />
                                                             </label>
-                                                            <input asp-for="DatosEmbarcaciones.ImagenFile"
+                                                            <input asp-for="Embarcacion.ImagenFile"
                                                                    type="file"
                                                                    id="ImagenFile"
                                                                    accept="image/*"
@@ -355,13 +361,189 @@
                                         <div id="collapseThree" class="accordion-collapse collapse">
                                             <div class="accordion-body">
                                                 <div class="row g-3">
-                                                    <div class="col-md-6">
-                                                        <label class="form-label">Astillero</label>
-                                                        <input type="text" class="form-control">
+                                                    <div class="col-md-3">
+                                                        <label class="form-label">Mat. Casco:</label>
+                                                        <select asp-for="Construccion.Material"
+                                                                asp-items="Model.Construccion.ListaMaterial"
+                                                                class="form-select" id="cmb-municipio">
+                                                            <option value=""></option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-1">
+                                                        <label class="form-label">TRB:</label>
+                                                        <input asp-for="Construccion.TRB" class="form-control" />
+                                                    </div>
+
+                                                    <div class="col-md-1">
+                                                        <label class="form-label">UM. TRB:</label>
+                                                        <select asp-for="Construccion.UndMedTRB"
+                                                                asp-items="Model.Construccion.ListaUndMedTRB"
+                                                                class="form-select" id="cmb-municipio">
+                                                            <option value=""></option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <label class="form-label">Color Obra M:</label>
+                                                        <select asp-for="Construccion.ColorM"
+                                                                asp-items="Model.Construccion.ListaColorM"
+                                                                class="form-select" id="cmb-municipio">
+                                                            <option value=""></option>
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="col-md-1">
+                                                        <label class="form-label">TRN:</label>
+                                                        <input asp-for="Construccion.TRN" class="form-control" />
+                                                    </div>
+                                                    <div class="col-md-1">
+                                                        <label class="form-label">TRN:</label>
+                                                        <select asp-for="Construccion.TRN"
+                                                                asp-items="Model.Construccion.ListaUndMedTRN"
+                                                                class="form-select" id="cmb-municipio">
+                                                            <option value=""></option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-1">
+                                                        <label class="form-label">Eslora:</label>
+                                                        <input asp-for="Construccion.Eslora" class="form-control" />
+                                                    </div>
+
+                                                    <div class="col-md-1">
+                                                        <label class="form-label">UM. Eslora:</label>
+                                                        <select asp-for="Construccion.UndMedEslora"
+                                                                asp-items="Model.Construccion.ListaUndMedEslora"
+                                                                class="form-select" id="cmb-municipio">
+                                                            <option value=""></option>
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="col-md-1">
+                                                        <label class="form-label">Manga:</label>
+                                                        <input asp-for="Construccion.Manga" class="form-control" />
+                                                    </div>
+                                                    <div class="col-md-1">
+                                                        <label class="form-label">UM. Manga:</label>
+                                                        <select asp-for="Construccion.UndMedManga"
+                                                                asp-items="Model.Construccion.ListaUndMedManga"
+                                                                class="form-select" id="cmb-municipio">
+                                                            <option value=""></option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-1">
+                                                        <label class="form-label">Calado:</label>
+                                                        <input asp-for="Construccion.Calado" class="form-control" />
+                                                    </div>
+
+                                                    <div class="col-md-1">
+                                                        <label class="form-label">UM. Calado:</label>
+                                                        <select asp-for="Construccion.UndMedCalado"
+                                                                asp-items="Model.Construccion.ListaUndCalado"
+                                                                class="form-select" id="cmb-municipio">
+                                                            <option value=""></option>
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="col-md-3">
+                                                        <label class="form-label">Color Obra V:</label>
+                                                        <select asp-for="Construccion.ColorV"
+                                                                asp-items="Model.Construccion.ListaColorV"
+                                                                class="form-select" id="cmb-municipio">
+                                                            <option value=""></option>
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="col-md-3">
+                                                        <label class="form-label">Color Superest:</label>
+                                                        <select asp-for="Construccion.ColorSuperest"
+                                                                asp-items="Model.Construccion.ListaColorSuperest"
+                                                                class="form-select" id="cmb-municipio">
+                                                            <option value=""></option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <label class="form-label">Año Construccion:</label>
+                                                        <input asp-for="Construccion.AnioConstruccion" class="form-control" />
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <label class="form-label">N° Construccion:</label>
+                                                        <input asp-for="Construccion.NumeroConstruccion" class="form-control" />
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <label class="form-label">Propulsion:</label>
+                                                        <select asp-for="Construccion.Propulsion"
+                                                                asp-items="Model.Construccion.ListaPropulsion"
+                                                                class="form-select" id="cmb-municipio">
+                                                            <option value=""></option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <label class="form-label">Marca:</label>
+                                                        <select asp-for="Construccion.Marca"
+                                                                asp-items="Model.Construccion.ListaMarca"
+                                                                class="form-select" id="cmb-municipio">
+                                                            <option value=""></option>
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="col-md-3">
+                                                        <label class="form-label">Modelo:</label>
+                                                        <input asp-for="Construccion.Modelo" class="form-control" />
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <label class="form-label">Serie:</label>
+                                                        <input asp-for="Construccion.Serie" class="form-control" />
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <label class="form-label">Potencia:</label>
+                                                        <input asp-for="Construccion.Potencia" class="form-control" />
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <label class="form-label">Sistema Navegacion:</label>
+                                                        <select asp-for="Construccion.SistemaNavegacion"
+                                                                asp-items="Model.Construccion.ListaSistemaNavegacion"
+                                                                class="form-select" id="cmb-municipio">
+                                                            <option value=""></option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <label class="form-label">Tipo Comunicacion:</label>
+                                                        <input asp-for="Construccion.TipoComunicacion" class="form-control" />
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <label class="form-label">Medio Cx:</label>
+                                                        <input asp-for="Construccion.MedioCx" class="form-control" />
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <label class="form-label">Frecuencia:</label>
+                                                        <input asp-for="Construccion.Frecuencia" class="form-control" />
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <label class="form-label">Indicativo:</label>
+                                                        <input asp-for="Construccion.Indicativo" class="form-control" />
+                                                    </div>
+                                                    <div class="col-md-1    ">
+                                                        <label class="form-label">N° Tripulantes:</label>
+                                                        <input asp-for="Construccion.NumeroTripulantes" class="form-control" />
+                                                    </div>
+                                                    <div class="col-md-1">
+                                                        <label class="form-label">N° Pasajeros:</label>
+                                                        <input asp-for="Construccion.NumeroPasajeros" class="form-control" />
+                                                    </div>
+                                                    <div class="col-md-1">
+                                                        <label class="form-label">Cap. Carga:</label>
+                                                        <input asp-for="Construccion.CapacidadCarga" class="form-control" />
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <label class="form-label">Ult. Pto. Visitado:</label>
+                                                        <select asp-for="Construccion.PuertoVisitado"
+                                                                asp-items="Model.Construccion.ListaPuerto"
+                                                                class="form-select" id="cmb-municipio">
+                                                            <option value=""></option>
+                                                        </select>
                                                     </div>
                                                     <div class="col-md-6">
-                                                        <label class="form-label">Material</label>
-                                                        <input type="text" class="form-control">
+                                                        <label class="form-label">Tipo y Fechas de Infracciones:</label>
+                                                        <textarea asp-for="Construccion.TipoFechasInfracciones" class="form-control" rows="5"></textarea>
                                                     </div>
                                                 </div>
                                             </div>
@@ -370,12 +552,7 @@
 
                                 </div>
 
-                                <div class="mt-4 text-center    ">
-                                    <button class="btn btn-success"><i class="fa fa-save"></i> Guardar</button>
-                                    <a href="@Url.Action("Administrar", "Embarcaciones")" class="btn btn-danger ms-2">
-                                        <i class="fa fa-times"></i> Cancelar
-                                    </a>
-                                </div>
+
 
 
 

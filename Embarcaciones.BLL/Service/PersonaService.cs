@@ -27,9 +27,9 @@ namespace Embarcaciones.BLL.Service
             return await _personaRepo.Agregar(persona);
         }
 
-        public async Task<bool> Eliminar(int id)
+        public async Task<bool> Eliminar(Persona persona)
         {
-            return await _personaRepo.Eliminar(id);
+            return await _personaRepo.Eliminar(persona);
         }
 
         public async Task<Persona> Obtener(int id)

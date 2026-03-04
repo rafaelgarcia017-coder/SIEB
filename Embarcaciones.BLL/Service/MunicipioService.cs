@@ -26,9 +26,9 @@ namespace Embarcaciones.BLL.Service
             return await _MunicipioRepo.Agregar(municipio);
         }
 
-        public async Task<bool> Eliminar(int id)
+        public async Task<bool> Eliminar(Municipio  municipio)
         {
-            return await _MunicipioRepo.Eliminar(id);
+            return await _MunicipioRepo.Eliminar(municipio);
         }
 
         public async Task<Municipio> Obtener(int id)
@@ -45,5 +45,10 @@ namespace Embarcaciones.BLL.Service
         {
             return await _MunicipioRepo.ValidarDuplicados(valor,id);
         }
+        public async Task<bool> ValidarEliminar(int id)
+        {
+            return await _MunicipioRepo.ValidarEliminar(id);
+        }
+
     }
 }

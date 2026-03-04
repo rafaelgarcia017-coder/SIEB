@@ -40,10 +40,14 @@ namespace Embarcaciones.DAL.Repositorio
             return true;
         }
 
-        public async Task<bool> Eliminar(int id)
+        public async Task<bool> Eliminar(Persona modelo)
         {
-            Persona persona = _dbcontext.Personas.FirstOrDefault(f => f.IdPersona == id);
-            _dbcontext.Personas.Remove(persona);
+         
+            _dbcontext.Personas.Attach(modelo);
+            _dbcontext.Entry(modelo).Property(x => x.EstaActivo).IsModified = true;
+            _dbcontext.Entry(modelo).Property(x => x.EsHistorico).IsModified = true;
+            _dbcontext.Entry(modelo).Property(x => x.FechaModificacion).IsModified = true;
+            _dbcontext.Entry(modelo).Property(x => x.IdUsuarioModificacion).IsModified = true;
             await _dbcontext.SaveChangesAsync();
             return true;
         }

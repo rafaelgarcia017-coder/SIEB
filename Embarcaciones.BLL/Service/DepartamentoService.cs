@@ -16,19 +16,19 @@ namespace Embarcaciones.BLL.Service
             _DepartmentaRepo = departamentoRepo;
         }
 
-        public async Task<bool> Actualizar(Departamento persona)
+        public async Task<bool> Actualizar(Departamento departamento)
         {
-            return await _DepartmentaRepo.Actualizar(persona);
+            return await _DepartmentaRepo.Actualizar(departamento);
         }
 
-        public async Task<bool> Agregar(Departamento persona)
+        public async Task<bool> Agregar(Departamento departamento)
         {
-            return await _DepartmentaRepo.Agregar(persona);
+            return await _DepartmentaRepo.Agregar(departamento);
         }
 
-        public async Task<bool> Eliminar(int id)
+        public async Task<bool> Eliminar(Departamento departamento)
         {
-            return await _DepartmentaRepo.Eliminar(id);
+            return await _DepartmentaRepo.Eliminar(departamento);
         }
 
         public async Task<bool> ValidarDuplicados(string valor, int? id = null)
@@ -44,6 +44,11 @@ namespace Embarcaciones.BLL.Service
         public IQueryable<Departamento> ObtenerTodos()
         {
             return (IQueryable<Departamento>)_DepartmentaRepo.ObtenerTodos();
+        }
+
+        public async Task<bool> ValidarEliminar(int id)
+        {
+            return await _DepartmentaRepo.ValidarEliminar(id);
         }
     }
 }

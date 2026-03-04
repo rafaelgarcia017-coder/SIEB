@@ -13,6 +13,20 @@ namespace Embarcaciones.AplicacionWeb.Models.ViewModels.Procesos.Embarcaciones
         public List<SelectListItem> ListaSistemaNavegacion { get; set; } = new List<SelectListItem>();
         public List<SelectListItem> ListaPuerto { get; set; } = new List<SelectListItem>();
 
+        public List<SelectListItem> ListaUndMedTRB { get; set; } = new List<SelectListItem>();
+        public List<SelectListItem> ListaUndMedTRN { get; set; } = new List<SelectListItem>();
+        public List<SelectListItem> ListaUndMedEslora { get; set; } = new List<SelectListItem>();
+        public List<SelectListItem> ListaUndMedManga { get; set; } = new List<SelectListItem>();
+
+        public List<SelectListItem> ListaUndMedPuntal { get; set; } = new List<SelectListItem>();
+        public List<SelectListItem> ListaUndCalado { get; set; } = new List<SelectListItem>();
+
+        public int UndMedTRB { get; set; }
+        public int UndMedTRN { get; set; }
+        public int UndMedEslora { get; set; }
+        public int UndMedManga { get; set; }
+        public int UndMedPuntal { get; set; }
+        public int UndMedCalado { get; set; }
         public int Material { get; set; }
         public int ColorM { get; set; }
         public int ColorV { get; set; }
@@ -38,6 +52,9 @@ namespace Embarcaciones.AplicacionWeb.Models.ViewModels.Procesos.Embarcaciones
         public string MedioCx { get; set; }
         public string Frecuencia { get; set; }
         public string Indicativo { get; set; }
+        public string NumeroTripulantes { get; set; }
+        public string NumeroPasajeros { get; set; }
+        public string CapacidadCarga { get; set; }
         public string TipoFechasInfracciones { get; set; }
 
     }

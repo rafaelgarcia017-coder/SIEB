@@ -1,9 +1,11 @@
 ﻿using Embarcaciones.AplicacionWeb.Models.Utils;
 using Embarcaciones.DAL.DataContext;
 using Embarcaciones.Models;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -39,9 +41,18 @@ namespace Embarcaciones.DAL.Repositorio
             return true;
         }
 
-        public Task<bool> Eliminar(int id)
+        public async Task<bool> Eliminar(Departamento modelo)
         {
-            throw new NotImplementedException();
+            _dbcontext.Departamentos.Attach(modelo);
+
+            // Marcamos SOLO los campos que quieres modificar
+            _dbcontext.Entry(modelo).Property(x => x.EstaActivo).IsModified = true;
+            _dbcontext.Entry(modelo).Property(x => x.EsHistorico).IsModified = true;
+            _dbcontext.Entry(modelo).Property(x => x.FechaModificacion).IsModified = true;
+            _dbcontext.Entry(modelo).Property(x => x.IdUsuarioModificacion).IsModified = true;
+
+            await _dbcontext.SaveChangesAsync();
+            return true;
         }
 
         public async Task<Departamento> Obtener(int id)
@@ -70,5 +81,24 @@ namespace Embarcaciones.DAL.Repositorio
                           && a.Departamento1 == valor
                           && (!id.HasValue || a.IdDepartamento != id.Value));
         }
+
+        public async Task<bool> ValidarEliminar(int id)
+        {      
+                var connectionString = _dbcontext.Database.GetDbConnection().ConnectionString;
+
+                using (var connection = new SqlConnection(connectionString))
+                using (var command = new SqlCommand("Fundaciones.PermiteEliminarDepartamento", connection))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.Add("@IdDepartamento", SqlDbType.Int).Value = id;
+
+                    await connection.OpenAsync();
+
+                    var result = await command.ExecuteScalarAsync();
+
+                    return result != null && Convert.ToBoolean(result);
+                }
+            }
+        
     }
 }

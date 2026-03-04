@@ -106,5 +106,38 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Catalogos
             };
             return View("NuevoDepartamento", model);
         }
+
+        [HttpPost]
+        public async Task<ActionResult> EliminarDepartamento(int id)
+        {
+            try
+            {
+                var permiteEliminar = await _departamentoService.ValidarEliminar(id);
+
+                if (!permiteEliminar)
+                    return Json(new { success = false, mensaje = "No se puede eliminar este registro porque está asociado a otros datos. Para continuar, primero desvincule o elimine los registros relacionados." });
+
+                var departamento = new Departamento
+                {
+                    IdDepartamento = id,
+                    EstaActivo = false,
+                    EsHistorico = true,
+                    IdUsuarioModificacion = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier)?.Value),
+                    FechaModificacion = DateTime.Now
+                };
+                var responseVerify = await _departamentoService.Eliminar(departamento);
+                if (responseVerify)
+                    return Json(new { success = true, mensaje = "Se eliminó con éxito." });
+                else
+                    return Json(new { success = false, mensaje = "Ha ocurrido un error. Contacte al Administrador." });
+
+            }
+            catch (Exception)
+            {
+                return Json(new { success = false, mensaje = "Ha ocurrido un error. Contacte al Administrador." });
+                throw;
+            }
+
+        }
     }
 }

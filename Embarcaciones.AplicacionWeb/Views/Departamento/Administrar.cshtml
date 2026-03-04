@@ -59,12 +59,9 @@
                                                    class="btn btn-primary btn-table">
                                                     <i class="fa fa-edit"></i>
                                                 </a>
-
-                                                <button class="btn btn-danger btn-table"><i class="fa fa-trash"></i></button>
+                                                <button type="button" onclick="eliminarDepartamento(@item.IdDepartamento)" class="btn btn-danger btn-table"><i class="fa fa-trash"></i></button>
                                             </td>
                                         </tr>
-
-
                                     }
                                 </tbody>
                             </table>
@@ -83,6 +80,57 @@
         $(document).ready(function () {
             AplicarDatatable('#tbl-departamentos')
         });
+                    function eliminarDepartamento(id) {
+                    Swal.fire({
+                        title: "¿Estás seguro de que deseas eliminar este departamento?",
+                        text: "Este registro se desactivará y no podrá utilizarse nuevamente.",
+                        icon: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#d33",
+                        cancelButtonColor: "#3085d6",
+                        confirmButtonText: "Sí, eliminar",
+                        cancelButtonText: "Cancelar"
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+
+                            Swal.fire({
+                                title: "Eliminando...",
+                                allowOutsideClick: false,
+                                didOpen: () => Swal.showLoading()
+                            });
+
+                            $.ajax({
+                                url: '/Departamento/EliminarDepartamento',
+                                type: 'POST',
+                                data: { id: id },
+                                success: function (response) {
+                                    Swal.close(); // cerramos el loader
+
+                                    if (response.success) {
+                                        Swal.fire(
+                                            "Eliminado",
+                                            response.mensaje, // mensaje desde el backend
+                                            "success"
+                                        ).then(() => location.reload());
+                                    } else {
+                                        Swal.fire(
+                                            "No se puede eliminar",
+                                            response.mensaje, // mensaje de advertencia desde el backend
+                                            "warning"
+                                        );
+                                    }
+                                },
+                                error: function () {
+                                    Swal.fire(
+                                        "Error",
+                                        "No se pudo eliminar el registro.",
+                                        "error"
+                                    );
+                                }
+                            });
+                        }
+                    });
+                }
     </script>
 }
 

@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Security.Claims;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Embarcaciones.AplicacionWeb.Controllers.Catalogos
 {
@@ -163,6 +164,34 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Catalogos
                 Accion = AccionesController.Editar
             };
             return View("NuevaPersona", await LlenarModelo(model));
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> EliminarPersona(int id)
+        {
+            try
+            {
+                var persona = new Persona
+                {
+                    IdPersona = id,
+                    EstaActivo = false,
+                    EsHistorico = true,
+                    IdUsuarioModificacion = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier)?.Value),
+                    FechaModificacion = DateTime.Now
+                };
+                var responseVerify = await _personaService.Eliminar(persona);
+                if (responseVerify)
+                    return Json(new { success = true, mensaje = "Se eliminó con éxito." });
+                else
+                    return Json(new { success = false, mensaje = "Ha ocurrido un error. Contacte al Administrador." });
+
+            }
+            catch (Exception)
+            {
+                return Json(new { success = false, mensaje = "Ha ocurrido un error. Contacte al Administrador." });
+                throw;
+            }
+
         }
 
     }

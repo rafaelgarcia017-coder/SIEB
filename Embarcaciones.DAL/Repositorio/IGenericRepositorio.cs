@@ -10,10 +10,11 @@ namespace Embarcaciones.DAL.Repositorio
     {
         Task<bool> Agregar(TEntityModel modelo);
         Task<bool> Actualizar(TEntityModel modelo);
-        Task<bool> Eliminar(int id);
+        Task<bool> Eliminar(TEntityModel modelo);
         Task<bool> ValidarDuplicados(string valor, int? id );
         Task<TEntityModel> Obtener(int id);
         IQueryable<TEntityModel> ObtenerTodos();
+        Task<bool> ValidarEliminar(int id);
 
     }
 }
