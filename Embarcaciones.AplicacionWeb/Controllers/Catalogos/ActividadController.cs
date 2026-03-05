@@ -85,18 +85,18 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Catalogos
                         AddAdvertencia("La Actividad que intentas registrar ya existe. Revisa la información e intenta nuevamente");
                         return View("NuevoActividad", model);
                     }
-                    var tipoIdentificacion = new CatalogoValor
+                    var actividad = new CatalogoValor
                     {
                         IdCatalogo = idCatalogo,
                         Nombre = model.Actividad,
                         Descripcion = model.Descripcion,
                         IdUsuarioCreacion = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier)?.Value)
                     };
-                    var response = await _catalogoValorService.Agregar(tipoIdentificacion);
+                    var response = await _catalogoValorService.Agregar(actividad);
                 }
                 else
                 {
-                    var tipoIdentificacion = new CatalogoValor
+                    var actividad = new CatalogoValor
                     {
                         IdCatalogo = model.IdCatalogo,
                         IdCatalogoValor = model.IdActividad,
@@ -105,7 +105,7 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Catalogos
                         IdUsuarioModificacion = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier)?.Value),
                         FechaModificacion = DateTime.Now,
                     };
-                    var response = await _catalogoValorService.Actualizar(tipoIdentificacion);
+                    var response = await _catalogoValorService.Actualizar(actividad);
                 }
 
                 AddExito(model.Accion == AccionesController.Nuevo
@@ -120,6 +120,27 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Catalogos
                 throw;
             }
     
+        }
+        [HttpPost]
+        public async Task<ActionResult> EliminarActividad(int id)
+        {
+            var puedeEliminar = await _catalogoValorService.ValidarEliminar(id, "ACTV");
+
+            if (!puedeEliminar)
+                return Json(new { success = false, mensaje = "No se puede eliminar este registro porque está asociado a otros datos. Para continuar, primero desvincule o elimine los registros relacionados." });
+
+            var actividad = new CatalogoValor
+            {
+                IdCatalogoValor = id,
+                //EstaActivo = false,
+                //EsHistorico = true,
+                IdUsuarioModificacion = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier)?.Value),
+                FechaModificacion = DateTime.Now
+            };
+
+            await _catalogoValorService.Eliminar(actividad);
+
+            return Json(new { success = true, mensaje = "Se eliminó con éxito." });
         }
     }
 }

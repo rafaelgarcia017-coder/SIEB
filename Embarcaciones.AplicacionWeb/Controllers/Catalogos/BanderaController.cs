@@ -116,5 +116,27 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Catalogos
             return View("NuevoBandera", model);
         }
 
+        [HttpPost]
+        public async Task<ActionResult> EliminarBandera(int id)
+        {
+            var puedeEliminar = await _catalogoValorService.ValidarEliminar(id, "BAND");
+
+            if (!puedeEliminar)
+                return Json(new { success = false, mensaje = "No se puede eliminar este registro porque está asociado a otros datos. Para continuar, primero desvincule o elimine los registros relacionados." });
+
+            var actividad = new CatalogoValor
+            {
+                IdCatalogoValor = id,
+                //EstaActivo = false,
+                //EsHistorico = true,
+                IdUsuarioModificacion = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier)?.Value),
+                FechaModificacion = DateTime.Now
+            };
+
+            await _catalogoValorService.Eliminar(actividad);
+
+            return Json(new { success = true, mensaje = "Se eliminó con éxito." });
+        }
+
     }
 }
