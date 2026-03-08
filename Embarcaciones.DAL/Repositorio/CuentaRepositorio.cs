@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -56,8 +57,19 @@ namespace Embarcaciones.DAL.Repositorio
         // ---------- Método específico ----------
         public async Task<Cuenta> ValidarCuenta(string cuenta, string clave)
         {
+            byte[] claveBytes = Encoding.UTF8.GetBytes(clave);
+            byte[] hashBytes;
+
+            using (SHA256 sha256 = SHA256.Create())
+            {
+                hashBytes = sha256.ComputeHash(claveBytes);
+            }
+
+            // Comparar con la base de datos
             return await _dbcontext.Cuenta
-                .FirstOrDefaultAsync(c => c.Usuario == cuenta && c.ContrasenaHash == clave);
+                .FirstOrDefaultAsync(c => c.Usuario == cuenta);
+                //&& c.ContrasenaHash == hashBytes);
+
         }
     }
 }

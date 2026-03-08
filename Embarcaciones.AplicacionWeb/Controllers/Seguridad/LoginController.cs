@@ -7,7 +7,7 @@ using System.Security.Claims;
 
 namespace Embarcaciones.AplicacionWeb.Controllers.Seguridad
 {
-    public class LoginController : Controller
+    public class LoginController : CustomController
     {
         private readonly ICuentaService _cuentaService;
 
@@ -31,7 +31,7 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Seguridad
 
             if (cuenta == null || cuenta.IdCuenta == 0)
             {
-                ModelState.AddModelError(string.Empty, "Cuenta o contraseña incorrecta");
+                AddAdvertencia("Cuenta o contraseña incorrecta");
                 return View(sesion);
             }
 
