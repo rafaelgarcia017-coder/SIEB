@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Embarcaciones.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
@@ -606,7 +607,7 @@ namespace Embarcaciones.DAL.DataContext
                     .HasMaxLength(100)
                     .HasColumnName("Municipio");
 
-                entity.HasOne(d => d.IdDepartamentoNavigation)
+                entity.HasOne(d => d.DepartamentoNavigation)
                     .WithMany(p => p.Municipio)
                     .HasForeignKey(d => d.IdDepartamento)
                     .OnDelete(DeleteBehavior.ClientSetNull)
@@ -680,7 +681,7 @@ namespace Embarcaciones.DAL.DataContext
 
                 entity.Property(e => e.Telefono).HasMaxLength(30);
 
-                entity.HasOne(d => d.IdTipoIdentificacionNavigation)
+                entity.HasOne(d => d.TipoIdentificacionNavigation)
                     .WithMany(p => p.Persona)
                     .HasForeignKey(d => d.IdTipoIdentificacion)
                     .OnDelete(DeleteBehavior.ClientSetNull)

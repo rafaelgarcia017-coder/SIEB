@@ -37,7 +37,7 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Catalogos
                     IdMaterial = s.IdCatalogoValor,
                     Material = s.Nombre,
                     Descripcion = s.Descripcion,
-                    FechaCreacion = s.FechaCreacion?.ToString("dd/MM/yyyy"),
+                    FechaCreacion = s.FechaCreacion.ToString("dd/MM/yyyy"),
                     UsuarioCreacion = s.UsuarioCreacionNavigation.Usuario
                 }).ToList()
 

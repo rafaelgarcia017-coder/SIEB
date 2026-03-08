@@ -21,7 +21,7 @@ namespace Embarcaciones.DAL.Repositorio
         }
         public async Task<bool> Actualizar(Municipio modelo)
         {
-            _dbcontext.Municipios.Attach(modelo);
+            _dbcontext.Municipio.Attach(modelo);
 
             // Marcamos SOLO los campos que quieres modificar
             _dbcontext.Entry(modelo).Property(x => x.IdDepartamento).IsModified = true;
@@ -36,14 +36,14 @@ namespace Embarcaciones.DAL.Repositorio
 
         public async Task<bool> Agregar(Municipio modelo)
         {
-            _dbcontext.Municipios.Add(modelo);
+            _dbcontext.Municipio.Add(modelo);
             await _dbcontext.SaveChangesAsync();
             return true;
         }
 
         public async Task<bool> Eliminar(Municipio   modelo)
         {
-            _dbcontext.Municipios.Attach(modelo);
+            _dbcontext.Municipio.Attach(modelo);
 
             // Marcamos SOLO los campos que quieres modificar      
             _dbcontext.Entry(modelo).Property(x => x.EstaActivo).IsModified = true;
@@ -57,12 +57,12 @@ namespace Embarcaciones.DAL.Repositorio
 
         public async Task<Municipio> Obtener(int id)
         {
-            return await _dbcontext.Municipios.FindAsync(id);
+            return await _dbcontext.Municipio.FindAsync(id);
         }
 
         public IQueryable<Municipio> ObtenerTodos()
         {
-            return _dbcontext.Municipios
+            return _dbcontext.Municipio
    .Include(d => d.UsuarioCreacionNavigation)
    .Include(d => d.UsuarioModificacionNavigation)
    .Include(d => d.DepartamentoNavigation)
@@ -73,7 +73,7 @@ namespace Embarcaciones.DAL.Repositorio
 
         public async Task<bool> ValidarDuplicados(string valor, int? id)
         {
-            return await _dbcontext.Municipios
+            return await _dbcontext.Municipio
                 .AnyAsync(a => a.EstaActivo == true
                                && a.Municipio1 == valor
                                && (!id.HasValue || a.IdMunicipio != id.Value));

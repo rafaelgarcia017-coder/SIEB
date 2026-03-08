@@ -99,7 +99,7 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Catalogos
                     var persona = new Persona
                     {
                         NombreCompleto = model.NombreCompleto,
-                        IdTipoIdentificacion = model.IdTipoIdentificacion,
+                        IdTipoIdentificacion = model.IdTipoIdentificacion?? 0,
                         Identificacion = model.Identificacion,
                         Direccion = model.Direccion,
                         Telefono = model.Telefono,
@@ -121,7 +121,7 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Catalogos
                     {
                         IdPersona = model.IdPersona,
                         NombreCompleto = model.NombreCompleto,
-                        IdTipoIdentificacion = model.IdTipoIdentificacion,
+                        IdTipoIdentificacion = model.IdTipoIdentificacion ?? 0,
                         Identificacion = model.Identificacion,
                         Direccion = model.Direccion,
                         Telefono = model.Telefono,

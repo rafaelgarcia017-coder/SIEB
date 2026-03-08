@@ -30,7 +30,7 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Catalogos
                        IdDepartamento = s.IdDepartamento,
                        Departamento = s.Departamento1,
                        Descripcion = s.Descripcion,
-                       FechaCreacion = s.FechaCreacion?.ToString("dd/MM/yyyy"),
+                       FechaCreacion = s.FechaCreacion.ToString("dd/MM/yyyy"),
                        UsuarioCreacion = s.UsuarioCreacionNavigation.Usuario
                    }).ToList()   
             };

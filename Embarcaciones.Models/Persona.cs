@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Embarcaciones.DAL.DataContext
+namespace Embarcaciones.Models
 {
     public partial class Persona
     {
@@ -24,7 +24,7 @@ namespace Embarcaciones.DAL.DataContext
         public int? IdUsuarioModificacion { get; set; }
         public DateTime? FechaModificacion { get; set; }
 
-        public virtual CatalogoValor IdTipoIdentificacionNavigation { get; set; } = null!;
+        public virtual CatalogoValor TipoIdentificacionNavigation { get; set; } = null!;
         public virtual Cuenta UsuarioCreacionNavigation { get; set; } = null!;
         public virtual Cuenta? UsuarioModificacionNavigation { get; set; }
         public virtual ICollection<Cuenta> Cuenta { get; set; }

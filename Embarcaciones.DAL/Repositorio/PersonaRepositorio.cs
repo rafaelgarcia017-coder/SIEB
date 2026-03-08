@@ -19,7 +19,7 @@ namespace Embarcaciones.DAL.Repositorio
         }
         public async Task<bool> Actualizar(Persona modelo)
         {
-            _dbcontext.Personas.Attach(modelo);
+            _dbcontext.Persona.Attach(modelo);
 
             _dbcontext.Entry(modelo).Property(x => x.NombreCompleto).IsModified = true;
             _dbcontext.Entry(modelo).Property(x => x.Direccion).IsModified = true;
@@ -35,7 +35,7 @@ namespace Embarcaciones.DAL.Repositorio
 
         public async Task<bool> Agregar(Persona modelo)
         {
-            _dbcontext.Personas.Add(modelo);
+            _dbcontext.Persona.Add(modelo);
             await _dbcontext.SaveChangesAsync();
             return true;
         }
@@ -43,7 +43,7 @@ namespace Embarcaciones.DAL.Repositorio
         public async Task<bool> Eliminar(Persona modelo)
         {
          
-            _dbcontext.Personas.Attach(modelo);
+            _dbcontext.Persona.Attach(modelo);
             _dbcontext.Entry(modelo).Property(x => x.EstaActivo).IsModified = true;
             _dbcontext.Entry(modelo).Property(x => x.EsHistorico).IsModified = true;
             _dbcontext.Entry(modelo).Property(x => x.FechaModificacion).IsModified = true;
@@ -54,12 +54,12 @@ namespace Embarcaciones.DAL.Repositorio
 
         public async Task<Persona> Obtener(int id)
         {
-            return await _dbcontext.Personas.FindAsync(id);
+            return await _dbcontext.Persona.FindAsync(id);
         }
 
         public IQueryable<Persona> ObtenerTodos()
         {
-            IQueryable<Persona> queryPersona = _dbcontext.Personas
+            IQueryable<Persona> queryPersona = _dbcontext.Persona
                                                                                   .Include(d => d.UsuarioCreacionNavigation)
                                                                                   .Include(d => d.UsuarioModificacionNavigation)
                                                                                   .Include(i => i.TipoIdentificacionNavigation)
@@ -78,7 +78,7 @@ namespace Embarcaciones.DAL.Repositorio
                 string.IsNullOrWhiteSpace(identificacionTrim) &&
                 !idTipoIdentificacion.HasValue)
             {
-                return await _dbcontext.Personas.AnyAsync(a =>
+                return await _dbcontext.Persona.AnyAsync(a =>
                     a.EstaActivo == true &&
                     a.NombreCompleto.Trim().ToUpper() == nombreNormalizado &&
                     (!id.HasValue || a.IdPersona != id.Value)
@@ -89,7 +89,7 @@ namespace Embarcaciones.DAL.Repositorio
                      idTipoIdentificacion.HasValue &&
                      string.IsNullOrWhiteSpace(identificacionTrim))
             {
-                return await _dbcontext.Personas.AnyAsync(a =>
+                return await _dbcontext.Persona.AnyAsync(a =>
                     a.EstaActivo == true &&
                     a.NombreCompleto.Trim().ToUpper() == nombreNormalizado &&
                     a.IdTipoIdentificacion == idTipoIdentificacion.Value &&
@@ -101,7 +101,7 @@ namespace Embarcaciones.DAL.Repositorio
                      idTipoIdentificacion.HasValue &&
                      !string.IsNullOrWhiteSpace(identificacionTrim))
             {
-                return await _dbcontext.Personas.AnyAsync(a =>
+                return await _dbcontext.Persona.AnyAsync(a =>
                     a.EstaActivo == true &&
                     a.NombreCompleto.Trim().ToUpper() == nombreNormalizado &&
                     a.IdTipoIdentificacion == idTipoIdentificacion.Value &&

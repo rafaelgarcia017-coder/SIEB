@@ -1,7 +1,8 @@
-﻿using System;
+﻿using Embarcaciones.Models;
+using System;
 using System.Collections.Generic;
 
-namespace Embarcaciones.DAL.DataContext
+namespace Embarcaciones.Models
 {
     public partial class Embarcacion
     {
