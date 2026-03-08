@@ -1,26 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Embarcaciones.Models
+namespace Embarcaciones.DAL.DataContext
 {
     public partial class Catalogo
     {
         public Catalogo()
         {
-            CatalogoValors = new HashSet<CatalogoValor>();
+            CatalogoValor = new HashSet<CatalogoValor>();
         }
 
         public int IdCatalogo { get; set; }
         public string CodigoInterno { get; set; } = null!;
         public string Nombre { get; set; } = null!;
         public string? Descripcion { get; set; }
+        public bool? EstaActivo { get; set; }
+        public bool EsHistorico { get; set; }
         public int IdUsuarioCreacion { get; set; }
-        public DateTime? FechaCreacion { get; set; }
+        public DateTime FechaCreacion { get; set; }
         public int? IdUsuarioModificacion { get; set; }
         public DateTime? FechaModificacion { get; set; }
 
-        public virtual Cuenta IdUsuarioCreacionNavigation { get; set; } = null!;
-        public virtual Cuenta? IdUsuarioModificacionNavigation { get; set; }
-        public virtual ICollection<CatalogoValor> CatalogoValors { get; set; }
+        public virtual Cuenta UsuarioCreacionNavigation { get; set; } = null!;
+        public virtual Cuenta? UsuarioModificacionNavigation { get; set; }
+        public virtual ICollection<CatalogoValor> CatalogoValor { get; set; }
     }
 }

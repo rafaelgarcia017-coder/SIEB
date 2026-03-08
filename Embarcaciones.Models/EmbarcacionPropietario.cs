@@ -1,20 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Embarcaciones.Models
+namespace Embarcaciones.DAL.DataContext
 {
     public partial class EmbarcacionPropietario
     {
         public EmbarcacionPropietario()
         {
-            Embarcacions = new HashSet<Embarcacion>();
+            Embarcacion = new HashSet<Embarcacion>();
         }
 
         public int IdEmbarcacionPropietario { get; set; }
-        public string? NombrePropietario { get; set; }
-        public int? IdNacionalidad { get; set; }
-        public int? IdMunicipio { get; set; }
-        public int? IdDepartamento { get; set; }
+        public string NombrePropietario { get; set; } = null!;
+        public int IdTipoIdentificacion { get; set; }
+        public string? Identificacion { get; set; }
+        public int IdNacionalidad { get; set; }
+        public int IdMunicipio { get; set; }
+        public int IdDepartamento { get; set; }
         public string? Domicilio { get; set; }
         public string? Telefono { get; set; }
         public string? EmpresaPropietaria { get; set; }
@@ -30,10 +32,11 @@ namespace Embarcaciones.Models
         public int? IdUsuarioModificacion { get; set; }
         public DateTime? FechaModificacion { get; set; }
 
-        public virtual Departamento? IdDepartamentoNavigation { get; set; }
-        public virtual Municipio? IdMunicipioNavigation { get; set; }
-        public virtual Cuenta IdUsuarioCreacionNavigation { get; set; } = null!;
-        public virtual Cuenta? IdUsuarioModificacionNavigation { get; set; }
-        public virtual ICollection<Embarcacion> Embarcacions { get; set; }
+        public virtual Departamento IdDepartamentoNavigation { get; set; } = null!;
+        public virtual Municipio IdMunicipioNavigation { get; set; } = null!;
+        public virtual CatalogoValor IdNacionalidadNavigation { get; set; } = null!;
+        public virtual Cuenta UsuarioCreacionNavigation { get; set; } = null!;
+        public virtual Cuenta? UsuarioModificacionNavigation { get; set; }
+        public virtual ICollection<Embarcacion> Embarcacion { get; set; }
     }
 }

@@ -22,7 +22,7 @@ namespace Embarcaciones.DAL.Repositorio
 
         public async Task<bool> Actualizar(Departamento modelo)
         {
-            _dbcontext.Departamentos.Attach(modelo);
+            _dbcontext.Departamento.Attach(modelo);
 
             // Marcamos SOLO los campos que quieres modificar
             _dbcontext.Entry(modelo).Property(x => x.Departamento1).IsModified = true;
@@ -36,14 +36,14 @@ namespace Embarcaciones.DAL.Repositorio
 
         public async Task<bool> Agregar(Departamento modelo)
         {
-            _dbcontext.Departamentos.Add(modelo);
+            _dbcontext.Departamento.Add(modelo);
             await _dbcontext.SaveChangesAsync();
             return true;
         }
 
         public async Task<bool> Eliminar(Departamento modelo)
         {
-            _dbcontext.Departamentos.Attach(modelo);
+            _dbcontext.Departamento.Attach(modelo);
 
             // Marcamos SOLO los campos que quieres modificar
             _dbcontext.Entry(modelo).Property(x => x.EstaActivo).IsModified = true;
@@ -57,12 +57,12 @@ namespace Embarcaciones.DAL.Repositorio
 
         public async Task<Departamento> Obtener(int id)
         {
-            return await _dbcontext.Departamentos.FindAsync(id);
+            return await _dbcontext.Departamento.FindAsync(id);
         }
 
         public IQueryable<Departamento> ObtenerTodos()
         {
-            IQueryable<Departamento> queryDepartamento = _dbcontext.Departamentos
+            IQueryable<Departamento> queryDepartamento = _dbcontext.Departamento
                                                                                              .Include(d => d.UsuarioCreacionNavigation)
                                                                                              .Include(d => d.UsuarioModificacionNavigation)
                                                                                              .Where(w => (bool)w.EstaActivo);
@@ -76,7 +76,7 @@ namespace Embarcaciones.DAL.Repositorio
             //var valorLimpio = valor.CleanStringV2();
 
             // Compara con los registros activos normalizados
-            return await _dbcontext.Departamentos
+            return await _dbcontext.Departamento
            .AnyAsync(a => a.EstaActivo == true
                           && a.Departamento1 == valor
                           && (!id.HasValue || a.IdDepartamento != id.Value));

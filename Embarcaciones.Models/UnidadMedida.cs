@@ -1,23 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Embarcaciones.Models
+namespace Embarcaciones.DAL.DataContext
 {
-    public class UnidadMedida
+    public partial class UnidadMedida
     {
-
-        //public UnidadMedida()
-        //{
-        //    EmbarcacionConstruccionIdUnidadMedidaCaladoNavigations = new HashSet<EmbarcacionConstruccion>();
-        //    EmbarcacionConstruccionIdUnidadMedidaEsloraNavigations = new HashSet<EmbarcacionConstruccion>();
-        //    EmbarcacionConstruccionIdUnidadMedidaMangaNavigations = new HashSet<EmbarcacionConstruccion>();
-        //    EmbarcacionConstruccionIdUnidadMedidaPuntalNavigations = new HashSet<EmbarcacionConstruccion>();
-        //    EmbarcacionConstruccionIdUnidadMedidaTrbNavigations = new HashSet<EmbarcacionConstruccion>();
-        //    EmbarcacionConstruccionIdUnidadMedidaTrnNavigations = new HashSet<EmbarcacionConstruccion>();
-        //}
+        public UnidadMedida()
+        {
+            EmbarcacionConstruccionIdUnidadMedidaCaladoNavigation = new HashSet<EmbarcacionConstruccion>();
+            EmbarcacionConstruccionIdUnidadMedidaEsloraNavigation = new HashSet<EmbarcacionConstruccion>();
+            EmbarcacionConstruccionIdUnidadMedidaMangaNavigation = new HashSet<EmbarcacionConstruccion>();
+            EmbarcacionConstruccionIdUnidadMedidaPuntalNavigation = new HashSet<EmbarcacionConstruccion>();
+            EmbarcacionConstruccionIdUnidadMedidaTrbNavigation = new HashSet<EmbarcacionConstruccion>();
+            EmbarcacionConstruccionIdUnidadMedidaTrnNavigation = new HashSet<EmbarcacionConstruccion>();
+        }
 
         public int IdUnidadMedida { get; set; }
         public string Nombre { get; set; } = null!;
@@ -30,14 +26,13 @@ namespace Embarcaciones.Models
         public int? IdUsuarioModificacion { get; set; }
         public DateTime? FechaModificacion { get; set; }
 
-        //public virtual Cuenta IdUsuarioCreacionNavigation { get; set; } = null!;
-        //public virtual Cuenta? IdUsuarioModificacionNavigation { get; set; }
-        //public virtual ICollection<EmbarcacionConstruccion> EmbarcacionConstruccionIdUnidadMedidaCaladoNavigations { get; set; }
-        //public virtual ICollection<EmbarcacionConstruccion> EmbarcacionConstruccionIdUnidadMedidaEsloraNavigations { get; set; }
-        //public virtual ICollection<EmbarcacionConstruccion> EmbarcacionConstruccionIdUnidadMedidaMangaNavigations { get; set; }
-        //public virtual ICollection<EmbarcacionConstruccion> EmbarcacionConstruccionIdUnidadMedidaPuntalNavigations { get; set; }
-        //public virtual ICollection<EmbarcacionConstruccion> EmbarcacionConstruccionIdUnidadMedidaTrbNavigations { get; set; }
-        //public virtual ICollection<EmbarcacionConstruccion> EmbarcacionConstruccionIdUnidadMedidaTrnNavigations { get; set; }
+        public virtual Cuenta UsuarioCreacionNavigation { get; set; } = null!;
+        public virtual Cuenta? UsuarioModificacionNavigation { get; set; }
+        public virtual ICollection<EmbarcacionConstruccion> EmbarcacionConstruccionIdUnidadMedidaCaladoNavigation { get; set; }
+        public virtual ICollection<EmbarcacionConstruccion> EmbarcacionConstruccionIdUnidadMedidaEsloraNavigation { get; set; }
+        public virtual ICollection<EmbarcacionConstruccion> EmbarcacionConstruccionIdUnidadMedidaMangaNavigation { get; set; }
+        public virtual ICollection<EmbarcacionConstruccion> EmbarcacionConstruccionIdUnidadMedidaPuntalNavigation { get; set; }
+        public virtual ICollection<EmbarcacionConstruccion> EmbarcacionConstruccionIdUnidadMedidaTrbNavigation { get; set; }
+        public virtual ICollection<EmbarcacionConstruccion> EmbarcacionConstruccionIdUnidadMedidaTrnNavigation { get; set; }
     }
 }
-

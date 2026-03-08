@@ -1,29 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Embarcaciones.Models
+namespace Embarcaciones.DAL.DataContext
 {
     public partial class Departamento
     {
         public Departamento()
         {
-            EmbarcacionPropietarios = new HashSet<EmbarcacionPropietario>();
-            Municipios = new HashSet<Municipio>();
+            EmbarcacionPropietario = new HashSet<EmbarcacionPropietario>();
+            Municipio = new HashSet<Municipio>();
         }
 
         public int IdDepartamento { get; set; }
         public string Departamento1 { get; set; } = null!;
         public string? Descripcion { get; set; }
         public bool? EstaActivo { get; set; }
-        public bool? EsHistorico { get; set; }
+        public bool EsHistorico { get; set; }
         public int IdUsuarioCreacion { get; set; }
-        public DateTime? FechaCreacion { get; set; }
+        public DateTime FechaCreacion { get; set; }
         public int? IdUsuarioModificacion { get; set; }
         public DateTime? FechaModificacion { get; set; }
 
         public virtual Cuenta UsuarioCreacionNavigation { get; set; } = null!;
         public virtual Cuenta? UsuarioModificacionNavigation { get; set; }
-        public virtual ICollection<EmbarcacionPropietario> EmbarcacionPropietarios { get; set; }
-        public virtual ICollection<Municipio> Municipios { get; set; }
+        public virtual ICollection<EmbarcacionPropietario> EmbarcacionPropietario { get; set; }
+        public virtual ICollection<Municipio> Municipio { get; set; }
     }
 }

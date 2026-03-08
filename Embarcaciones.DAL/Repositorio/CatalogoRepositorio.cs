@@ -20,7 +20,7 @@ namespace Embarcaciones.DAL.Repositorio
 
         public async Task<int> ObtenerIdCatalogo(string codigoInterno)
         {
-            return await _dbcontext.Catalogos
+            return await _dbcontext.Catalogo
                                                     .Where(x => x.CodigoInterno == codigoInterno)
                                                     .Select(x => x.IdCatalogo)
                                                     .SingleAsync()  ;

@@ -1,6 +1,4 @@
-﻿using Embarcaciones.DAL.DataContext;
-using Embarcaciones.Models;
-using Microsoft.Data.SqlClient;
+﻿using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -9,6 +7,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Embarcaciones.DAL.DataContext;
 
 namespace Embarcaciones.DAL.Repositorio
 {
@@ -23,7 +22,7 @@ namespace Embarcaciones.DAL.Repositorio
 
         public async Task<bool> Actualizar(CatalogoValor modelo)
         {
-            _dbcontext.CatalogoValors.Attach(modelo);
+            _dbcontext.CatalogoValor.Attach(modelo);
 
             _dbcontext.Entry(modelo).Property(x => x.Nombre).IsModified = true;
             _dbcontext.Entry(modelo).Property(x => x.Descripcion).IsModified = true;
@@ -37,14 +36,14 @@ namespace Embarcaciones.DAL.Repositorio
 
         public async Task<bool> Agregar(CatalogoValor modelo)
         {
-            _dbcontext.CatalogoValors.Add(modelo);
+            _dbcontext.CatalogoValor.Add(modelo);
             await _dbcontext.SaveChangesAsync();
             return true;
         }
 
         public async Task<bool> Eliminar(CatalogoValor modelo)
         {
-            _dbcontext.CatalogoValors.Attach(modelo);
+            _dbcontext.CatalogoValor.Attach(modelo);
 
             //_dbcontext.Entry(modelo).Property(x => x.EstaActivo).IsModified = true;
             //_dbcontext.Entry(modelo).Property(x => x.EsHistorico).IsModified = true;
@@ -59,12 +58,12 @@ namespace Embarcaciones.DAL.Repositorio
 
         public async Task<CatalogoValor> Obtener(int id)
         {
-            return await _dbcontext.CatalogoValors.FindAsync(id);
+            return await _dbcontext.CatalogoValor.FindAsync(id);
         }
 
         public IQueryable<CatalogoValor> ObtenerTodos(int idCatalogo)
         {
-            IQueryable<CatalogoValor> queryCatalogo = _dbcontext.CatalogoValors
+            IQueryable<CatalogoValor> queryCatalogo = _dbcontext.CatalogoValor
                                                                       .Where(w=> w.IdCatalogo == idCatalogo)
                                                                      .Include(d => d.UsuarioCreacionNavigation)
                                                                      .Include(d => d.UsuarioModificacionNavigation);
@@ -74,7 +73,7 @@ namespace Embarcaciones.DAL.Repositorio
 
         public async Task<bool> ValidarCatalogo(int idCatalogo, string valor)
         {
-            return await _dbcontext.CatalogoValors
+            return await _dbcontext.CatalogoValor
                                       .AnyAsync(a =>a.Nombre == valor && a.IdCatalogo == idCatalogo);
         }
 

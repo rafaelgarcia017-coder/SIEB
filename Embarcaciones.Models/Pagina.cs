@@ -1,10 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Embarcaciones.Models
+namespace Embarcaciones.DAL.DataContext
 {
     public partial class Pagina
     {
+        public Pagina()
+        {
+            RolPaginaAccion = new HashSet<RolPaginaAccion>();
+        }
+
         public int IdPagina { get; set; }
         public string Nombre { get; set; } = null!;
         public string UrlPagina { get; set; } = null!;
@@ -16,7 +21,8 @@ namespace Embarcaciones.Models
         public int? IdUsuarioModificacion { get; set; }
         public DateTime? FechaModificacion { get; set; }
 
-        public virtual Cuenta IdUsuarioCreacionNavigation { get; set; } = null!;
-        public virtual Cuenta? IdUsuarioModificacionNavigation { get; set; }
+        public virtual Cuenta UsuarioCreacionNavigation { get; set; } = null!;
+        public virtual Cuenta? UsuarioModificacionNavigation { get; set; }
+        public virtual ICollection<RolPaginaAccion> RolPaginaAccion { get; set; }
     }
 }
