@@ -41,8 +41,8 @@ namespace Embarcaciones.Models
         public virtual CatalogoValor IdActividadNavigation { get; set; } = null!;
         public virtual CatalogoValor IdBanderaRegistroActualNavigation { get; set; } = null!;
         public virtual CatalogoValor? IdBanderaRegistroAnteriorNavigation { get; set; }
-        public virtual EmbarcacionConstruccion? IdEmbarcacionConstruccionNavigation { get; set; }
-        public virtual EmbarcacionPropietario? IdEmbarcacionPropietarioNavigation { get; set; }
+        public virtual EmbarcacionConstruccion? EmbarcacionConstruccionNavigation { get; set; }
+        public virtual EmbarcacionPropietario? EmbarcacionPropietarioNavigation { get; set; }
         public virtual CatalogoValor IdPuertoRegistroActualNavigation { get; set; } = null!;
         public virtual CatalogoValor? IdPuertoRegistroAnteriorNavigation { get; set; }
         public virtual CatalogoValor? IdTipoEmbarcacionNavigation { get; set; }

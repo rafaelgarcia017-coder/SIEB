@@ -1,0 +1,84 @@
+﻿@using Embarcaciones.AplicacionWeb.Models.ViewModels.Catalogos.UnidadMedida;
+
+@model UnidadMedidaVM
+
+@{
+    ViewData["Title"] = "Gestion Unidad Medida";
+    ViewBag.Accion = Model.Accion;
+}
+
+@using (Html.BeginForm("GuardarUnidadMedida", "UnidadMedida", FormMethod.Post))
+{
+    <form>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card shadow-sm">
+                    <div class="card-header">
+                        <div class="d-flex justify-content-end">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb mb-0">
+                                    <li class="breadcrumb-item">SIEB</li>
+                                    <li class="breadcrumb-item active" aria-current="page">Unidad Medida</li>
+                                    <li class="breadcrumb-item active" aria-current="page">@ViewBag.Accion Unidad Medida</li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12">
+
+
+                                <div class="card shadow-sm">
+                                    <div class="card-header text-white bg-primary">
+                                        @ViewBag.Accion Unidad Medida
+                                    </div>
+                                    <div class="card-body">
+
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                @Html.HiddenFor(x => x.Accion, new { @id = "hd-accion" })
+                                                @Html.HiddenFor(x => x.IdUnidadMedida)
+                                                <div class="form-group">
+                                                    <label class="mt-2">Unidad Medida:</label>
+                                                    <input asp-for="UnidadMedida" class="form-control" />
+                                                    <span asp-validation-for="UnidadMedida" class="text-danger mt-2 fw-bold"></span>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="mt-2">Abreviatura:</label>
+                                                    <input asp-for="Abreviatura" class="form-control" />
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="mt-2">Descripcion:</label>
+                                                    <textarea asp-for="Descripcion" class="form-control" rows="3"></textarea>
+                                                </div>
+                                            </div>     
+                                        </div>
+
+                                        <button class="btn btn-success mt-4"><i class="fa fa-save"></i> Guardar</button>
+                                        <a href="@Url.Action("Administrar", "UnidadMedida")"
+                                           class="btn btn-danger mt-4">
+                                            <i class="fa fa-times"></i> Cancelar
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+}
+
+@section scripts
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            let accion = $("#hd-accion").val();
+
+
+        });
+    </script>
+}

@@ -27,6 +27,8 @@ builder.Services.AddScoped<ICatalogoService, CatalogoService>();
 
 builder.Services.AddScoped<ICuentaRepositorio, CuentaRepositorio>();
 builder.Services.AddScoped<ICuentaService, CuentaService>();
+builder.Services.AddScoped<IUnidadMedidaRepositorio, UnidadMedidaRepositorio>();
+builder.Services.AddScoped<IUnidadMedidaService, UnidadMedidaService>();
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>

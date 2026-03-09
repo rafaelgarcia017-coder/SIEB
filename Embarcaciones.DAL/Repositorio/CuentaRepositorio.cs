@@ -57,19 +57,24 @@ namespace Embarcaciones.DAL.Repositorio
         // ---------- Método específico ----------
         public async Task<Cuenta> ValidarCuenta(string cuenta, string clave)
         {
-            byte[] claveBytes = Encoding.UTF8.GetBytes(clave);
-            byte[] hashBytes;
 
+
+            byte[] claveBytes = GenerarHashSHA256(clave);
+
+            return await _dbcontext.Cuenta
+                .FirstOrDefaultAsync(c => c.Usuario == cuenta && c.ContrasenaHash == claveBytes);
+
+        }
+        public byte[] GenerarHashSHA256(string clave)
+        {
+            // Convertir la contraseña en bytes UTF-8
+            byte[] claveBytes = Encoding.UTF8.GetBytes(clave);
+
+            // Crear hash SHA256
             using (SHA256 sha256 = SHA256.Create())
             {
-                hashBytes = sha256.ComputeHash(claveBytes);
+                return sha256.ComputeHash(claveBytes); // Retorna byte[]
             }
-
-            // Comparar con la base de datos
-            return await _dbcontext.Cuenta
-                .FirstOrDefaultAsync(c => c.Usuario == cuenta);
-                //&& c.ContrasenaHash == hashBytes);
-
         }
     }
 }

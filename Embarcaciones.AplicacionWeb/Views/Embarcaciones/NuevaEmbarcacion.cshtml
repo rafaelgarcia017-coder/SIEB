@@ -98,7 +98,7 @@
                                                         <label class="form-label">Tipo Identificacion:</label>
                                                         <select asp-for="Propietario.TipoIdentificacion"
                                                                 asp-items="Model.Propietario.ListaTipoIdentificacion"
-                                                                class="form-select" id="cmb-tipo-identificacion">
+                                                                class="form-select cmb" id="cmb-tipo-identificacion">
                                                             <option value=""></option>
                                                         </select>
                                                     </div>
@@ -112,7 +112,7 @@
                                                         <label class="form-label">Nacionalidad:</label>
                                                         <select asp-for="Propietario.Nacionalidad"
                                                                 asp-items="Model.Propietario.ListaNacionalidad"
-                                                                class="form-select" id="cmb-nacionalidad">
+                                                                class="form-select cmb" id="cmb-nacionalidad">
                                                             <option value=""></option>
                                                         </select>
                                                     </div>
@@ -126,7 +126,7 @@
                                                         <label class="form-label">Departamento:</label>
                                                         <select asp-for="Propietario.Departamento"
                                                                 asp-items="Model.Propietario.ListaDepartamentos"
-                                                                class="form-select" id="cmb-departamentos">
+                                                                class="form-select cmb" id="cmb-departamentos">
                                                             <option value=""></option>
                                                         </select>
                                                     </div>
@@ -213,7 +213,7 @@
                                                         <label class="form-label">Tipo Embarcacion:</label>
                                                         <select asp-for="Embarcacion.TipoEmbarcacion"
                                                                 asp-items="Model.Embarcacion.ListaTipoEmbarcacion"
-                                                                class="form-select" id="cmb-tipo-identificacion">
+                                                                class="form-select cmb" id="cmb-tipo-identificacion">
                                                             <option value=""></option>
                                                         </select>
                                                     </div>
@@ -242,7 +242,7 @@
                                                         <label class="form-label">Puerto:</label>
                                                         <select asp-for="Embarcacion.PuertoRegistroActual"
                                                                 asp-items="Model.Embarcacion.ListaPuertoRegistroActual"
-                                                                class="form-select" id="cmb-departamentos">
+                                                                class="form-select cmb" id="cmb-puerto">
                                                             <option value=""></option>
                                                         </select>
                                                     </div>
@@ -255,7 +255,7 @@
                                                         <label class="form-label">Bandera:</label>
                                                         <select asp-for="Embarcacion.BanderaActual"
                                                                 asp-items="Model.Embarcacion.ListaBanderaActual"
-                                                                class="form-select" id="cmb-departamentos">
+                                                                class="form-select cmb" id="cmb-bandera">
                                                             <option value=""></option>
                                                         </select>
                                                     </div>
@@ -263,7 +263,7 @@
                                                         <label class="form-label">Bandera Anterior:</label>
                                                         <select asp-for="Embarcacion.BanderaAnterior"
                                                                 asp-items="Model.Embarcacion.ListaBanderaAnterior"
-                                                                class="form-select" id="cmb-municipio">
+                                                                class="form-select cmb" id="cmb-bandera-anterior">
                                                             <option value=""></option>
                                                         </select>
                                                     </div>
@@ -299,7 +299,7 @@
                                                         <label class="form-label">Actividad:</label>
                                                         <select asp-for="Embarcacion.Actividad"
                                                                 asp-items="Model.Embarcacion.ListaActividad"
-                                                                class="form-select" id="cmb-municipio">
+                                                                class="form-select cmb" id="cmb-actividad">
                                                             <option value=""></option>
                                                         </select>
                                                     </div>
@@ -307,7 +307,7 @@
                                                         <label class="form-label">Zona Navegacion:</label>
                                                         <select asp-for="Embarcacion.ZonaNavegacion"
                                                                 asp-items="Model.Embarcacion.ListaZonaNavegacion"
-                                                                class="form-select" id="cmb-municipio">
+                                                                class="form-select cmb" id="cmb-municipio">
                                                             <option value=""></option>
                                                         </select>
                                                     </div>
@@ -365,7 +365,7 @@
                                                         <label class="form-label">Mat. Casco:</label>
                                                         <select asp-for="Construccion.Material"
                                                                 asp-items="Model.Construccion.ListaMaterial"
-                                                                class="form-select" id="cmb-municipio">
+                                                                class="form-select cmb" id="cmb-material">
                                                             <option value=""></option>
                                                         </select>
                                                     </div>
@@ -378,7 +378,7 @@
                                                         <label class="form-label">UM. TRB:</label>
                                                         <select asp-for="Construccion.UndMedTRB"
                                                                 asp-items="Model.Construccion.ListaUndMedTRB"
-                                                                class="form-select" id="cmb-municipio">
+                                                                class="form-select cmb" id="cmb-und-trb">
                                                             <option value=""></option>
                                                         </select>
                                                     </div>
@@ -386,7 +386,7 @@
                                                         <label class="form-label">Color Obra M:</label>
                                                         <select asp-for="Construccion.ColorM"
                                                                 asp-items="Model.Construccion.ListaColorM"
-                                                                class="form-select" id="cmb-municipio">
+                                                                class="form-select cmb" id="cmb-color-m">
                                                             <option value=""></option>
                                                         </select>
                                                     </div>
@@ -399,7 +399,7 @@
                                                         <label class="form-label">TRN:</label>
                                                         <select asp-for="Construccion.TRN"
                                                                 asp-items="Model.Construccion.ListaUndMedTRN"
-                                                                class="form-select" id="cmb-municipio">
+                                                                class="form-select cmb" id="cmb-und-trn">
                                                             <option value=""></option>
                                                         </select>
                                                     </div>
@@ -412,7 +412,7 @@
                                                         <label class="form-label">UM. Eslora:</label>
                                                         <select asp-for="Construccion.UndMedEslora"
                                                                 asp-items="Model.Construccion.ListaUndMedEslora"
-                                                                class="form-select" id="cmb-municipio">
+                                                                class="form-select cmb" id="cmb-und-eslora">
                                                             <option value=""></option>
                                                         </select>
                                                     </div>
@@ -425,7 +425,7 @@
                                                         <label class="form-label">UM. Manga:</label>
                                                         <select asp-for="Construccion.UndMedManga"
                                                                 asp-items="Model.Construccion.ListaUndMedManga"
-                                                                class="form-select" id="cmb-municipio">
+                                                                class="form-select cmb" id="cmb-und-manga">
                                                             <option value=""></option>
                                                         </select>
                                                     </div>
@@ -438,7 +438,7 @@
                                                         <label class="form-label">UM. Calado:</label>
                                                         <select asp-for="Construccion.UndMedCalado"
                                                                 asp-items="Model.Construccion.ListaUndCalado"
-                                                                class="form-select" id="cmb-municipio">
+                                                                class="form-select cmb" id="cmb-und-calado">
                                                             <option value=""></option>
                                                         </select>
                                                     </div>
@@ -447,7 +447,7 @@
                                                         <label class="form-label">Color Obra V:</label>
                                                         <select asp-for="Construccion.ColorV"
                                                                 asp-items="Model.Construccion.ListaColorV"
-                                                                class="form-select" id="cmb-municipio">
+                                                                class="form-select cmb" id="cmb-color-v">
                                                             <option value=""></option>
                                                         </select>
                                                     </div>
@@ -456,7 +456,7 @@
                                                         <label class="form-label">Color Superest:</label>
                                                         <select asp-for="Construccion.ColorSuperest"
                                                                 asp-items="Model.Construccion.ListaColorSuperest"
-                                                                class="form-select" id="cmb-municipio">
+                                                                class="form-select cmb" id="cmb-color-superest">
                                                             <option value=""></option>
                                                         </select>
                                                     </div>
@@ -472,7 +472,7 @@
                                                         <label class="form-label">Propulsion:</label>
                                                         <select asp-for="Construccion.Propulsion"
                                                                 asp-items="Model.Construccion.ListaPropulsion"
-                                                                class="form-select" id="cmb-municipio">
+                                                                class="form-select cmb" id="cmb-propulsion">
                                                             <option value=""></option>
                                                         </select>
                                                     </div>
@@ -480,7 +480,7 @@
                                                         <label class="form-label">Marca:</label>
                                                         <select asp-for="Construccion.Marca"
                                                                 asp-items="Model.Construccion.ListaMarca"
-                                                                class="form-select" id="cmb-municipio">
+                                                                class="form-select cmb" id="cmb-marca">
                                                             <option value=""></option>
                                                         </select>
                                                     </div>
@@ -501,7 +501,7 @@
                                                         <label class="form-label">Sistema Navegacion:</label>
                                                         <select asp-for="Construccion.SistemaNavegacion"
                                                                 asp-items="Model.Construccion.ListaSistemaNavegacion"
-                                                                class="form-select" id="cmb-municipio">
+                                                                class="form-select cmb" id="cmb-sistema-navegacion">
                                                             <option value=""></option>
                                                         </select>
                                                     </div>
@@ -537,7 +537,7 @@
                                                         <label class="form-label">Ult. Pto. Visitado:</label>
                                                         <select asp-for="Construccion.PuertoVisitado"
                                                                 asp-items="Model.Construccion.ListaPuerto"
-                                                                class="form-select" id="cmb-municipio">
+                                                                class="form-select cmb" id="cmb-puerto">
                                                             <option value=""></option>
                                                         </select>
                                                     </div>
@@ -565,16 +565,52 @@
     </div>
 
 </form>
-<script>
-    document.getElementById("ImagenFile").addEventListener("change", function (event) {
-        const file = event.target.files[0];
-        if (!file) return;
+@section scripts
+{
+          <script type="text/javascript">
+            $(document).ready(function () {
 
-        const reader = new FileReader();
-        reader.onload = function (e) {
-            document.getElementById("preview").src = e.target.result;
-        };
-        reader.readAsDataURL(file);
-    });
-</script>
+                $('.cmb').select2({
+                    placeholder: "Seleccione...",
+                    allowClear: true,
+                    width: '100%' // hace que ocupe todo el ancho del contenedor
+                });
 
+        @foreach (var field in ViewData.ModelState)
+        {
+            if (field.Value.Errors.Count > 0)
+            {
+                <text>
+                                        var input = $('[name="@field.Key"]');
+
+                                        // Para inputs normales
+                                        if (!input.hasClass('select2-hidden-accessible')) {
+                                            input.addClass('is-invalid');
+                                                        }
+
+                                        // Para Select2
+                                        if (input.hasClass('select2-hidden-accessible')) {
+                                            // agrega is-invalid al contenedor visible de Select2
+                                            input.next('.select2-container')
+                                                .find('.select2-selection')
+                                                .addClass('is-invalid');
+                                                        }
+                </text>
+            }
+        }
+                    });
+        document.getElementById("ImagenFile").addEventListener("change", function (event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                document.getElementById("preview").src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        });
+    </script>
+
+
+}
+  

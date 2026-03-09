@@ -1,0 +1,138 @@
+﻿@using Embarcaciones.AplicacionWeb.Models.ViewModels.Catalogos.UnidadMedida;
+
+@model AdministrarUnidadMedidaVM
+
+@{
+    ViewData["Title"] = "Administrar Unidad Medida";
+}
+<form>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card shadow-sm">
+                <div class="card-header">
+                    <div class="d-flex justify-content-end">
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb mb-0">
+                                <li class="breadcrumb-item">SIEB</li>
+                                <li class="breadcrumb-item active" aria-current="page">Unidad Medida</li>
+                                <li class="breadcrumb-item active" aria-current="page">Administrar</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+                <div class="card-body">
+
+                    <div class="row">
+                        <div class="col-md-2">
+                            <a href="@Url.Action("NuevoUnidadMedida", "UnidadMedida")"
+                               class="btn btn-success">
+                                <i class="fa fa-plus"></i> Nuevo
+                            </a>
+
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-12">
+                            <table id="tbl-unidad-medida" class="table table-responsive table-bordered">
+                                <thead>
+                                    <tr class="table-info">
+                                        <th>Datos Generales</th>
+                                        <th>Datos Especificos</th>
+                                        <th>Opciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.ListaUnidadMedida)
+                                    {
+                                        <tr>
+                                            <td>
+                                                Nombre: <b>@item.UnidadMedida</b><br />
+                                                Abreviatura :<b>@item.Abreviatura</b><br />
+                                                Descripcion:<b>@item.Descripcion</b>
+                                            </td>
+                                            <td>
+                                                Fecha Creacion <b>@item.FechaCreacion</b><br />
+                                                Usuario Creacion: <b>@item.UsuarioCreacion</b>
+                                            </td>
+                                            <td class="td-center">
+                                                <a href="@Url.Action("EditarUnidadMedida", "UnidadMedida", new { id = item.IdUnidadMedida })" )"
+                                                   class="btn btn-primary btn-table">
+                                                    <i class="fa fa-edit"></i>
+                                                </a>
+                                                <button type="button" onclick="eliminarUnidadMedida(@item.IdUnidadMedida)" class="btn btn-danger btn-table"><i class="fa fa-trash"></i></button>
+
+                                            </td>
+                                        </tr>
+
+
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+@section scripts
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            AplicarDatatable('#tbl-unidadi-medida');
+        });
+        function eliminarUnidadMedida(id) {
+            Swal.fire({
+                title: "¿Estás seguro de que deseas eliminar esta Unidad Medida?",
+                text: "Este registro se desactivará y no podrá utilizarse nuevamente.",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#d33",
+                cancelButtonColor: "#3085d6",
+                confirmButtonText: "Sí, eliminar",
+                cancelButtonText: "Cancelar"
+            }).then((result) => {
+                if (result.isConfirmed) {
+
+                    Swal.fire({
+                        title: "Eliminando...",
+                        allowOutsideClick: false,
+                        didOpen: () => Swal.showLoading()
+                    });
+
+                    $.ajax({
+                        url: '/UnidadMedida/EliminarUnidadMedida',
+                        type: 'POST',
+                        data: { id: id },
+                        success: function (response) {
+                            Swal.close(); // cerramos el loader
+
+                            if (response.success) {
+                                Swal.fire(
+                                    "Eliminado",
+                                    response.mensaje, // mensaje desde el backend
+                                    "success"
+                                ).then(() => location.reload());
+                            } else {
+                                Swal.fire(
+                                    "No se puede eliminar",
+                                    response.mensaje, // mensaje de advertencia desde el backend
+                                    "warning"
+                                );
+                            }
+                        },
+                        error: function () {
+                            Swal.fire(
+                                "Error",
+                                "No se pudo eliminar el registro.",
+                                "error"
+                            );
+                        }
+                    });
+                }
+            });
+        }
+
+    </script>
+}

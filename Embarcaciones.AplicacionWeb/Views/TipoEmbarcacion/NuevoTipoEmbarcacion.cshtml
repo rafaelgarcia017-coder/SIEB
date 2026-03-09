@@ -1,0 +1,64 @@
+﻿@using Embarcaciones.AplicacionWeb.Models.ViewModels.Catalogos.TipoEmbarcacion;
+
+@model TipoEmbarcacionVM
+
+@{
+    ViewData["Title"] = "Gestion Tipo Embarcacion";
+    ViewBag.Accion = @Model.Accion;
+}
+
+@using (Html.BeginForm("GuardarTipoEmbarcacion", "TipoEmbarcacion", FormMethod.Post))
+{
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card shadow-sm">
+                <div class="card-header">
+                    <div class="d-flex justify-content-end">
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb mb-0">
+                                <li class="breadcrumb-item">SIEB</li>
+                                <li class="breadcrumb-item active" aria-current="page">Tipo Embarcacion</li>
+                                <li class="breadcrumb-item active" aria-current="page">@ViewBag.Accion Tipo Embarcacion</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card shadow-sm">
+                                <div class="card-header text-white bg-primary">
+                                    @ViewBag.Accion Tipo Embarcacion
+                                </div>
+                                <div class="card-body">
+                                    <div class="col-md-3">
+                                        @Html.HiddenFor(x => x.IdCatalogo)
+                                        @Html.HiddenFor(x => x.IdTipoEmbarcacion)
+                                        @Html.HiddenFor(x => x.Accion)
+                                        <div class="form-group">
+                                            <label class="mt-2">Tipo Embarcacion:</label>
+                                            <input asp-for="TipoEmbarcacion" class="form-control" />
+                                            <span asp-validation-for="TipoEmbarcacion" class="text-danger mt-2 fw-bold"></span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="mt-2">Descripcion:</label>
+                                            <input asp-for="Descripcion" class="form-control" />
+                                        </div>
+                                    </div>
+                                    <button class="btn btn-success mt-4"><i class="fa fa-save"></i> Guardar</button>
+                                    <a href="@Url.Action("Administrar", "TipoEmbarcacion")"
+                                       class="btn btn-danger mt-4">
+                                        <i class="fa fa-times"></i> Cancelar
+                                    </a>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
