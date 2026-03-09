@@ -292,12 +292,12 @@ namespace Embarcaciones.DAL.DataContext
                     .HasForeignKey(d => d.IdBanderaRegistroAnterior)
                     .HasConstraintName("FK_Embarcacion_BanderaRegistroAnterior");
 
-                entity.HasOne(d => d.IdEmbarcacionConstruccionNavigation)
+                entity.HasOne(d => d.EmbarcacionConstruccionNavigation)
                     .WithMany(p => p.Embarcacion)
                     .HasForeignKey(d => d.IdEmbarcacionConstruccion)
                     .HasConstraintName("FK_Embarcacion_Construccion");
 
-                entity.HasOne(d => d.IdEmbarcacionPropietarioNavigation)
+                entity.HasOne(d => d.EmbarcacionPropietarioNavigation)
                     .WithMany(p => p.Embarcacion)
                     .HasForeignKey(d => d.IdEmbarcacionPropietario)
                     .HasConstraintName("FK_Embarcacion_Propietario");
