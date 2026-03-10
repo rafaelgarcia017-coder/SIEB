@@ -123,9 +123,6 @@ namespace Embarcaciones.DAL.DataContext
 
                 entity.ToTable("CatalogoValor", "Fundaciones");
 
-                entity.HasIndex(e => new { e.IdCatalogo, e.Nombre }, "UQ_CatalogoValor_Nombre")
-                    .IsUnique();
-
                 entity.Property(e => e.Descripcion).HasMaxLength(255);
 
                 entity.Property(e => e.EstaActivo)

@@ -80,6 +80,13 @@
             cursor: pointer;
             color: inherit;
         }
+
+        #contenedor-imagen{
+            width: 230px;
+            height: 230px;
+            margin-left: 100px;
+            margin-top: 40px;   
+        }
     </style>
 </header>
 <div id="notifications"></div>
@@ -90,17 +97,19 @@
                 <div class="card" style="border-radius: 1rem;">
                     <div class="row g-0">
                         <div class="col-md-6 col-lg-5 d-none d-md-block">
-                            <div class="col-md-12  d-none d-md-block">
+                            <div id="contenedor-imagen">
                                 <img src="~/images/MarinaNicaragua.png" alt="login form" class="img-fluid"
                                      style="border-radius: 1rem 0 0 1rem;" />
+                            </div>
+                            <div id="contenedor-texto" style="margin-top:55px;">
                                 <h2>SIEB</h2>
                                 <p>
                                     ¡Bienvenido al Sistema de Embarcaciones!
                                     Por favor, ingresa tus credenciales para acceder a la plataforma que te permitirá
                                     gestionar el Control de Embarcaciones
                                 </p>
-                            </div>
 
+                            </div>
                         </div>
                         <div class="col-md-6 col-lg-7 d-flex align-items-center">
                             <div class="card-body p-4 p-lg-5 text-black">

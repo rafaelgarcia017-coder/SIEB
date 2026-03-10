@@ -63,8 +63,8 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Catalogos
             var tipoIdentificacion = new CatalogoValor
             {
                 IdCatalogoValor = id,
-                //EstaActivo = false,
-                //EsHistorico = true,
+                EstaActivo = false,
+                EsHistorico = true,
                 IdUsuarioModificacion = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier)?.Value),
                 FechaModificacion = DateTime.Now
             };

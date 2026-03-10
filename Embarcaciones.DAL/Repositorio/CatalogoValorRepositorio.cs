@@ -46,8 +46,8 @@ namespace Embarcaciones.DAL.Repositorio
         {
             _dbcontext.CatalogoValor.Attach(modelo);
 
-            //_dbcontext.Entry(modelo).Property(x => x.EstaActivo).IsModified = true;
-            //_dbcontext.Entry(modelo).Property(x => x.EsHistorico).IsModified = true;
+            _dbcontext.Entry(modelo).Property(x => x.EstaActivo).IsModified = true;
+            _dbcontext.Entry(modelo).Property(x => x.EsHistorico).IsModified = true;
             _dbcontext.Entry(modelo).Property(x => x.FechaModificacion).IsModified = true;
             _dbcontext.Entry(modelo).Property(x => x.IdUsuarioModificacion).IsModified = true;
 
@@ -59,13 +59,13 @@ namespace Embarcaciones.DAL.Repositorio
 
         public async Task<CatalogoValor> Obtener(int id)
         {
-            return await _dbcontext.CatalogoValor.FindAsync(id);
+            return await _dbcontext.CatalogoValor.FindAsync(id) ;
         }
 
         public IQueryable<CatalogoValor> ObtenerTodos(int idCatalogo)
         {
             IQueryable<CatalogoValor> queryCatalogo = _dbcontext.CatalogoValor
-                                                                      .Where(w=> w.IdCatalogo == idCatalogo)
+                                                                      .Where(w=> w.IdCatalogo == idCatalogo && w.EstaActivo == true && w.EsHistorico == false)
                                                                      .Include(d => d.UsuarioCreacionNavigation)
                                                                      .Include(d => d.UsuarioModificacionNavigation);
 
@@ -75,7 +75,7 @@ namespace Embarcaciones.DAL.Repositorio
         public async Task<bool> ValidarCatalogo(int idCatalogo, string valor)
         {
             return await _dbcontext.CatalogoValor
-                                      .AnyAsync(a =>a.Nombre == valor && a.IdCatalogo == idCatalogo);
+                                      .AnyAsync(a =>a.Nombre == valor && a.IdCatalogo == idCatalogo && a.EstaActivo == true && a.EsHistorico == false);
         }
 
         public async Task<bool> ValidarEliminar(int idCatalogo, string codigoInternoCatalogo)

@@ -116,7 +116,7 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Catalogos
             catch (Exception ex)
             {
                 AddError("Ha ocurrido un error. Contacte al Administrador.");
-                return View("NuevoActividad", model);
+                 return View("NuevoActividad", model);
                 throw;
             }
     
@@ -124,23 +124,32 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Catalogos
         [HttpPost]
         public async Task<ActionResult> EliminarActividad(int id)
         {
-            var puedeEliminar = await _catalogoValorService.ValidarEliminar(id, "ACTV");
-
-            if (!puedeEliminar)
-                return Json(new { success = false, mensaje = "No se puede eliminar este registro porque está asociado a otros datos. Para continuar, primero desvincule o elimine los registros relacionados." });
-
-            var actividad = new CatalogoValor
+            try
             {
-                IdCatalogoValor = id,
-                //EstaActivo = false,
-                //EsHistorico = true,
-                IdUsuarioModificacion = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier)?.Value),
-                FechaModificacion = DateTime.Now
-            };
+                var puedeEliminar = await _catalogoValorService.ValidarEliminar(id, "ACTV");
 
-            await _catalogoValorService.Eliminar(actividad);
+                if (!puedeEliminar)
+                    return Json(new { success = false, mensaje = "No se puede eliminar este registro porque está asociado a otros datos. Para continuar, primero desvincule o elimine los registros relacionados." });
 
-            return Json(new { success = true, mensaje = "Se eliminó con éxito." });
+                var actividad = new CatalogoValor
+                {
+                    IdCatalogoValor = id,
+                    EstaActivo = false,
+                    EsHistorico = true,
+                    IdUsuarioModificacion = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier)?.Value),
+                    FechaModificacion = DateTime.Now
+                };
+
+                await _catalogoValorService.Eliminar(actividad);
+
+                return Json(new { success = true, mensaje = "Se eliminó con éxito." });
+            }
+            catch (Exception ex)
+            {
+
+                return Json(new { success = false, mensaje = "Ha ocurrido un error contacte al Administrador." });
+            }
+        
         }
     }
 }
