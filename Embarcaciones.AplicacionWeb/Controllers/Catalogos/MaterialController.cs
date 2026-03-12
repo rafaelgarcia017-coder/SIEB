@@ -119,5 +119,27 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Catalogos
             }
 
         }
+
+        [HttpPost]
+        public async Task<ActionResult> EliminarMaterial(int id)
+        {
+            var puedeEliminar = await _catalogoValorService.ValidarEliminar(id, "MTRL");
+
+            if (!puedeEliminar)
+                return Json(new { success = false, mensaje = "No se puede eliminar este registro porque está asociado a otros datos. Para continuar, primero desvincule o elimine los registros relacionados." });
+
+            var marca = new CatalogoValor
+            {
+                IdCatalogoValor = id,
+                EstaActivo = false,
+                EsHistorico = true,
+                IdUsuarioModificacion = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier)?.Value),
+                FechaModificacion = DateTime.Now
+            };
+
+            await _catalogoValorService.Eliminar(marca);
+
+            return Json(new { success = true, mensaje = "Se eliminó con éxito." });
+        }
     }
 }
