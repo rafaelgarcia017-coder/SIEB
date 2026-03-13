@@ -1,8 +1,10 @@
 ﻿using Embarcaciones.DAL.DataContext;
 using Embarcaciones.Models;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -107,6 +109,23 @@ namespace Embarcaciones.DAL.Repositorio
             // 4️⃣ Caso sin nada que validar
             return false;
 
+        }
+        public async Task<bool> ValidarEliminar(int id)
+        {
+            var connectionString = _dbcontext.Database.GetDbConnection().ConnectionString;
+
+            using (var connection = new SqlConnection(connectionString))
+            using (var command = new SqlCommand("Fundaciones.PermiteEliminarUnidadMedida", connection))
+            {
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.Add("@IdUnidadMedida", SqlDbType.Int).Value = id;
+
+                await connection.OpenAsync();
+
+                var result = await command.ExecuteScalarAsync();
+
+                return result != null && Convert.ToBoolean(result);
+            }
         }
     }
 }

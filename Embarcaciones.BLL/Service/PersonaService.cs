@@ -53,5 +53,10 @@ namespace Embarcaciones.BLL.Service
         {
             return await _personaRepo.ValidarPersonasDuplicadas(nombreCompleto,identificacion, idTipoIdentificacion, idPersona);
         }
+
+        public async Task<bool> ValidarEliminar(int id)
+        {
+            return await _personaRepo.ValidarEliminar(id);
+        }
     }
 }

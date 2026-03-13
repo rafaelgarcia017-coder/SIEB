@@ -15,5 +15,6 @@ namespace Embarcaciones.BLL.Service
         Task<bool> ValidarUnidadDuplicadas(string unidadmedidad, string? abreviatura, int? idUnidadMedida);
         Task<UnidadMedida> Obtener(int id);
         IQueryable<UnidadMedida> ObtenerTodos();
+        Task<bool> ValidarEliminar(int id);
     }
 }

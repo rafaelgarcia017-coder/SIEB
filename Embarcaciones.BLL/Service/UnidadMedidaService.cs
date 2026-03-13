@@ -40,6 +40,12 @@ namespace Embarcaciones.BLL.Service
             return (IQueryable<UnidadMedida>)_unidadMedidaRepo.ObtenerTodos();
         }
 
+        public async Task<bool> ValidarEliminar(int id)
+        {
+            return await _unidadMedidaRepo.ValidarEliminar(id);
+        }
+    
+
         public async Task<bool> ValidarUnidadDuplicadas(string unidadmedidad, string? abreviatura, int? idUnidadMedida)
         {
             return await _unidadMedidaRepo.ValidarUnidadDuplicadas(unidadmedidad,abreviatura,idUnidadMedida);

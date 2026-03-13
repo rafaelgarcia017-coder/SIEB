@@ -9,8 +9,9 @@ namespace Embarcaciones.AplicacionWeb.Models.ViewModels.Catalogos.Persona
         public int IdPersona { get; set; }
         [Required(ErrorMessage = "Por Favor Ingrese el Nombre Completo")]
         public string NombreCompleto { get; set; } = null!;
-        public int? IdTipoIdentificacion { get; set; }
-        public string? TipoIdentificacion { get; set; }
+        [Required(ErrorMessage = "Por Favor Ingrese el Tipo De Identificacion")]
+        public int TipoIdentificacion { get; set; }
+        public string?  NombreTipoIdentificacion { get; set; }
         public string? Identificacion { get; set; } = null!;
         public string? Telefono { get; set; }
         public string? Direccion { get; set; }

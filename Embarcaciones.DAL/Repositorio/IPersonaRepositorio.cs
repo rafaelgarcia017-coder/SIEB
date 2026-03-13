@@ -15,5 +15,7 @@ namespace Embarcaciones.DAL.Repositorio
         Task<bool> ValidarPersonasDuplicadas(string nombreCompleto, string? identificacion, int? idTipoIdentificacion, int? idPersona );
         Task<Persona> Obtener(int id);
         IQueryable<Persona> ObtenerTodos();
+
+        Task<bool> ValidarEliminar(int id);
     }
 }

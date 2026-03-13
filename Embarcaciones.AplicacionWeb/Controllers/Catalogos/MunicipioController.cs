@@ -147,10 +147,10 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Catalogos
         {
             try
             {
-                //var permiteEliminar = await _municipioService.ValidarEliminar(id);
+                var permiteEliminar = await _municipioService.ValidarEliminar(id);
 
-                //if (!permiteEliminar)
-                //    return Json(new { success = false, mensaje = "No se puede eliminar este registro porque está asociado a otros datos. Para continuar, primero desvincule o elimine los registros relacionados." });
+                if (!permiteEliminar)
+                    return Json(new { success = false, mensaje = "No se puede eliminar este registro porque está asociado a otros datos. Para continuar, primero desvincule o elimine los registros relacionados." });
 
                 var municipio = new Municipio
                 {

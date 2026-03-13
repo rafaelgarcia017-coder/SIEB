@@ -13,6 +13,7 @@ namespace Embarcaciones.DAL.Repositorio
         Task<bool> Actualizar(UnidadMedida modelo);
         Task<bool> Eliminar(UnidadMedida modelo);
         Task<bool> ValidarUnidadDuplicadas(string unidadmedidad, string? abreviatura, int? idUnidadMedida);
+        Task<bool> ValidarEliminar(int id);
         Task<UnidadMedida> Obtener(int id);
         IQueryable<UnidadMedida> ObtenerTodos();
     }

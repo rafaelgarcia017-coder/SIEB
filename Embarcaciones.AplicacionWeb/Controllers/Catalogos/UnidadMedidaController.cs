@@ -63,6 +63,11 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Catalogos
         {
             try
             {
+                var puedeEliminar = await _unidadMedidaService.ValidarEliminar(id);
+
+                if (!puedeEliminar)
+                    return Json(new { success = false, mensaje = "No se puede eliminar este registro porque está asociado a otros datos. Para continuar, primero desvincule o elimine los registros relacionados." });
+
                 var unidadMedida = new UnidadMedida
                 {
                     IdUnidadMedida = id,
@@ -95,7 +100,7 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Catalogos
                 if (!ModelState.IsValid)
                 {
                     AddAdvertencia(this.ErroresFromModel().Texto);
-                    return View("NuevaUnidadMedida", model);
+                    return View("NuevoUnidadMedida", model);
                 }
                 if (model.Accion == AccionesController.Nuevo)
                 {
@@ -103,7 +108,7 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Catalogos
                     if (responseVerify)
                     {
                         AddAdvertencia("La Unidad de Medida que intentas registrar ya existe. Revisa la información e intenta nuevamente");
-                        return View("NuevaUnidadMedida", model);
+                        return View("NuevoUnidadMedida", model);
                     }
 
                     var unidadMedida = new UnidadMedida
@@ -122,7 +127,7 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Catalogos
                     if (responseVerify)
                     {
                         AddAdvertencia("La Unidad de Medida que intentas registrar ya existe. Revisa la información e intenta nuevamente");
-                        return View("NuevaUnidadMedida", model);
+                        return View("NuevoUnidadMedida", model);
                     }
 
                     var unidadMedida = new UnidadMedida
@@ -146,11 +151,11 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Catalogos
                 else
                 {
                     AddError("Ha ocurrido un error. Contacte al Administrador.");
-                    return View("NuevaUnidadMedida", model);                    
+                    return View("NuevoUnidadMedida", model);                    
                 }
                 return RedirectToAction("Administrar");
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 AddError("Ha ocurrido un error. Contacte al Administrador.");
                 return View("NuevaUnidadMedida", model);

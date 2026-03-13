@@ -41,7 +41,7 @@ namespace Embarcaciones.DAL.Repositorio
             return true;
         }
 
-        public async Task<bool> Eliminar(Municipio   modelo)
+        public async Task<bool> Eliminar(Municipio modelo)
         {
             _dbcontext.Municipio.Attach(modelo);
 
@@ -63,11 +63,11 @@ namespace Embarcaciones.DAL.Repositorio
         public IQueryable<Municipio> ObtenerTodos()
         {
             return _dbcontext.Municipio
-   .Include(d => d.UsuarioCreacionNavigation)
-   .Include(d => d.UsuarioModificacionNavigation)
-   .Include(d => d.DepartamentoNavigation)
-   .Where(w => w.EstaActivo == true)
-   .OrderBy(m => m.Municipio1);
+                                                    .Include(d => d.UsuarioCreacionNavigation)
+                                                    .Include(d => d.UsuarioModificacionNavigation)
+                                                    .Include(d => d.DepartamentoNavigation)
+                                                    .Where(w => w.EstaActivo == true)
+                                                    .OrderBy(m => m.Municipio1);
 
         }
 

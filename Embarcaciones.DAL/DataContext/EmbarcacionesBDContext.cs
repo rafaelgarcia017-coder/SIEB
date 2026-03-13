@@ -826,12 +826,6 @@ namespace Embarcaciones.DAL.DataContext
 
                 entity.ToTable("UnidadMedida", "Fundaciones");
 
-                entity.HasIndex(e => e.Abreviatura, "UQ_UnidadMedida_Abreviatura")
-                    .IsUnique();
-
-                entity.HasIndex(e => e.Nombre, "UQ_UnidadMedida_Nombre")
-                    .IsUnique();
-
                 entity.Property(e => e.Abreviatura).HasMaxLength(20);
 
                 entity.Property(e => e.Descripcion).HasMaxLength(200);

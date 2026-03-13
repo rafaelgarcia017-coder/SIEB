@@ -44,7 +44,7 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Catalogos
                    {
                        IdPersona = s.IdPersona,
                        NombreCompleto = s.NombreCompleto,
-                       TipoIdentificacion = s.TipoIdentificacionNavigation?.Nombre ?? "",
+                       NombreTipoIdentificacion = s.TipoIdentificacionNavigation?.Nombre ?? "",
                        Identificacion = s.Identificacion,
                        Direccion = s.Direccion,
                        Telefono = s.Telefono,
@@ -90,7 +90,7 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Catalogos
                 }
                 if (model.Accion == AccionesController.Nuevo)
                 {
-                    var responseVerify = await _personaService.ValidarDuplicados(model.NombreCompleto, model.Identificacion ?? null, model.IdTipoIdentificacion ?? null, null);
+                    var responseVerify = await _personaService.ValidarDuplicados(model.NombreCompleto, model.Identificacion ?? null, model.TipoIdentificacion > 0 ? model.TipoIdentificacion : null, null);
                     if (responseVerify)
                     {
                         AddAdvertencia("La Persona que intentas registrar ya existe. Revisa la información e intenta nuevamente");
@@ -99,7 +99,7 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Catalogos
                     var persona = new Persona
                     {
                         NombreCompleto = model.NombreCompleto,
-                        IdTipoIdentificacion = model.IdTipoIdentificacion?? 0,
+                        IdTipoIdentificacion = model.TipoIdentificacion,
                         Identificacion = model.Identificacion,
                         Direccion = model.Direccion,
                         Telefono = model.Telefono,
@@ -111,7 +111,7 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Catalogos
                 }
                 else
                 {
-                    var responseVerify = await _personaService.ValidarDuplicados(model.NombreCompleto, model.Identificacion ?? string.Empty, model.IdTipoIdentificacion ?? null, model.IdPersona);
+                    var responseVerify = await _personaService.ValidarDuplicados(model.NombreCompleto, model.Identificacion ?? string.Empty, model.TipoIdentificacion> 0 ? model.TipoIdentificacion: null, model.IdPersona);
                     if (responseVerify)
                     {
                         AddAdvertencia("La Persona que intentas registrar ya existe. Revisa la información e intenta nuevamente");
@@ -121,7 +121,7 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Catalogos
                     {
                         IdPersona = model.IdPersona,
                         NombreCompleto = model.NombreCompleto,
-                        IdTipoIdentificacion = model.IdTipoIdentificacion ?? 0,
+                        IdTipoIdentificacion = model.TipoIdentificacion ,
                         Identificacion = model.Identificacion,
                         Direccion = model.Direccion,
                         Telefono = model.Telefono,
@@ -158,7 +158,7 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Catalogos
                 NombreCompleto = persona.NombreCompleto,
                 Correo = persona.Correo,
                 Telefono = persona.Telefono,
-                IdTipoIdentificacion = persona.IdTipoIdentificacion,
+                TipoIdentificacion = persona.IdTipoIdentificacion,
                 Identificacion = persona.Identificacion,
                 Direccion = persona.Direccion,
                 Accion = AccionesController.Editar
@@ -171,6 +171,11 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Catalogos
         {
             try
             {
+                var puedeEliminar = await _personaService.ValidarEliminar(id);
+
+                if (!puedeEliminar)
+                    return Json(new { success = false, mensaje = "No se puede eliminar este registro porque está asociado a otros datos. Para continuar, primero desvincule o elimine los registros relacionados." });
+
                 var persona = new Persona
                 {
                     IdPersona = id,
