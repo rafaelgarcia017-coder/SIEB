@@ -1,22 +1,28 @@
-﻿using Embarcaciones.AplicacionWeb.Models.ViewModels.Procesos.Embarcaciones;
+﻿using Embarcaciones.AplicacionWeb.Models.Utils;
+using Embarcaciones.AplicacionWeb.Models.ViewModels.Procesos.Embarcaciones;
 using Embarcaciones.BLL.Service;
 using Embarcaciones.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel;
+using System.Security.Claims;
 
 namespace Embarcaciones.AplicacionWeb.Controllers.Procesos
 {
     public class EmbarcacionesController : CustomController
     {
+        private readonly IEmbarcacionService _embarcacionService;
         private readonly ICatalogoService _catalogoService;
         private readonly ICatalogoValorService _catalogoValorService;
         private readonly IMunicipioService _municipioService;
         private readonly IDepartamentoService _departamentoService;
         private readonly IUnidadMedidaService _unidadMedidaService;
 
-        public EmbarcacionesController(ICatalogoService catalogoService, ICatalogoValorService catalogoValorService, IMunicipioService municipioService, IDepartamentoService departamentoService, IUnidadMedidaService unidadMedidaService)
+        private int IdUsuario => Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+
+        public EmbarcacionesController(IEmbarcacionService embarcacionService, ICatalogoService catalogoService, ICatalogoValorService catalogoValorService, IMunicipioService municipioService, IDepartamentoService departamentoService, IUnidadMedidaService unidadMedidaService)
         {
+            _embarcacionService = embarcacionService;
             _catalogoService = catalogoService;
             _catalogoValorService = catalogoValorService;
             _municipioService = municipioService;
@@ -42,6 +48,136 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Procesos
             var model = await LlenarModelo(new EmbarcacionesVM());
             return View("NuevaEmbarcacion", model);
         }
+        public async Task<IActionResult> GuardarEmbarcacion(EmbarcacionesVM model)
+        {
+            try
+            {
+                bool result = false;
+                if (model.Accion == AccionesController.Nuevo)
+                {
+                    var embarcacion = MapearEmbarcacion(model);
+                    result = await _embarcacionService.Agregar(embarcacion);
+                }
+                else
+                {
+                    var embarcacion = MapearEmbarcacion(model);
+                    result = await _embarcacionService.Actualizar(embarcacion);
+                }
+                if (result)
+                {
+                  
+                    AddExito(model.Accion == AccionesController.Nuevo
+                     ? "Municipio registrado satisfactoriamente."
+                     : "Municipio actualizado satisfactoriamente.");
+                    return RedirectToAction("Administrar");
+                }
+                else
+                {
+                    AddError("Ha ocurrido un error. Contacte al Administrador.");
+                    return View("NuevaEmbarcacion", LlenarModelo(model));
+                }
+                  
+            }
+            catch (Exception ex)
+            {
+                AddError("Ha ocurrido un error. Contacte al Administrador.");
+                return View("NuevaEmbarcacion", LlenarModelo(model));
+            }
+
+
+        }
+
+        private Embarcacion MapearEmbarcacion(EmbarcacionesVM model)
+        {
+            var construccion = new EmbarcacionConstruccion
+            {
+                Puntal = model.Construccion.Puntal,
+                Trb = model.Construccion.TRB,
+                Calado = model.Construccion.Calado,
+                Trn = model.Construccion.TRN,
+                Eslora = model.Construccion.Eslora,
+                Manga = model.Construccion.Manga,
+                SerieMotor = model.Construccion.Serie,
+                NumeroTripulantes = model.Construccion.NumeroTripulantes,
+                NumeroPasajeros = model.Construccion.NumeroPasajeros,
+                AnioConstruccion = model.Construccion.AnioConstruccion,
+                Potencia = model.Construccion.Potencia,
+                MediosCx = model.Construccion.MedioCx,
+                TipoFechaInfracciones = model.Construccion.TipoFechasInfracciones,
+                NumeroConstruccion = model.Construccion.NumeroConstruccion,
+                ModeloMotor = model.Construccion.Modelo,
+                Frecuencia = model.Construccion.Frecuencia,
+                CapacidadCarga = model.Construccion.CapacidadCarga,
+                Indicativo = model.Construccion.Indicativo,
+                IdUsuarioCreacion = IdUsuario,
+                IdMaterial = model.Construccion.Material,
+                IdPropulsion = model.Construccion.Propulsion,
+                IdTipoComunicacion = model.Construccion.TipoComunicacion,
+                IdMarcaMotor = model.Construccion.Marca,
+                IdColorSuperestructura = model.Construccion.ColorSuperest,
+                IdColorObraMuerta = model.Construccion.ColorM,
+                IdColorObraViva = model.Construccion.ColorV,
+                IdSistemaNavegacion = model.Construccion.SistemaNavegacion,
+                IdUnidadMedidaPuntal = model.Construccion.UndMedPuntal,
+                IdUnidadMedidaTrb = model.Construccion.UndMedTRB,
+                IdUnidadMedidaTrn = model.Construccion.UndMedTRN,
+                IdUnidadMedidaCalado = model.Construccion.UndMedCalado,
+                IdUnidadMedidaEslora = model.Construccion.UndMedEslora,
+                IdUnidadMedidaManga = model.Construccion.UndMedManga
+            };
+
+            var propietario = new EmbarcacionPropietario
+            {
+                NombrePropietario = model.Propietario.NombreCompleto,
+                IdTipoIdentificacion = model.Propietario.TipoIdentificacion,
+                Identificacion = model.Propietario.Identificacion,
+                IdNacionalidad = model.Propietario.Nacionalidad,
+                IdMunicipio = model.Propietario.Municipio,
+                IdDepartamento = model.Propietario.Departamento,
+                Domicilio = model.Propietario.Domicilio,
+                Telefono = model.Propietario.Telefono,
+                EmpresaPropietaria = model.Propietario.EmpresaPropietario,
+                TelefonoEmpresaPropietaria = model.Propietario.TelefonoContacto,
+                RutaImagenPropietario = model.Propietario.UrlImagen,
+                LicenciaNavegacion = model.Propietario.LicenciaNavegacion,
+                NumeroCarnetMarinero = model.Propietario.NumeroCarnetMarinero,
+                NombreContacto = model.Propietario.NombreContacto,
+                IdUsuarioCreacion = IdUsuario
+            };
+
+            return new Embarcacion
+            {
+                IdTipoEmbarcacion = model.Embarcacion.TipoEmbarcacion,
+                IdPuertoRegistroAnterior = model.Embarcacion.PuertoRegistroAnterior,
+                IdPuertoRegistroActual = model.Embarcacion.PuertoRegistroActual,
+                IdBanderaRegistroActual = model.Embarcacion.BanderaActual,
+                IdBanderaRegistroAnterior = model.Embarcacion.BanderaAnterior,
+                IdActividad = model.Embarcacion.Actividad,
+                IdZonaNavegacion = model.Embarcacion.ZonaNavegacion,
+                NombreActual = model.Embarcacion.NombreActual,
+                PropietarioAnterior = model.Embarcacion.PropietarioAnterior,
+                FechaAbanderada = model.Embarcacion?.FechaAbanderamiento ?? null,
+                FechaInscripcion = model.Embarcacion.FechaInscripcion,
+                PermisoNavegacion = model.Embarcacion.PermisoNavegacion,
+                LicenciaPesca = model.Embarcacion.LicenciaPesca,
+                Distrito = model.Embarcacion.Distrito,
+                MatriculaActual = model.Embarcacion.MatriculaActual,
+                NombreAnterior = model.Embarcacion.NombreAnterior,
+                IndicativoLlamada = model.Embarcacion.IndicativoLLamada,
+                FechaExpiracion = model.Embarcacion.FechaExpiracion,
+                LicenciaEspecialPesca = model.Embarcacion.LicenciaEspecialPesca,
+                CapPce = model.Embarcacion.Cap_Pce,
+                MatriculaAnterior = model.Embarcacion.MatriculaAnterior,
+                NumeroOmi = model.Embarcacion.NumeroOmi,
+                EstaActivo = true,
+                EsHistorico = false,
+                IdUsuarioCreacion = IdUsuario,
+                FechaCreacion = DateTime.Now,
+                EmbarcacionConstruccionNavigation = construccion,
+                EmbarcacionPropietarioNavigation = propietario
+            };
+        }
+
 
         public async Task<EmbarcacionesVM> LlenarModelo(EmbarcacionesVM viewModel)
         {
@@ -181,7 +317,7 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Procesos
             {
                 Value = x.IdUnidadMedida.ToString(),
                 Text = x.Abreviatura
-            }).ToList(); 
+            }).ToList();
             viewModel.Construccion.ListaUndMedEslora = unidadmedida.Select(x => new SelectListItem
             {
                 Value = x.IdUnidadMedida.ToString(),
@@ -191,7 +327,7 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Procesos
             {
                 Value = x.IdUnidadMedida.ToString(),
                 Text = x.Abreviatura
-            }).ToList(); 
+            }).ToList();
             viewModel.Construccion.ListaUndMedPuntal = unidadmedida.Select(x => new SelectListItem
             {
                 Value = x.IdUnidadMedida.ToString(),
@@ -201,7 +337,7 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Procesos
             {
                 Value = x.IdUnidadMedida.ToString(),
                 Text = x.Abreviatura
-            }).ToList();       
+            }).ToList();
             viewModel.Construccion.ListaUndMedTRN = unidadmedida.Select(x => new SelectListItem
             {
                 Value = x.IdUnidadMedida.ToString(),

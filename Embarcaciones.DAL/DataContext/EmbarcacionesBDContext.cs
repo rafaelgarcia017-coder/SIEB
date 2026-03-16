@@ -272,48 +272,48 @@ namespace Embarcaciones.DAL.DataContext
 
                 entity.Property(e => e.PropietarioAnterior).HasMaxLength(150);
 
-                entity.HasOne(d => d.IdActividadNavigation)
-                    .WithMany(p => p.EmbarcacionIdActividadNavigation)
-                    .HasForeignKey(d => d.IdActividad)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Embarcacion_Actividad");
+                //entity.HasOne(d => d.IdActividadNavigation)
+                //    .WithMany(p => p.EmbarcacionIdActividadNavigation)
+                //    .HasForeignKey(d => d.IdActividad)
+                //    .OnDelete(DeleteBehavior.ClientSetNull)
+                //    .HasConstraintName("FK_Embarcacion_Actividad");
 
-                entity.HasOne(d => d.IdBanderaRegistroActualNavigation)
-                    .WithMany(p => p.EmbarcacionIdBanderaRegistroActualNavigation)
-                    .HasForeignKey(d => d.IdBanderaRegistroActual)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Embarcacion_BanderaRegistroActual");
+                //entity.HasOne(d => d.IdBanderaRegistroActualNavigation)
+                //    .WithMany(p => p.EmbarcacionIdBanderaRegistroActualNavigation)
+                //    .HasForeignKey(d => d.IdBanderaRegistroActual)
+                //    .OnDelete(DeleteBehavior.ClientSetNull)
+                //    .HasConstraintName("FK_Embarcacion_BanderaRegistroActual");
 
-                entity.HasOne(d => d.IdBanderaRegistroAnteriorNavigation)
-                    .WithMany(p => p.EmbarcacionIdBanderaRegistroAnteriorNavigation)
-                    .HasForeignKey(d => d.IdBanderaRegistroAnterior)
-                    .HasConstraintName("FK_Embarcacion_BanderaRegistroAnterior");
+                //entity.HasOne(d => d.IdBanderaRegistroAnteriorNavigation)
+                //    .WithMany(p => p.EmbarcacionIdBanderaRegistroAnteriorNavigation)
+                //    .HasForeignKey(d => d.IdBanderaRegistroAnterior)
+                //    .HasConstraintName("FK_Embarcacion_BanderaRegistroAnterior");
 
-                entity.HasOne(d => d.EmbarcacionConstruccionNavigation)
-                    .WithMany(p => p.Embarcacion)
-                    .HasForeignKey(d => d.IdEmbarcacionConstruccion)
-                    .HasConstraintName("FK_Embarcacion_Construccion");
+                //entity.HasOne(d => d.EmbarcacionConstruccionNavigation)
+                //    .WithMany(p => p.Embarcacion)
+                //    .HasForeignKey(d => d.IdEmbarcacionConstruccion)
+                //    .HasConstraintName("FK_Embarcacion_Construccion");
 
-                entity.HasOne(d => d.EmbarcacionPropietarioNavigation)
-                    .WithMany(p => p.Embarcacion)
-                    .HasForeignKey(d => d.IdEmbarcacionPropietario)
-                    .HasConstraintName("FK_Embarcacion_Propietario");
+                //entity.HasOne(d => d.EmbarcacionPropietarioNavigation)
+                //    .WithMany(p => p.Embarcacion)
+                //    .HasForeignKey(d => d.IdEmbarcacionPropietario)
+                //    .HasConstraintName("FK_Embarcacion_Propietario");
 
-                entity.HasOne(d => d.IdPuertoRegistroActualNavigation)
-                    .WithMany(p => p.EmbarcacionIdPuertoRegistroActualNavigation)
-                    .HasForeignKey(d => d.IdPuertoRegistroActual)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Embarcacion_PuertoRegistroActual");
+                //entity.HasOne(d => d.IdPuertoRegistroActualNavigation)
+                //    .WithMany(p => p.EmbarcacionIdPuertoRegistroActualNavigation)
+                //    .HasForeignKey(d => d.IdPuertoRegistroActual)
+                //    .OnDelete(DeleteBehavior.ClientSetNull)
+                //    .HasConstraintName("FK_Embarcacion_PuertoRegistroActual");
 
-                entity.HasOne(d => d.IdPuertoRegistroAnteriorNavigation)
-                    .WithMany(p => p.EmbarcacionIdPuertoRegistroAnteriorNavigation)
-                    .HasForeignKey(d => d.IdPuertoRegistroAnterior)
-                    .HasConstraintName("FK_Embarcacion_PuertoRegistroAnterior");
+                //entity.HasOne(d => d.IdPuertoRegistroAnteriorNavigation)
+                //    .WithMany(p => p.EmbarcacionIdPuertoRegistroAnteriorNavigation)
+                //    .HasForeignKey(d => d.IdPuertoRegistroAnterior)
+                //    .HasConstraintName("FK_Embarcacion_PuertoRegistroAnterior");
 
-                entity.HasOne(d => d.IdTipoEmbarcacionNavigation)
-                    .WithMany(p => p.EmbarcacionIdTipoEmbarcacionNavigation)
-                    .HasForeignKey(d => d.IdTipoEmbarcacion)
-                    .HasConstraintName("FK_Embarcacion_TipoEmbarcacion");
+                //entity.HasOne(d => d.IdTipoEmbarcacionNavigation)
+                //    .WithMany(p => p.EmbarcacionIdTipoEmbarcacionNavigation)
+                //    .HasForeignKey(d => d.IdTipoEmbarcacion)
+                //    .HasConstraintName("FK_Embarcacion_TipoEmbarcacion");
 
                 entity.HasOne(d => d.UsuarioCreacionNavigation)
                     .WithMany(p => p.EmbarcacionIdUsuarioCreacionNavigation)
@@ -327,10 +327,10 @@ namespace Embarcaciones.DAL.DataContext
                     .OnDelete(DeleteBehavior.SetNull)
                     .HasConstraintName("FK_Embarcacion_Modificacion");
 
-                entity.HasOne(d => d.IdZonaNavegacionNavigation)
-                    .WithMany(p => p.EmbarcacionIdZonaNavegacionNavigation)
-                    .HasForeignKey(d => d.IdZonaNavegacion)
-                    .HasConstraintName("FK_Embarcacion_ZonaNavegacion");
+                //entity.HasOne(d => d.IdZonaNavegacionNavigation)
+                //    .WithMany(p => p.EmbarcacionIdZonaNavegacionNavigation)
+                //    .HasForeignKey(d => d.IdZonaNavegacion)
+                //    .HasConstraintName("FK_Embarcacion_ZonaNavegacion");
             });
 
             modelBuilder.Entity<EmbarcacionConstruccion>(entity =>
@@ -354,17 +354,17 @@ namespace Embarcaciones.DAL.DataContext
 
                 entity.Property(e => e.Frecuencia).HasMaxLength(255);
 
-                entity.Property(e => e.IdUnidadMedidaCalado).HasColumnName("IdUnidadMedida_Calado");
+                //entity.Property(e => e.IdUnidadMedidaCalado).HasColumnName("IdUnidadMedida_Calado");
 
-                entity.Property(e => e.IdUnidadMedidaEslora).HasColumnName("IdUnidadMedida_Eslora");
+                //entity.Property(e => e.IdUnidadMedidaEslora).HasColumnName("IdUnidadMedida_Eslora");
 
-                entity.Property(e => e.IdUnidadMedidaManga).HasColumnName("IdUnidadMedida_Manga");
+                //entity.Property(e => e.IdUnidadMedidaManga).HasColumnName("IdUnidadMedida_Manga");
 
-                entity.Property(e => e.IdUnidadMedidaPuntal).HasColumnName("IdUnidadMedida_Puntal");
+                //entity.Property(e => e.IdUnidadMedidaPuntal).HasColumnName("IdUnidadMedida_Puntal");
 
-                entity.Property(e => e.IdUnidadMedidaTrb).HasColumnName("IdUnidadMedida_TRB");
+                //entity.Property(e => e.IdUnidadMedidaTrb).HasColumnName("IdUnidadMedida_TRB");
 
-                entity.Property(e => e.IdUnidadMedidaTrn).HasColumnName("IdUnidadMedida_TRN");
+                //entity.Property(e => e.IdUnidadMedidaTrn).HasColumnName("IdUnidadMedida_TRN");
 
                 entity.Property(e => e.Indicativo).HasMaxLength(50);
 
@@ -392,78 +392,78 @@ namespace Embarcaciones.DAL.DataContext
                     .HasColumnType("decimal(10, 2)")
                     .HasColumnName("TRN");
 
-                entity.HasOne(d => d.IdColorObraMuertaNavigation)
-                    .WithMany(p => p.EmbarcacionConstruccionIdColorObraMuertaNavigation)
-                    .HasForeignKey(d => d.IdColorObraMuerta)
-                    .HasConstraintName("FK_EmbConst_ColorObraMuerta");
+                //entity.HasOne(d => d.IdColorObraMuertaNavigation)
+                //    .WithMany(p => p.EmbarcacionConstruccionIdColorObraMuertaNavigation)
+                //    .HasForeignKey(d => d.IdColorObraMuerta)
+                //    .HasConstraintName("FK_EmbConst_ColorObraMuerta");
 
-                entity.HasOne(d => d.IdColorObraVivaNavigation)
-                    .WithMany(p => p.EmbarcacionConstruccionIdColorObraVivaNavigation)
-                    .HasForeignKey(d => d.IdColorObraViva)
-                    .HasConstraintName("FK_EmbConst_ColorObraViva");
+                //entity.HasOne(d => d.IdColorObraVivaNavigation)
+                //    .WithMany(p => p.EmbarcacionConstruccionIdColorObraVivaNavigation)
+                //    .HasForeignKey(d => d.IdColorObraViva)
+                //    .HasConstraintName("FK_EmbConst_ColorObraViva");
 
-                entity.HasOne(d => d.IdColorSuperestructuraNavigation)
-                    .WithMany(p => p.EmbarcacionConstruccionIdColorSuperestructuraNavigation)
-                    .HasForeignKey(d => d.IdColorSuperestructura)
-                    .HasConstraintName("FK_EmbConst_ColorSuperestructura");
+                //entity.HasOne(d => d.IdColorSuperestructuraNavigation)
+                //    .WithMany(p => p.EmbarcacionConstruccionIdColorSuperestructuraNavigation)
+                //    .HasForeignKey(d => d.IdColorSuperestructura)
+                //    .HasConstraintName("FK_EmbConst_ColorSuperestructura");
 
-                entity.HasOne(d => d.IdMarcaMotorNavigation)
-                    .WithMany(p => p.EmbarcacionConstruccionIdMarcaMotorNavigation)
-                    .HasForeignKey(d => d.IdMarcaMotor)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_EmbConst_MarcaMotor");
+                //entity.HasOne(d => d.IdMarcaMotorNavigation)
+                //    .WithMany(p => p.EmbarcacionConstruccionIdMarcaMotorNavigation)
+                //    .HasForeignKey(d => d.IdMarcaMotor)
+                //    .OnDelete(DeleteBehavior.ClientSetNull)
+                //    .HasConstraintName("FK_EmbConst_MarcaMotor");
 
-                entity.HasOne(d => d.IdPropulsionNavigation)
-                    .WithMany(p => p.EmbarcacionConstruccionIdPropulsionNavigation)
-                    .HasForeignKey(d => d.IdPropulsion)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_EmbConst_Propulsion");
+                //entity.HasOne(d => d.IdPropulsionNavigation)
+                //    .WithMany(p => p.EmbarcacionConstruccionIdPropulsionNavigation)
+                //    .HasForeignKey(d => d.IdPropulsion)
+                //    .OnDelete(DeleteBehavior.ClientSetNull)
+                //    .HasConstraintName("FK_EmbConst_Propulsion");
 
-                entity.HasOne(d => d.IdSistemaNavegacionNavigation)
-                    .WithMany(p => p.EmbarcacionConstruccionIdSistemaNavegacionNavigation)
-                    .HasForeignKey(d => d.IdSistemaNavegacion)
-                    .HasConstraintName("FK_EmbConst_SistemaNavegacion");
+                //entity.HasOne(d => d.IdSistemaNavegacionNavigation)
+                //    .WithMany(p => p.EmbarcacionConstruccionIdSistemaNavegacionNavigation)
+                //    .HasForeignKey(d => d.IdSistemaNavegacion)
+                //    .HasConstraintName("FK_EmbConst_SistemaNavegacion");
 
-                entity.HasOne(d => d.IdTipoComunicacionNavigation)
-                    .WithMany(p => p.EmbarcacionConstruccionIdTipoComunicacionNavigation)
-                    .HasForeignKey(d => d.IdTipoComunicacion)
-                    .HasConstraintName("FK_EmbConst_TipoComunicacion");
+                //entity.HasOne(d => d.IdTipoComunicacionNavigation)
+                //    .WithMany(p => p.EmbarcacionConstruccionIdTipoComunicacionNavigation)
+                //    .HasForeignKey(d => d.IdTipoComunicacion)
+                //    .HasConstraintName("FK_EmbConst_TipoComunicacion");
 
-                entity.HasOne(d => d.IdUnidadMedidaCaladoNavigation)
-                    .WithMany(p => p.EmbarcacionConstruccionIdUnidadMedidaCaladoNavigation)
-                    .HasForeignKey(d => d.IdUnidadMedidaCalado)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_EmbConst_UM_Calado");
+                //entity.HasOne(d => d.IdUnidadMedidaCaladoNavigation)
+                //    .WithMany(p => p.EmbarcacionConstruccionIdUnidadMedidaCaladoNavigation)
+                //    .HasForeignKey(d => d.IdUnidadMedidaCalado)
+                //    .OnDelete(DeleteBehavior.ClientSetNull)
+                //    .HasConstraintName("FK_EmbConst_UM_Calado");
 
-                entity.HasOne(d => d.IdUnidadMedidaEsloraNavigation)
-                    .WithMany(p => p.EmbarcacionConstruccionIdUnidadMedidaEsloraNavigation)
-                    .HasForeignKey(d => d.IdUnidadMedidaEslora)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_EmbConst_UM_Eslora");
+                //entity.HasOne(d => d.IdUnidadMedidaEsloraNavigation)
+                //    .WithMany(p => p.EmbarcacionConstruccionIdUnidadMedidaEsloraNavigation)
+                //    .HasForeignKey(d => d.IdUnidadMedidaEslora)
+                //    .OnDelete(DeleteBehavior.ClientSetNull)
+                //    .HasConstraintName("FK_EmbConst_UM_Eslora");
 
-                entity.HasOne(d => d.IdUnidadMedidaMangaNavigation)
-                    .WithMany(p => p.EmbarcacionConstruccionIdUnidadMedidaMangaNavigation)
-                    .HasForeignKey(d => d.IdUnidadMedidaManga)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_EmbConst_UM_Manga");
+                //entity.HasOne(d => d.IdUnidadMedidaMangaNavigation)
+                //    .WithMany(p => p.EmbarcacionConstruccionIdUnidadMedidaMangaNavigation)
+                //    .HasForeignKey(d => d.IdUnidadMedidaManga)
+                //    .OnDelete(DeleteBehavior.ClientSetNull)
+                //    .HasConstraintName("FK_EmbConst_UM_Manga");
 
-                entity.HasOne(d => d.IdUnidadMedidaPuntalNavigation)
-                    .WithMany(p => p.EmbarcacionConstruccionIdUnidadMedidaPuntalNavigation)
-                    .HasForeignKey(d => d.IdUnidadMedidaPuntal)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_EmbConst_UM_Puntal");
+                //entity.HasOne(d => d.IdUnidadMedidaPuntalNavigation)
+                //    .WithMany(p => p.EmbarcacionConstruccionIdUnidadMedidaPuntalNavigation)
+                //    .HasForeignKey(d => d.IdUnidadMedidaPuntal)
+                //    .OnDelete(DeleteBehavior.ClientSetNull)
+                //    .HasConstraintName("FK_EmbConst_UM_Puntal");
 
-                entity.HasOne(d => d.IdUnidadMedidaTrbNavigation)
-                    .WithMany(p => p.EmbarcacionConstruccionIdUnidadMedidaTrbNavigation)
-                    .HasForeignKey(d => d.IdUnidadMedidaTrb)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_EmbConst_UM_TRB");
+                //entity.HasOne(d => d.IdUnidadMedidaTrbNavigation)
+                //    .WithMany(p => p.EmbarcacionConstruccionIdUnidadMedidaTrbNavigation)
+                //    .HasForeignKey(d => d.IdUnidadMedidaTrb)
+                //    .OnDelete(DeleteBehavior.ClientSetNull)
+                //    .HasConstraintName("FK_EmbConst_UM_TRB");
 
-                entity.HasOne(d => d.IdUnidadMedidaTrnNavigation)
-                    .WithMany(p => p.EmbarcacionConstruccionIdUnidadMedidaTrnNavigation)
-                    .HasForeignKey(d => d.IdUnidadMedidaTrn)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_EmbConst_UM_TRN");
+                //entity.HasOne(d => d.IdUnidadMedidaTrnNavigation)
+                //    .WithMany(p => p.EmbarcacionConstruccionIdUnidadMedidaTrnNavigation)
+                //    .HasForeignKey(d => d.IdUnidadMedidaTrn)
+                //    .OnDelete(DeleteBehavior.ClientSetNull)
+                //    .HasConstraintName("FK_EmbConst_UM_TRN");
 
                 entity.HasOne(d => d.UsuarioCreacionNavigation)
                     .WithMany(p => p.EmbarcacionConstruccionIdUsuarioCreacionNavigation)
@@ -525,11 +525,11 @@ namespace Embarcaciones.DAL.DataContext
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_EmbarcacionPropietario_Municipio");
 
-                entity.HasOne(d => d.IdNacionalidadNavigation)
-                    .WithMany(p => p.EmbarcacionPropietario)
-                    .HasForeignKey(d => d.IdNacionalidad)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_EmbarcacionPropietario_Nacionalidad");
+                //entity.HasOne(d => d.IdNacionalidadNavigation)
+                //    .WithMany(p => p.EmbarcacionPropietario)
+                //    .HasForeignKey(d => d.IdNacionalidad)
+                //    .OnDelete(DeleteBehavior.ClientSetNull)
+                //    .HasConstraintName("FK_EmbarcacionPropietario_Nacionalidad");
 
                 entity.HasOne(d => d.UsuarioCreacionNavigation)
                     .WithMany(p => p.EmbarcacionPropietarioIdUsuarioCreacionNavigation)
@@ -562,12 +562,6 @@ namespace Embarcaciones.DAL.DataContext
                     .HasForeignKey(d => d.IdEmbarcacionConstruccion)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_EmbarcacionPuertoSeleccion_Embarcacion");
-
-                entity.HasOne(d => d.IdPuertoNavigation)
-                    .WithMany(p => p.EmbarcacionPuertoSeleccion)
-                    .HasForeignKey(d => d.IdPuerto)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_EmbarcacionPuertoSeleccion_Puerto");
 
                 entity.HasOne(d => d.UsuarioCreacionNavigation)
                     .WithMany(p => p.EmbarcacionPuertoSeleccionIdUsuarioCreacionNavigation)

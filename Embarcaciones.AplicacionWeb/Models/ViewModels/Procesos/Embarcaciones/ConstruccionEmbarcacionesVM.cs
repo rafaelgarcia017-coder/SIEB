@@ -36,24 +36,24 @@ namespace Embarcaciones.AplicacionWeb.Models.ViewModels.Procesos.Embarcaciones
         public int SistemaNavegacion { get; set; }
         public int PuertoVisitado { get; set; }
 
-        public string TRB { get; set; }
-        public string TRN { get; set; }
-        public string Eslora { get; set; }
-        public string Manga { get; set; }
-        public string Puntal { get; set; }
-        public string Calado { get; set; }
+        public decimal TRB { get; set; }
+        public decimal TRN { get; set; }
+        public decimal Eslora { get; set; }
+        public decimal Manga { get; set; }
+        public decimal Puntal { get; set; }
+        public decimal Calado { get; set; }
 
-        public DateOnly AnioConstruccion { get; set; }
-        public int NumeroConstruccion { get; set; }
+        public int AnioConstruccion { get; set; }
+        public string? NumeroConstruccion { get; set; }
         public string Modelo { get; set; }
         public string Serie { get; set; }
         public string Potencia { get; set; }
-        public string TipoComunicacion { get; set; }
+        public int TipoComunicacion { get; set; }
         public string MedioCx { get; set; }
         public string Frecuencia { get; set; }
         public string Indicativo { get; set; }
-        public string NumeroTripulantes { get; set; }
-        public string NumeroPasajeros { get; set; }
+        public int? NumeroTripulantes { get; set; }
+        public int NumeroPasajeros { get; set; }
         public string CapacidadCarga { get; set; }
         public string TipoFechasInfracciones { get; set; }
 

@@ -15,20 +15,20 @@ builder.Services.AddDbContext<EmbarcacionesBDContext>(x =>
 builder.Services.AddScoped<IPersonaRepositorio, PersonaRepositorio>();
 builder.Services.AddScoped<IGenericRepositorio<Departamento>, DepartamentoRepositorio>();
 builder.Services.AddScoped<IGenericRepositorio<Municipio>, MunicipioRepositorio>();
+builder.Services.AddScoped<IEmbarcacionRepositorio, EmbarcacionRepositorio>();
+builder.Services.AddScoped<ICatalogoRepositorio, CatalogoRepositorio>();
+builder.Services.AddScoped<ICuentaRepositorio, CuentaRepositorio>();
+builder.Services.AddScoped<ICatalogoValorRepositorio, CatalogoValorRepositorio>();
+builder.Services.AddScoped<IUnidadMedidaRepositorio, UnidadMedidaRepositorio>();
 
 builder.Services.AddScoped<IPersonaService, PersonaService>();
 builder.Services.AddScoped<IDepartamentoService, DepartamentoService>();
 builder.Services.AddScoped<IMunicipioService, MunicipioService>();
-
-builder.Services.AddScoped<ICatalogoRepositorio, CatalogoRepositorio>();
-builder.Services.AddScoped<ICatalogoValorRepositorio, CatalogoValorRepositorio>();
 builder.Services.AddScoped<ICatalogoValorService, CatalogoValorService>();
 builder.Services.AddScoped<ICatalogoService, CatalogoService>();
-
-builder.Services.AddScoped<ICuentaRepositorio, CuentaRepositorio>();
 builder.Services.AddScoped<ICuentaService, CuentaService>();
-builder.Services.AddScoped<IUnidadMedidaRepositorio, UnidadMedidaRepositorio>();
 builder.Services.AddScoped<IUnidadMedidaService, UnidadMedidaService>();
+builder.Services.AddScoped<IEmbarcacionService, EmbarcacionService>();
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>

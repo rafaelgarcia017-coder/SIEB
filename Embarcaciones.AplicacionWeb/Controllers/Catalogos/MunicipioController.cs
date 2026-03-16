@@ -41,19 +41,20 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Catalogos
 
             return View("Administrar", model);
         }
-        public MunicipioVM LlenarModelo(MunicipioVM viewModel) {
+        public MunicipioVM LlenarModelo(MunicipioVM viewModel)
+        {
             viewModel = viewModel ?? new MunicipioVM();
-            var departamentos =  _departamentoService.ObtenerTodos().ToList();
-            viewModel.ListaDepartamentos =  departamentos.Select(d => new SelectListItem
+            var departamentos = _departamentoService.ObtenerTodos().ToList();
+            viewModel.ListaDepartamentos = departamentos.Select(d => new SelectListItem
             {
                 Value = d.IdDepartamento.ToString(),
                 Text = d.Departamento1
             }).ToList();
             return viewModel;
         }
-        public  IActionResult NuevoMunicipio()
+        public IActionResult NuevoMunicipio()
         {
-            var model =  LlenarModelo(new MunicipioVM());
+            var model = LlenarModelo(new MunicipioVM());
             model.Accion = AccionesController.Nuevo;
             return View("NuevoMunicipio", model);
         }
@@ -63,6 +64,7 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Catalogos
         {
             try
             {
+                bool resultado = false;
                 if (!ModelState.IsValid)
                 {
                     AddAdvertencia(this.ErroresFromModel().Texto);
@@ -84,25 +86,35 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Catalogos
                     }
 
                     var municipio = MapearMunicipio(model);
-                    await _municipioService.Agregar(municipio);
+                    resultado = await _municipioService.Agregar(municipio);
                 }
                 else
                 {
-                    if (await _municipioService.ValidarDuplicados(model.NombreMunicipio,model.IdMunicipio))
+                    if (await _municipioService.ValidarDuplicados(model.NombreMunicipio, model.IdMunicipio))
                     {
                         AddAdvertencia("El Municipio que intentas actualizar ya existe. Revisa la información e intenta nuevamente");
                         return View("NuevoMunicipio", LlenarModelo(model));
                     }
                     // Para editar, opcional: validar duplicados también
                     var municipio = MapearMunicipio(model);
-                    await _municipioService.Actualizar(municipio);
+                    resultado = await _municipioService.Actualizar(municipio);
+                }
+                if (!resultado)
+                {
+                    AddExito(model.Accion == AccionesController.Nuevo
+                        ? "Municipio registrado satisfactoriamente."
+                        : "Municipio actualizado satisfactoriamente.");
+
+                    return RedirectToAction("Administrar");
+                }
+                else
+                {
+                    AddError("Ha ocurrido un error. Contacte al Administrador.");
+                    return View("NuevoMunicipio", LlenarModelo(model));
                 }
 
-                AddExito(model.Accion == AccionesController.Nuevo
-                    ? "Municipio registrado satisfactoriamente."
-                    : "Municipio actualizado satisfactoriamente.");
+                 
 
-                return RedirectToAction("Administrar");
             }
             catch (Exception ex)
             {
@@ -138,7 +150,7 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Catalogos
             model.NombreMunicipio = departamento.Municipio1;
             model.Descripcion = departamento.Descripcion;
             model.Accion = AccionesController.Editar;
-            
+
             return View("NuevoMunicipio", model);
         }
 
