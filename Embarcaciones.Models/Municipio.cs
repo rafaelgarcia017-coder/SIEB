@@ -7,7 +7,7 @@ namespace Embarcaciones.Models
     {
         public Municipio()
         {
-            EmbarcacionPropietario = new HashSet<EmbarcacionPropietario>();
+           
         }
 
         public int IdMunicipio { get; set; }
@@ -24,6 +24,5 @@ namespace Embarcaciones.Models
         public virtual Departamento DepartamentoNavigation { get; set; } = null!;
         public virtual Cuenta UsuarioCreacionNavigation { get; set; } = null!;
         public virtual Cuenta? UsuarioModificacionNavigation { get; set; }
-        public virtual ICollection<EmbarcacionPropietario> EmbarcacionPropietario { get; set; }
     }
 }

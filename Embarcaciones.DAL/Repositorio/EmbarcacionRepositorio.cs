@@ -17,19 +17,36 @@ namespace Embarcaciones.DAL.Repositorio
         public Task<bool> Actualizar(Embarcacion modelo)
         {
             throw new NotImplementedException();
-        } 
+        }
 
         public async Task<bool> Agregar(Embarcacion modelo)
         {
-            await _dbcontext.Embarcacion.AddAsync(modelo);
-            await _dbcontext.SaveChangesAsync();
-            return true;
+            using var transaction = await _dbcontext.Database.BeginTransactionAsync();
+            try
+            {
+                // ✅ Agregar solo la entidad raíz
+                _dbcontext.Embarcacion.Add(modelo);
+
+                // ✅ Un solo SaveChanges
+                await _dbcontext.SaveChangesAsync();
+
+                await transaction.CommitAsync();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                await transaction.RollbackAsync();
+                throw;
+            }
         }
+
 
         public Task<bool> Eliminar(Embarcacion modelo)
         {
             throw new NotImplementedException();
         }
+
 
         public Task<Embarcacion> Obtener(int id)
         {
@@ -37,6 +54,16 @@ namespace Embarcaciones.DAL.Repositorio
         }
 
         public IQueryable<Embarcacion> ObtenerTodos()
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<Embarcacion> IEmbarcacionRepositorio.Obtener(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        IQueryable<Embarcacion> IEmbarcacionRepositorio.ObtenerTodos()
         {
             throw new NotImplementedException();
         }

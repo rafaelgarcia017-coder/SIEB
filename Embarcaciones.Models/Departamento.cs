@@ -6,8 +6,7 @@ namespace Embarcaciones.Models
     public partial class Departamento
     {
         public Departamento()
-        {
-            EmbarcacionPropietario = new HashSet<EmbarcacionPropietario>();
+        {         
             Municipio = new HashSet<Municipio>();
         }
 
@@ -22,8 +21,7 @@ namespace Embarcaciones.Models
         public DateTime? FechaModificacion { get; set; }
 
         public virtual Cuenta UsuarioCreacionNavigation { get; set; } = null!;
-        public virtual Cuenta? UsuarioModificacionNavigation { get; set; }
-        public virtual ICollection<EmbarcacionPropietario> EmbarcacionPropietario { get; set; }
+        public virtual Cuenta? UsuarioModificacionNavigation { get; set; }      
         public virtual ICollection<Municipio> Municipio { get; set; }
     }
 }

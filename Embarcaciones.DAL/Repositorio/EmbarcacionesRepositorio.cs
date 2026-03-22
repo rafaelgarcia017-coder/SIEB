@@ -27,23 +27,6 @@ namespace Embarcaciones.DAL.Repositorio
             using var transaction = await _dbcontext.Database.BeginTransactionAsync();
             try
             {
-                // 1️⃣ Guardar Propietario
-                _dbcontext.EmbarcacionPropietario.Add(modelo.EmbarcacionPropietarioNavigation);
-                await _dbcontext.SaveChangesAsync();
-
-                // 2️⃣ Guardar Construcción
-                _dbcontext.EmbarcacionConstruccion.Add(modelo.EmbarcacionConstruccionNavigation);
-                await _dbcontext.SaveChangesAsync();
-
-                // 3️⃣ Asignar los IDs generados
-                modelo.IdEmbarcacionPropietario = modelo.EmbarcacionPropietarioNavigation.IdEmbarcacionPropietario;
-                modelo.IdEmbarcacionConstruccion = modelo.EmbarcacionConstruccionNavigation.IdEmbarcacionConstruccion;
-
-                // 4️⃣ Guardar Embarcación
-                _dbcontext.Embarcacion.Add(modelo);
-                await _dbcontext.SaveChangesAsync();
-
-                await transaction.CommitAsync();
 
                 return true;
             }

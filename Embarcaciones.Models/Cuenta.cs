@@ -16,14 +16,8 @@ namespace Embarcaciones.Models
             CatalogoValorIdUsuarioModificacionNavigation = new HashSet<CatalogoValor>();
             DepartamentoIdUsuarioCreacionNavigation = new HashSet<Departamento>();
             DepartamentoIdUsuarioModificacionNavigation = new HashSet<Departamento>();
-            EmbarcacionConstruccionIdUsuarioCreacionNavigation = new HashSet<EmbarcacionConstruccion>();
-            EmbarcacionConstruccionIdUsuarioModificacionNavigation = new HashSet<EmbarcacionConstruccion>();
             EmbarcacionIdUsuarioCreacionNavigation = new HashSet<Embarcacion>();
             EmbarcacionIdUsuarioModificacionNavigation = new HashSet<Embarcacion>();
-            EmbarcacionPropietarioIdUsuarioCreacionNavigation = new HashSet<EmbarcacionPropietario>();
-            EmbarcacionPropietarioIdUsuarioModificacionNavigation = new HashSet<EmbarcacionPropietario>();
-            EmbarcacionPuertoSeleccionIdUsuarioCreacionNavigation = new HashSet<EmbarcacionPuertoSeleccion>();
-            EmbarcacionPuertoSeleccionIdUsuarioModificacionNavigation = new HashSet<EmbarcacionPuertoSeleccion>();
             InverseIdUsuarioCreacionNavigation = new HashSet<Cuenta>();
             InverseIdUsuarioModificacionNavigation = new HashSet<Cuenta>();
             MunicipioIdUsuarioCreacionNavigation = new HashSet<Municipio>();
@@ -66,14 +60,8 @@ namespace Embarcaciones.Models
         public virtual ICollection<CatalogoValor> CatalogoValorIdUsuarioModificacionNavigation { get; set; }
         public virtual ICollection<Departamento> DepartamentoIdUsuarioCreacionNavigation { get; set; }
         public virtual ICollection<Departamento> DepartamentoIdUsuarioModificacionNavigation { get; set; }
-        public virtual ICollection<EmbarcacionConstruccion> EmbarcacionConstruccionIdUsuarioCreacionNavigation { get; set; }
-        public virtual ICollection<EmbarcacionConstruccion> EmbarcacionConstruccionIdUsuarioModificacionNavigation { get; set; }
         public virtual ICollection<Embarcacion> EmbarcacionIdUsuarioCreacionNavigation { get; set; }
         public virtual ICollection<Embarcacion> EmbarcacionIdUsuarioModificacionNavigation { get; set; }
-        public virtual ICollection<EmbarcacionPropietario> EmbarcacionPropietarioIdUsuarioCreacionNavigation { get; set; }
-        public virtual ICollection<EmbarcacionPropietario> EmbarcacionPropietarioIdUsuarioModificacionNavigation { get; set; }
-        public virtual ICollection<EmbarcacionPuertoSeleccion> EmbarcacionPuertoSeleccionIdUsuarioCreacionNavigation { get; set; }
-        public virtual ICollection<EmbarcacionPuertoSeleccion> EmbarcacionPuertoSeleccionIdUsuarioModificacionNavigation { get; set; }
         public virtual ICollection<Cuenta> InverseIdUsuarioCreacionNavigation { get; set; }
         public virtual ICollection<Cuenta> InverseIdUsuarioModificacionNavigation { get; set; }
         public virtual ICollection<Municipio> MunicipioIdUsuarioCreacionNavigation { get; set; }

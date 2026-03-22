@@ -33,14 +33,14 @@
         border-top: 1px solid #eee;
     }
 
-/*     #formAccordion .accordion-button::after {
-        filter: invert(1);
-        transition: transform .3s ease;
-    }
+    /*     #formAccordion .accordion-button::after {
+                                                                                                    filter: invert(1);
+                                                                                                    transition: transform .3s ease;
+                                                                                                }
 
-    #formAccordion .accordion-button:not(.collapsed)::after {
-        transform: rotate(180deg);
-    } */
+                                                                                                #formAccordion .accordion-button:not(.collapsed)::after {
+                                                                                                    transform: rotate(180deg);
+                                                                                                } */
 
     /* animación suave */
 
@@ -54,6 +54,59 @@
         font-size: 18px;
         font-weight: bold;
         margin-right: 8px;
+    }
+
+    .img-preview {
+        width: 150px;
+        height: 150px;
+        object-fit: cover;
+        border: 2px dashed #ccc; /* borde punteado */
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+        transition: all 0.3s ease;
+    }
+
+        /* efecto al pasar el mouse */
+        .img-preview:hover {
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
+            transform: scale(1.03);
+            border-color: #007bff; /* cambia color del borde */
+        }
+
+
+
+    .contenedor-imagen {
+        position: relative;
+        display: inline-block;
+    }
+
+    .btn-eliminar {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        background-color: rgba(0, 0, 0, 0.6);
+        color: white;
+        border: none;
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+        cursor: pointer;
+        opacity: 0; /* oculto por defecto */
+        transition: all 0.3s ease;
+    }
+
+    /* aparece al pasar el mouse */
+    .contenedor-imagen:hover .btn-eliminar {
+        opacity: 1;
+    }
+
+    /* efecto hover del botón */
+    .btn-eliminar:hover {
+        transform: scale(1.1);
     }
 </style>
 
@@ -86,311 +139,305 @@
                         </div>
                         <div class="card shadow border-0">
                             <div class="card-header">
-                                <h4 class="mb-0">Registro de Embarcación</h4>
+                                <h5 class="mb-0">Registro de Embarcación</h5>
                             </div>
-
+                        </div>
+                        <div class="card shadow border-0">
                             <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                                            <li class="nav-item" role="presentation">
+                                                <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Propietario</button>
+                                            </li>
+                                            <li class="nav-item" role="presentation">
+                                                <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Embarcacion</button>
+                                            </li>
+                                            <li class="nav-item" role="presentation">
+                                                <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">Construccion</button>
+                                            </li>
+                                        </ul>
+                                        <div class="tab-content" id="pills-tabContent">
+                                            <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
 
-                                <div class="accordion" id="formAccordion">
-                                    <!-- 👤 DATOS PROPIETARIO (Cerrado) -->
-                                    <div class="accordion-item">
-                                        <h2 class="accordion-header">
-                                            <button class="accordion-button fw-semibold bg-primary text-white"
-                                                    type="button"
-                                                    data-bs-toggle="collapse"
-                                                    data-bs-target="#collapseTwo">
-
-                                                <span class="icono">-</span>
-                                                👤 Datos del Propietario
-                                            </button>
-                                        </h2>
-
-                                        <div id="collapseTwo" class="accordion-collapse collapse show">
-                                            <div class="accordion-body">
-                                                <div class="row g-3">
-                                                    <div class="col-md-3">
-                                                        <label class="form-label">Nombre Completo:</label>
-                                                        <input asp-for="Propietario.NombreCompleto" class="form-control" />
-                                                    </div>
-
-                                                    <div class="col-md-3">
-                                                        <label class="form-label">Tipo Identificacion:</label>
-                                                        <select asp-for="Propietario.TipoIdentificacion"
-                                                                asp-items="Model.Propietario.ListaTipoIdentificacion"
-                                                                class="form-select cmb" id="cmb-tipo-identificacion">
-                                                            <option value=""></option>
-                                                        </select>
-                                                    </div>
-
-                                                    <div class="col-md-3">
-                                                        <label class="form-label">Identificacion:</label>
-                                                        <input asp-for="Propietario.Identificacion" class="form-control" />
-                                                    </div>
-
-                                                    <div class="col-md-3">
-                                                        <label class="form-label">Nacionalidad:</label>
-                                                        <select asp-for="Propietario.Nacionalidad"
-                                                                asp-items="Model.Propietario.ListaNacionalidad"
-                                                                class="form-select cmb" id="cmb-nacionalidad">
-                                                            <option value=""></option>
-                                                        </select>
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        <label class="form-label">Telefono:</label>
-                                                        <input asp-for="Propietario.Telefono" class="form-control" />
-                                                    </div>
-
-                                                    <!-- Tercera fila -->
-                                                    <div class="col-md-3">
-                                                        <label class="form-label">Departamento:</label>
-                                                        <select asp-for="Propietario.Departamento"
-                                                                asp-items="Model.Propietario.ListaDepartamentos"
-                                                                class="form-select cmb" id="cmb-departamentos">
-                                                            <option value=""></option>
-                                                        </select>
-                                                    </div>
-
-                                                    <div class="col-md-3">
-                                                        <label class="form-label">Municipio:</label>
-                                                        <select asp-for="Propietario.Municipio"
-                                                                asp-items="Model.Propietario.ListaMunicipio"
-                                                                class="form-select" id="cmb-municipio">
-                                                            <option value=""></option>
-                                                        </select>
-                                                    </div>
-
-                                                    <div class="col-md-3">
-                                                        <label class="form-label">Licencia Navegacion:</label>
-                                                        <input asp-for="Propietario.LicenciaNavegacion" class="form-control" />
-                                                    </div>
-
-                                                    <!-- Cuarta fila -->
-                                                    <div class="col-md-3 ">
-                                                        <label class="form-label">Nombre Contacto:</label>
-                                                        <input asp-for="Propietario.NombreContacto" class="form-control" />
-                                                    </div>
-
-                                                    <div class="col-md-3">
-                                                        <label class="form-label">N° Carnet:</label>
-                                                        <input asp-for="Propietario.NumeroCarnetMarinero" class="form-control" />
-                                                    </div>
-
-                                                    <div class="col-md-3">
-                                                        <label class="form-label">Empresa:</label>
-                                                        <input asp-for="Propietario.EmpresaPropietario" class="form-control" />
-                                                    </div>
-
-                                                    <!-- Quinta fila -->
-                                                    <div class="col-md-3">
-                                                        <label class="form-label">Telefono:</label>
-                                                        <input asp-for="Propietario.TelefonoContacto" class="form-control" />
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <label class="form-label">Observaciones:</label>
-                                                        <textarea asp-for="Propietario.Observaciones" class="form-control" rows="5"></textarea>
-                                                    </div>
-                                                    <div class="col-md-3 d-flex justify-content-center align-items-center">
-                                                        <!-- Aquí va la imagen -->
-                                                        <div class="contenedor-imagen">
-                                                            <label for="ImagenFile" style="cursor:pointer;">
-                                                                <img id="preview"
-                                                                     src="@(string.IsNullOrEmpty(Model?.Propietario.UrlImagen) ? "~/images/placeholder.png" : Url.Content(Model.Propietario.UrlImagen))"
-                                                                     class="img-preview" />
-                                                            </label>
-                                                            <input asp-for="Propietario.ImagenFile"
-                                                                   type="file"
-                                                                   id="ImagenFile"
-                                                                   accept="image/*"
-                                                                   style="display:none;" />
+                                                <div class="body">
+                                                    <div class="row g-3">
+                                                        <div class="col-md-3">
+                                                            <label class="form-label">Nombre Completo:</label>
+                                                            <input asp-for="Propietario.NombreCompleto" class="form-control" />
                                                         </div>
+
+                                                        <div class="col-md-3">
+                                                            <label class="form-label">Tipo Identificacion:</label>
+                                                            <select asp-for="Propietario.TipoIdentificacion"
+                                                                    asp-items="Model.Propietario.ListaTipoIdentificacion"
+                                                                    class="form-select cmb" id="cmb-tipo-identificacion">
+                                                                <option value=""></option>
+                                                            </select>
+                                                        </div>
+
+                                                        <div class="col-md-3">
+                                                            <label class="form-label">Identificacion:</label>
+                                                            <input asp-for="Propietario.Identificacion" class="form-control" />
+                                                        </div>
+
+                                                        <div class="col-md-3">
+                                                            <label class="form-label">Telefono:</label>
+                                                            <input asp-for="Propietario.Telefono" class="form-control" />
+                                                        </div>
+
+
+                                                    </div>
+
+                                                    <div class="row g-3">
+                                                        <div class="col-md-3">
+                                                            <label class="form-label">Nacionalidad:</label>
+                                                            <select asp-for="Propietario.Nacionalidad"
+                                                                    asp-items="Model.Propietario.ListaNacionalidad"
+                                                                    class="form-select cmb" id="cmb-nacionalidad">
+                                                                <option value=""></option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <label class="form-label">Departamento:</label>
+                                                            <select asp-for="Propietario.Departamento"
+                                                                    asp-items="Model.Propietario.ListaDepartamentos"
+                                                                    class="form-select cmb" id="cmb-departamentos">
+                                                                <option value=""></option>
+                                                            </select>
+                                                        </div>
+
+                                                        <div class="col-md-3">
+                                                            <label class="form-label">Municipio:</label>
+                                                            <select asp-for="Propietario.Municipio"
+                                                                    asp-items="Model.Propietario.ListaMunicipio"
+                                                                    class="form-select" id="cmb-municipio">
+                                                                <option value=""></option>
+                                                            </select>
+                                                        </div>
+
+                                                        <div class="col-md-3">
+                                                            <label class="form-label">Licencia Navegacion:</label>
+                                                            <input asp-for="Propietario.LicenciaNavegacion" class="form-control" />
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="row g-3">
+                                                        <div class="col-md-3 ">
+                                                            <label class="form-label">Nombre Contacto:</label>
+                                                            <input asp-for="Propietario.NombreContacto" class="form-control" />
+                                                        </div>
+
+                                                        <div class="col-md-3">
+                                                            <label class="form-label">N° Carnet:</label>
+                                                            <input asp-for="Propietario.NumeroCarnetMarinero" class="form-control" />
+                                                        </div>
+
+                                                        <div class="col-md-3">
+                                                            <label class="form-label">Empresa:</label>
+                                                            <input asp-for="Propietario.EmpresaPropietario" class="form-control" />
+                                                        </div>
+
+                                                        <!-- Quinta fila -->
+                                                        <div class="col-md-3">
+                                                            <label class="form-label">Telefono:</label>
+                                                            <input asp-for="Propietario.TelefonoContacto" class="form-control" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="row g-3">
+                                                        <div class="col-md-6">
+                                                            <label class="form-label">Observaciones:</label>
+                                                            <textarea asp-for="Propietario.Observaciones" class="form-control" rows="5"></textarea>
+                                                        </div>
+                                                        <div class="col-md-3 d-flex justify-content-center mt-5">
+
+                                                            <div class="contenedor-imagen position-relative">
+
+                                                                <label for="image-file-propietario" style="cursor:pointer;">
+                                                                    <img id="preview-propietario"
+                                                                         src="@(string.IsNullOrEmpty(Model?.Propietario.UrlImagen) ? "/images/user.png" : Url.Content(Model.Propietario.UrlImagen))"
+                                                                         class="img-preview" />
+                                                                </label>
+
+                                                                <!-- Botón flotante -->
+                                                                <button type="button"
+                                                                        class="btn-eliminar"
+                                                                        onclick="eliminarImagenPropietario()">
+                                                                    ✖
+                                                                </button>
+
+                                                                <input asp-for="Propietario.ImagenFile"
+                                                                       type="file"
+                                                                       id="image-file-propietario"
+                                                                       accept="image/*"
+                                                                       style="display:none;" />
+                                                            </div>
+
+                                                        </div>
+
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </div>
 
-                                    <!-- 🚤 DATOS EMBARCACIÓN (Abierto) -->
-                                    <div class="accordion-item">
-                                        <h2 class="accordion-header">
-                                            <button class="accordion-button collapsed fw-semibold bg-success text-white bg-opacity-75"
-                                                    type="button"
-                                                    data-bs-toggle="collapse"
-                                                    data-bs-target="#collapseOne">
+                                            <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
 
-                                                <span class="icono">+</span>
-                                                🚤 Datos de la Embarcación
-                                            </button>
-                                        </h2>
+                                                <div class="body">
+                                                    <div class="row g-3">
+                                                        <div class="col-md-3">
+                                                            <label class="form-label"> Nombre:</label>
+                                                            <input asp-for="Embarcacion.NombreActual" class="form-control" />
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <label class="form-label">Matricula:</label>
+                                                            <input asp-for="Embarcacion.MatriculaActual" class="form-control" />
+                                                        </div>
 
-                                        <div id="collapseOne" class="accordion-collapse collapse">
-                                            <div class="accordion-body">
-                                                <div class="row g-3">
-                                                    <div class="col-md-3">
-                                                        <label class="form-label">Matricula:</label>
-                                                        <input asp-for="Embarcacion.MatriculaActual" class="form-control" />
+                                                        <div class="col-md-3">
+                                                            <label class="form-label">Tipo Embarcacion:</label>
+                                                            <select asp-for="Embarcacion.TipoEmbarcacion"
+                                                                    asp-items="Model.Embarcacion.ListaTipoEmbarcacion"
+                                                                    class="form-select cmb" id="cmb-tipo-embarcacion">
+                                                                <option value=""></option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <label class="form-label"> Matricula Anterior:</label>
+                                                            <input asp-for="Embarcacion.MatriculaAnterior" class="form-control" />
+                                                        </div>                                            
+                                                    </div>                                 
+                                                    <div class="row g-3">
+                                                        <div class="col-md-3">
+                                                            <label class="form-label">OMI:</label>
+                                                            <input asp-for="Embarcacion.NumeroOmi" class="form-control" />
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <label class="form-label">Propietario Anterior:</label>
+                                                            <input asp-for="Embarcacion.PropietarioAnterior" class="form-control" />
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <label class="form-label">Indicativo LLamada:</label>
+                                                            <input asp-for="Embarcacion.IndicativoLLamada" class="form-control" />
+                                                        </div>
+                                                     
+                                                        <div class="col-md-3">
+                                                            <label class="form-label">Puerto:</label>
+                                                            <select asp-for="Embarcacion.PuertoRegistroActual"
+                                                                    asp-items="Model.Embarcacion.ListaPuertoRegistroActual"
+                                                                    class="form-select cmb" id="cmb-puerto">
+                                                                <option value=""></option>
+                                                            </select>
+                                                        </div>
                                                     </div>
+                                                    <div class="row g-3">
+                                                        <div class="col-md-3">
+                                                            <label class="form-label">Fecha Abanderamiento:</label>
+                                                            <input asp-for="Embarcacion.FechaAbanderamiento" class="form-control" />
+                                                        </div>
 
-                                                    <div class="col-md-3">
-                                                        <label class="form-label">Tipo Embarcacion:</label>
-                                                        <select asp-for="Embarcacion.TipoEmbarcacion"
-                                                                asp-items="Model.Embarcacion.ListaTipoEmbarcacion"
-                                                                class="form-select cmb" id="cmb-tipo-embarcacion">
-                                                            <option value=""></option>
-                                                        </select>
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        <label class="form-label"> Matricula Anterior:</label>
-                                                        <input asp-for="Embarcacion.MatriculaAnterior" class="form-control" />
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        <label class="form-label"> Nombre:</label>
-                                                        <input asp-for="Embarcacion.NombreActual" class="form-control" />
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        <label class="form-label">OMI:</label>
-                                                        <input asp-for="Embarcacion.NumeroOmi" class="form-control" />
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        <label class="form-label">Propietario Anterior:</label>
-                                                        <input asp-for="Embarcacion.PropietarioAnterior " class="form-control" />
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        <label class="form-label">Indicativo LLamada:</label>
-                                                        <input asp-for="Embarcacion.IndicativoLLamada " class="form-control" />
-                                                    </div>
-                                                    <!-- Tercera fila -->
-                                                    <div class="col-md-3">
-                                                        <label class="form-label">Puerto:</label>
-                                                        <select asp-for="Embarcacion.PuertoRegistroActual"
-                                                                asp-items="Model.Embarcacion.ListaPuertoRegistroActual"
-                                                                class="form-select cmb" id="cmb-puerto">
-                                                            <option value=""></option>
-                                                        </select>
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        <label class="form-label">Fecha Abanderamiento:</label>
-                                                        <input asp-for="Embarcacion.FechaAbanderamiento " class="form-control" />
-                                                    </div>
+                                                        <div class="col-md-3">
+                                                            <label class="form-label">Bandera:</label>
+                                                            <select asp-for="Embarcacion.BanderaActual"
+                                                                    asp-items="Model.Embarcacion.ListaBanderaActual"
+                                                                    class="form-select cmb" id="cmb-bandera">
+                                                                <option value=""></option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <label class="form-label">Bandera Anterior:</label>
+                                                            <select asp-for="Embarcacion.BanderaAnterior"
+                                                                    asp-items="Model.Embarcacion.ListaBanderaAnterior"
+                                                                    class="form-select cmb" id="cmb-bandera-anterior">
+                                                                <option value=""></option>
+                                                            </select>
+                                                        </div>
 
-                                                    <div class="col-md-3">
-                                                        <label class="form-label">Bandera:</label>
-                                                        <select asp-for="Embarcacion.BanderaActual"
-                                                                asp-items="Model.Embarcacion.ListaBanderaActual"
-                                                                class="form-select cmb" id="cmb-bandera">
-                                                            <option value=""></option>
-                                                        </select>
+                                                        <div class="col-md-3">
+                                                            <label class="form-label">Fecha Expiracion:</label>
+                                                            <input asp-for="Embarcacion.FechaExpiracion" class="form-control" />
+                                                        </div>
                                                     </div>
-                                                    <div class="col-md-3">
-                                                        <label class="form-label">Bandera Anterior:</label>
-                                                        <select asp-for="Embarcacion.BanderaAnterior"
-                                                                asp-items="Model.Embarcacion.ListaBanderaAnterior"
-                                                                class="form-select cmb" id="cmb-bandera-anterior">
-                                                            <option value=""></option>
-                                                        </select>
-                                                    </div>
+                                                    <div class="row g-3">
+                                                        <div class="col-md-3 ">
+                                                            <label class="form-label">Permiso Navegacion:</label>
+                                                            <input asp-for="Embarcacion.PermisoNavegacion" class="form-control" />
+                                                        </div>
 
-                                                    <div class="col-md-3">
-                                                        <label class="form-label">Fecha Expiracion:</label>
-                                                        <input asp-for="Embarcacion.FechaExpiracion" class="form-control" />
-                                                    </div>
+                                                        <div class="col-md-3">
+                                                            <label class="form-label">Fecha Expiracion:</label>
+                                                            <input asp-for="Embarcacion.FechaExpiracion" class="form-control" />
+                                                        </div>
 
-                                                    <!-- Cuarta fila -->
-                                                    <div class="col-md-3 ">
-                                                        <label class="form-label">Permiso Navegacion:</label>
-                                                        <input asp-for="Embarcacion.PermisoNavegacion" class="form-control" />
+                                                        <div class="col-md-3">
+                                                            <label class="form-label">Licencia Pesca:</label>
+                                                            <input asp-for="Embarcacion.LicenciaPesca" class="form-control" />
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <label class="form-label">Lic. Especial Pesca:</label>
+                                                            <input asp-for="Embarcacion.LicenciaEspecialPesca" class="form-control" />
+                                                        </div>
                                                     </div>
+                                                    <div class="row g-3">
+                                                        <div class="col-md-3">
+                                                            <label class="form-label">Actividad:</label>
+                                                            <select asp-for="Embarcacion.Actividad"
+                                                                    asp-items="Model.Embarcacion.ListaActividad"
+                                                                    class="form-select cmb" id="cmb-actividad">
+                                                                <option value=""></option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <label class="form-label">Zona Navegacion:</label>
+                                                            <select asp-for="Embarcacion.ZonaNavegacion"
+                                                                    asp-items="Model.Embarcacion.ListaZonaNavegacion"
+                                                                    class="form-select cmb" id="cmb-municipio">
+                                                                <option value=""></option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <label class="form-label">Distrito:</label>
+                                                            <input asp-for="Embarcacion.Distrito" class="form-control" />
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <label class="form-label">CAP/PCE:</label>
+                                                            <input asp-for="Embarcacion.Cap_Pce" class="form-control" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="row g-3">
+                                                        <div class="col-md-6">
+                                                            <label class="form-label">Observaciones:</label>
+                                                            <textarea asp-for="Embarcacion.Observaciones" class="form-control" rows="5"></textarea>
+                                                        </div>
+                                                        <div class="col-md-3 d-flex justify-content-center align-items-center">
 
-                                                    <div class="col-md-3">
-                                                        <label class="form-label">Fecha Expiracion:</label>
-                                                        <input asp-for="Embarcacion.FechaExpiracion" class="form-control" />
-                                                    </div>
-
-                                                    <div class="col-md-3">
-                                                        <label class="form-label">Licencia Pesca:</label>
-                                                        <input asp-for="Embarcacion.LicenciaPesca" class="form-control" />
-                                                    </div>
-
-                                                    <!-- Quinta fila -->
-                                                    <div class="col-md-3">
-                                                        <label class="form-label">Lic. Especial Pesca:</label>
-                                                        <input asp-for="Embarcacion.LicenciaEspecialPesca" class="form-control" />
-                                                    </div>
-
-                                                    <div class="col-md-3">
-                                                        <label class="form-label">Actividad:</label>
-                                                        <select asp-for="Embarcacion.Actividad"
-                                                                asp-items="Model.Embarcacion.ListaActividad"
-                                                                class="form-select cmb" id="cmb-actividad">
-                                                            <option value=""></option>
-                                                        </select>
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        <label class="form-label">Zona Navegacion:</label>
-                                                        <select asp-for="Embarcacion.ZonaNavegacion"
-                                                                asp-items="Model.Embarcacion.ListaZonaNavegacion"
-                                                                class="form-select cmb" id="cmb-municipio">
-                                                            <option value=""></option>
-                                                        </select>
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        <label class="form-label">Distrito:</label>
-                                                        <input asp-for="Embarcacion.Distrito" class="form-control" />
-                                                    </div>
-
-                                                    <!-- Quinta fila -->
-                                                    <div class="col-md-3">
-                                                        <label class="form-label">CAP/PCE:</label>
-                                                        <input asp-for="Embarcacion.Cap_Pce" class="form-control" />
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <label class="form-label">Observaciones:</label>
-                                                        <textarea asp-for="Embarcacion.Observaciones" class="form-control" rows="5"></textarea>
-                                                    </div>
-                                                    <div class="col-md-3 d-flex justify-content-center align-items-center">
-                                                        <!-- Aquí va la imagen -->
-                                                        <div class="contenedor-imagen">
-                                                            <label for="ImagenFile" style="cursor:pointer;">
-                                                                <img id="preview"
-                                                                     src="@(string.IsNullOrEmpty(Model?.Embarcacion.UrlImagen) ? "~/images/placeholder.png" : Url.Content(Model.Embarcacion.UrlImagen))"
-                                                                     class="img-preview" />
-                                                            </label>
-                                                            <input asp-for="Embarcacion.ImagenFile"
-                                                                   type="file"
-                                                                   id="ImagenFile"
-                                                                   accept="image/*"
-                                                                   style="display:none;" />
+                                                            <div class="contenedor-imagen">
+                                                                <label for="image-file-embarcacion" style="cursor:pointer;">
+                                                                    <img id="preview-embarcacion"
+                                                                         src="@(string.IsNullOrEmpty(Model?.Embarcacion.UrlImagen) ? "/images/ship.png" : Url.Content(Model.Embarcacion.UrlImagen))"
+                                                                         class="img-preview" />
+                                                                </label>
+                                                                <input asp-for="Embarcacion.ImagenFile"
+                                                                       type="file"
+                                                                       id="image-file-embarcacion"
+                                                                       accept="image/*"
+                                                                       style="display:none;" />
+                                                            </div>
                                                         </div>
                                                     </div>
 
                                                 </div>
                                             </div>
-                                        </div>
-                                    </div>
+                                            <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
 
-
-                                    <!-- 🏗 DATOS CONSTRUCCIÓN (Cerrado) -->
-                                    <div class="accordion-item">
-                                        <h2 class="accordion-header">
-                                            <button class="accordion-button collapsed fw-semibold bg-secondary text-white bg-opacity-75"
-                                                    type="button"
-                                                    data-bs-toggle="collapse"
-                                                    data-bs-target="#collapseThree">
-
-                                                <span class="icono">+</span>
-                                                🏗 Datos de Construcción
-                                            </button>
-                                        </h2>
-
-                                        <div id="collapseThree" class="accordion-collapse collapse">
-                                            <div class="accordion-body">
-                                                <div class="row g-3">
+                                                <div class="row">
                                                     <div class="col-md-3">
-                                                        <label class="form-label">Mat. Casco:</label>
-                                                        <select asp-for="Construccion.Material"
-                                                                asp-items="Model.Construccion.ListaMaterial"
-                                                                class="form-select cmb" id="cmb-material">
-                                                            <option value=""></option>
-                                                        </select>
+                                                        <div class="form-group">
+                                                            <label class="form-label">Mat. Casco:</label>
+                                                            <select asp-for="Construccion.Material"
+                                                                    asp-items="Model.Construccion.ListaMaterial"
+                                                                    class="form-select cmb" id="cmb-material">
+                                                                <option value=""></option>
+                                                            </select>
+                                                        </div>
                                                     </div>
                                                     <div class="col-md-1">
                                                         <label class="form-label">TRB:</label>
@@ -413,13 +460,12 @@
                                                             <option value=""></option>
                                                         </select>
                                                     </div>
-
                                                     <div class="col-md-1">
                                                         <label class="form-label">TRN:</label>
                                                         <input asp-for="Construccion.TRN" class="form-control" />
                                                     </div>
                                                     <div class="col-md-1">
-                                                        <label class="form-label">TRN:</label>
+                                                        <label class="form-label">UM. TRN:</label>
                                                         <select asp-for="Construccion.TRN"
                                                                 asp-items="Model.Construccion.ListaUndMedTRN"
                                                                 class="form-select cmb" id="cmb-und-trn">
@@ -439,7 +485,9 @@
                                                             <option value=""></option>
                                                         </select>
                                                     </div>
+                                                </div>
 
+                                                <div class="row">
                                                     <div class="col-md-1">
                                                         <label class="form-label">Manga:</label>
                                                         <input asp-for="Construccion.Manga" class="form-control" />
@@ -487,6 +535,9 @@
                                                         <label class="form-label">Año Construccion:</label>
                                                         <input asp-for="Construccion.AnioConstruccion" class="form-control" />
                                                     </div>
+                                                </div>
+
+                                                <div class="row">
                                                     <div class="col-md-3">
                                                         <label class="form-label">N° Construccion:</label>
                                                         <input asp-for="Construccion.NumeroConstruccion" class="form-control" />
@@ -512,6 +563,10 @@
                                                         <label class="form-label">Modelo:</label>
                                                         <input asp-for="Construccion.Modelo" class="form-control" />
                                                     </div>
+
+                                                </div>
+
+                                                <div class="row">
                                                     <div class="col-md-3">
                                                         <label class="form-label">Serie:</label>
                                                         <input asp-for="Construccion.Serie" class="form-control" />
@@ -532,6 +587,10 @@
                                                         <label class="form-label">Tipo Comunicacion:</label>
                                                         <input asp-for="Construccion.TipoComunicacion" class="form-control" />
                                                     </div>
+
+                                                </div>
+
+                                                <div class="row">
                                                     <div class="col-md-3">
                                                         <label class="form-label">Medio Cx:</label>
                                                         <input asp-for="Construccion.MedioCx" class="form-control" />
@@ -556,11 +615,14 @@
                                                         <label class="form-label">Cap. Carga:</label>
                                                         <input asp-for="Construccion.CapacidadCarga" class="form-control" />
                                                     </div>
-                                                    <div class="col-md-3">
-                                                        <label class="form-label">Ult. Pto. Visitado:</label>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <label class="form-label">Ultimo Puerto Visitado:</label>
                                                         <select asp-for="Construccion.PuertoVisitado"
                                                                 asp-items="Model.Construccion.ListaPuerto"
-                                                                class="form-select cmb" id="cmb-puerto">
+                                                                class="form-select cmb" id="cmb-puerto-visitado">
                                                             <option value=""></option>
                                                         </select>
                                                     </div>
@@ -572,31 +634,30 @@
                                             </div>
                                         </div>
                                     </div>
-
                                 </div>
-
-
-
-
-
                             </div>
+
                         </div>
+
                     </div>
+
                 </div>
             </div>
         </div>
+
     </div>
+
 }
 @section scripts
 {
-          <script type="text/javascript">
-            $(document).ready(function () {
+    <script type="text/javascript">
+        $(document).ready(function () {
 
-                $('.cmb').select2({
-                    placeholder: "Seleccione...",
-                    allowClear: true,
-                    width: '100%' // hace que ocupe todo el ancho del contenedor
-                });
+            $('.cmb').select2({
+                placeholder: "Seleccione...",
+                allowClear: true,
+                width: '100%' // hace que ocupe todo el ancho del contenedor
+            });
 
             /* ===== ICONO DINAMICO ACCORDION ===== */
 
@@ -618,41 +679,65 @@
 
             });
 
-        @foreach (var field in ViewData.ModelState)
-        {
-            if (field.Value.Errors.Count > 0)
-            {
-                <text>
-                                        var input = $('[name="@field.Key"]');
+        });
 
-                                        // Para inputs normales
-                                        if (!input.hasClass('select2-hidden-accessible')) {
-                                            input.addClass('is-invalid');
-                                                        }
-
-                                        // Para Select2
-                                        if (input.hasClass('select2-hidden-accessible')) {
-                                            // agrega is-invalid al contenedor visible de Select2
-                                            input.next('.select2-container')
-                                                .find('.select2-selection')
-                                                .addClass('is-invalid');
-                                                        }
-                </text>
-            }
-        }
-                    });
-        document.getElementById("ImagenFile").addEventListener("change", function (event) {
+        document.getElementById("image-file-propietario").addEventListener("change", function (event) {
             const file = event.target.files[0];
             if (!file) return;
 
             const reader = new FileReader();
             reader.onload = function (e) {
-                document.getElementById("preview").src = e.target.result;
+                document.getElementById("preview-propietario").src = e.target.result;
             };
             reader.readAsDataURL(file);
         });
+
+        document.getElementById("image-file-embarcacion").addEventListener("change", function (event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                document.getElementById("preview-embarcacion").src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        });
+
+        function eliminarImagenPropietario() {
+            const preview = document.getElementById('preview-propietario');
+            const input = document.getElementById('image-file-propietario');
+
+            // Poner imagen placeholder
+            preview.src = '/images/user.png';
+
+            // Limpiar input file
+            input.value = '';
+
+            // Opcional: marcar que se eliminó (para backend)
+            let eliminado = document.getElementById('ImagenEliminada');
+            if (eliminado) {
+                eliminado.value = "true";
+            }
+        }
+
+        function eliminarImagenEmbarcacion() {
+            const preview = document.getElementById('preview-embarcacion');
+            const input = document.getElementById('image-file-embarcacion');
+
+            // Poner imagen placeholder
+            preview.src = '/images/ship.png';
+
+            // Limpiar input file
+            input.value = '';
+
+            // Opcional: marcar que se eliminó (para backend)
+            let eliminado = document.getElementById('ImagenEliminada');
+            if (eliminado) {
+                eliminado.value = "true";
+            }
+        }
+
     </script>
 
 
 }
-  

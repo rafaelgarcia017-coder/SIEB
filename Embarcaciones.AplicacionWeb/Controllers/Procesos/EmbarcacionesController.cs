@@ -89,7 +89,7 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Procesos
 
         private Embarcacion MapearEmbarcacion(EmbarcacionesVM model)
         {
-            var construccion = new EmbarcacionConstruccion
+            var construccion = new 
             {
                 Puntal = model.Construccion.Puntal,
                 Trb = model.Construccion.TRB,
@@ -126,7 +126,7 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Procesos
                 IdUnidadMedidaManga = model.Construccion.UndMedManga
             };
 
-            var propietario = new EmbarcacionPropietario
+            var propietario = new 
             {
                 NombrePropietario = model.Propietario.NombreCompleto,
                 IdTipoIdentificacion = model.Propietario.TipoIdentificacion,
@@ -173,8 +173,7 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Procesos
                 EsHistorico = false,
                 IdUsuarioCreacion = IdUsuario,
                 FechaCreacion = DateTime.Now,
-                EmbarcacionConstruccionNavigation = construccion,
-                EmbarcacionPropietarioNavigation = propietario
+
             };
         }
 

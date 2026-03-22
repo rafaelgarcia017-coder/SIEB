@@ -8,12 +8,7 @@ namespace Embarcaciones.Models
     {
         public UnidadMedida()
         {
-            EmbarcacionConstruccionIdUnidadMedidaCaladoNavigation = new HashSet<EmbarcacionConstruccion>();
-            EmbarcacionConstruccionIdUnidadMedidaEsloraNavigation = new HashSet<EmbarcacionConstruccion>();
-            EmbarcacionConstruccionIdUnidadMedidaMangaNavigation = new HashSet<EmbarcacionConstruccion>();
-            EmbarcacionConstruccionIdUnidadMedidaPuntalNavigation = new HashSet<EmbarcacionConstruccion>();
-            EmbarcacionConstruccionIdUnidadMedidaTrbNavigation = new HashSet<EmbarcacionConstruccion>();
-            EmbarcacionConstruccionIdUnidadMedidaTrnNavigation = new HashSet<EmbarcacionConstruccion>();
+
         }
 
         public int IdUnidadMedida { get; set; }
@@ -29,11 +24,5 @@ namespace Embarcaciones.Models
 
         public virtual Cuenta UsuarioCreacionNavigation { get; set; } = null!;
         public virtual Cuenta? UsuarioModificacionNavigation { get; set; }
-        public virtual ICollection<EmbarcacionConstruccion> EmbarcacionConstruccionIdUnidadMedidaCaladoNavigation { get; set; }
-        public virtual ICollection<EmbarcacionConstruccion> EmbarcacionConstruccionIdUnidadMedidaEsloraNavigation { get; set; }
-        public virtual ICollection<EmbarcacionConstruccion> EmbarcacionConstruccionIdUnidadMedidaMangaNavigation { get; set; }
-        public virtual ICollection<EmbarcacionConstruccion> EmbarcacionConstruccionIdUnidadMedidaPuntalNavigation { get; set; }
-        public virtual ICollection<EmbarcacionConstruccion> EmbarcacionConstruccionIdUnidadMedidaTrbNavigation { get; set; }
-        public virtual ICollection<EmbarcacionConstruccion> EmbarcacionConstruccionIdUnidadMedidaTrnNavigation { get; set; }
-    }
+  }
 }
