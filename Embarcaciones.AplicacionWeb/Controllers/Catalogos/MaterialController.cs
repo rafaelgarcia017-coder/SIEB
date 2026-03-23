@@ -73,16 +73,18 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Catalogos
                     AddAdvertencia(this.ErroresFromModel().Texto);
                     return View("NuevoMaterial", model);
                 }
+                int? id = model.IdMaterial > 0 ? model.IdMaterial : null;
+                int idCatalogo = await ObtenerIdCatalogo();
+                var responseVerify = await _catalogoValorService.ValidarCatalogo(id, idCatalogo, model.Material);
+                if (responseVerify)
+                {
+                    AddAdvertencia("El Material que intentas registrar ya existe. Revisa la información e intenta nuevamente");
+                    return View("NuevoMaterial", model);
+                }
 
                 if (model.Accion == AccionesController.Nuevo)
                 {
-                    int idCatalogo = await ObtenerIdCatalogo();
-                    var responseVerify = await _catalogoValorService.ValidarCatalogo(idCatalogo, model.Material);
-                    if (responseVerify)
-                    {
-                        AddAdvertencia("El Material que intentas registrar ya existe. Revisa la información e intenta nuevamente");
-                        return View("NuevoMaterial", model);
-                    }
+                 
                     var material = new CatalogoValor
                     {
                         IdCatalogo = idCatalogo,

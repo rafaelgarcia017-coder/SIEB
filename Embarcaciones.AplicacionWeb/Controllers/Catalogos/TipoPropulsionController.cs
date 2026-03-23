@@ -77,16 +77,18 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Catalogos
                     AddAdvertencia(this.ErroresFromModel().Texto);
                     return View("NuevoTipoPropulsion", model);
                 }
+                int? id = model.IdTipoPropulsion > 0 ? model.IdTipoPropulsion : null;
+                int idCatalogo = await ObtenerIdCatalogo();
+                var responseVerify = await _catalogoValorService.ValidarCatalogo(id, idCatalogo, model.ValorTipoPropulsion);
+                if (responseVerify)
+                {
+                    AddAdvertencia("El Tipo de Propulsion que intentas registrar ya existe. Revisa la información e intenta nuevamente");
+                    return View("NuevoTipoPropulsion", model);
+                }
 
                 if (model.Accion == AccionesController.Nuevo)
                 {
-                    int idCatalogo = await ObtenerIdCatalogo();
-                    var responseVerify = await _catalogoValorService.ValidarCatalogo(idCatalogo, model.ValorTipoPropulsion);
-                    if (responseVerify)
-                    {
-                        AddAdvertencia("El Tipo de Propulsion que intentas registrar ya existe. Revisa la información e intenta nuevamente");
-                        return View("NuevoTipoPropulsion", model);
-                    }
+              
                     var tipoIdentificacion = new CatalogoValor
                     {
                         IdCatalogo = idCatalogo,

@@ -14,7 +14,7 @@ namespace Embarcaciones.DAL.Repositorio
         Task<bool> Agregar(CatalogoValor entity);
         Task<bool> Actualizar(CatalogoValor entity);
         Task<bool> Eliminar(CatalogoValor entity);
-        Task<bool> ValidarCatalogo(int idCatalogo,  string valor);
+        Task<bool> ValidarCatalogo(int? id, int idCatalogo, string valor);
         Task<bool> ValidarEliminar(int idCatalogo, string valor);
     }
 }

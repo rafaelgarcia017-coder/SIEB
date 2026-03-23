@@ -72,10 +72,16 @@ namespace Embarcaciones.DAL.Repositorio
             return queryCatalogo;
         }
 
-        public async Task<bool> ValidarCatalogo(int idCatalogo, string valor)
-        {
-            return await _dbcontext.CatalogoValor
-                                      .AnyAsync(a =>a.Nombre == valor && a.IdCatalogo == idCatalogo && a.EstaActivo == true && a.EsHistorico == false);
+        public async Task<bool> ValidarCatalogo(int? idCatalogoValor, int idCatalogo, string valor)
+        {   
+            var query = _dbcontext.CatalogoValor .Where(a => a.Nombre == valor &&  a.IdCatalogo == idCatalogo && a.EstaActivo== true &&  !a.EsHistorico);
+
+            if (idCatalogoValor.HasValue)
+            {
+                query = query.Where(a => a.IdCatalogoValor != idCatalogoValor.Value);
+            }
+
+            return await query.AnyAsync();
         }
 
         public async Task<bool> ValidarEliminar(int idCatalogo, string codigoInternoCatalogo)

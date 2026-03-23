@@ -76,16 +76,18 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Catalogos
                     AddAdvertencia(this.ErroresFromModel().Texto);
                     return View("NuevoMarca", model);
                 }
+                int? id = model.IdMarca > 0 ? model.IdMarca : null;
+                int idCatalogo = await ObtenerIdCatalogo();
+                var responseVerify = await _catalogoValorService.ValidarCatalogo(id, idCatalogo, model.Marca);
+                if (responseVerify)
+                {
+                    AddAdvertencia("La Marca que intentas registrar ya existe. Revisa la información e intenta nuevamente");
+                    return View("NuevoMarca", model);
+                }
 
                 if (model.Accion == AccionesController.Nuevo)
                 {
-                    int idCatalogo = await ObtenerIdCatalogo();
-                    var responseVerify = await _catalogoValorService.ValidarCatalogo(idCatalogo, model.Marca);
-                    if (responseVerify)
-                    {
-                        AddAdvertencia("La Marca que intentas registrar ya existe. Revisa la información e intenta nuevamente");
-                        return View("NuevoMarca", model);
-                    }
+                 
                     var tipoIdentificacion = new CatalogoValor
                     {
                         IdCatalogo = idCatalogo,

@@ -62,16 +62,18 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Catalogos
                     AddAdvertencia(this.ErroresFromModel().Texto);
                     return View("NuevoPuerto", model);
                 }
+                int? id = model.IdPuerto > 0 ? model.IdPuerto : null;
+                int idCatalogo = await ObtenerIdCatalogo();
+                var responseVerify = await _catalogoValorService.ValidarCatalogo(id, idCatalogo, model.Puerto);
+                if (responseVerify)
+                {
+                    AddAdvertencia("El Puerto que intentas registrar ya existe. Revisa la información e intenta nuevamente");
+                    return View("NuevoPuerto", model);
+                }
 
                 if (model.Accion == AccionesController.Nuevo)
                 {
-                    int idCatalogo = await ObtenerIdCatalogo();
-                    var responseVerify = await _catalogoValorService.ValidarCatalogo(idCatalogo, model.Puerto);
-                    if (responseVerify)
-                    {
-                        AddAdvertencia("El Puerto que intentas registrar ya existe. Revisa la información e intenta nuevamente");
-                        return View("NuevoPuerto", model);
-                    }
+             
                     var tipoIdentificacion = new CatalogoValor
                     {
                         IdCatalogo = idCatalogo,

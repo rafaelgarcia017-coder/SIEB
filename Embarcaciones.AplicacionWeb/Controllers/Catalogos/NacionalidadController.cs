@@ -77,15 +77,18 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Catalogos
                     return View("NuevoNacionalidad", model);
                 }
 
+                int? id = model.IdNacionalidad > 0 ? model.IdNacionalidad : null;
+                int idCatalogo = await ObtenerIdCatalogo();
+                var responseVerify = await _catalogoValorService.ValidarCatalogo(id, idCatalogo, model.Nacionalidad);
+                if (responseVerify)
+                {
+                    AddAdvertencia("La Nacionalidad que intentas registrar ya existe. Revisa la información e intenta nuevamente");
+                    return View("NuevoNacionalidad", model);
+                }
+
                 if (model.Accion == AccionesController.Nuevo)
                 {
-                    int idCatalogo = await ObtenerIdCatalogo();
-                    var responseVerify = await _catalogoValorService.ValidarCatalogo(idCatalogo, model.Nacionalidad);
-                    if (responseVerify)
-                    {
-                        AddAdvertencia("La Nacionalidad que intentas registrar ya existe. Revisa la información e intenta nuevamente");
-                        return View("NuevoNacionalidad", model);
-                    }
+                  
                     var material = new CatalogoValor
                     {
                         IdCatalogo = idCatalogo,

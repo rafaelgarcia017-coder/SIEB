@@ -60,16 +60,17 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Catalogos
                     AddAdvertencia(this.ErroresFromModel().Texto);
                     return View("NuevoBandera", model);
                 }
+                int idCatalogo = await ObtenerIdCatalogo();
+                int? id = model.IdBandera > 0 ? model.IdBandera : null;
+                var responseVerify = await _catalogoValorService.ValidarCatalogo(id, idCatalogo, model.Bandera);
+                if (responseVerify)
+                {
+                    AddAdvertencia("La Bandera que intentas registrar ya existe. Revisa la información e intenta nuevamente");
+                    return View("NuevoBandera", model);
+                }
 
                 if (model.Accion == AccionesController.Nuevo)
-                {
-                    int idCatalogo = await ObtenerIdCatalogo();
-                    var responseVerify = await _catalogoValorService.ValidarCatalogo(idCatalogo, model.Bandera);
-                    if (responseVerify)
-                    {
-                        AddAdvertencia("La Bandera que intentas registrar ya existe. Revisa la información e intenta nuevamente");
-                        return View("NuevoBandera", model);
-                    }
+                {    
                     var bandera = new CatalogoValor
                     {
                         IdCatalogo = idCatalogo,

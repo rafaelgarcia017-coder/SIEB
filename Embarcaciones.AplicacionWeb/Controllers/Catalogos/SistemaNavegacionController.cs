@@ -75,16 +75,18 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Catalogos
                     AddAdvertencia(this.ErroresFromModel().Texto);
                     return View("NuevoSistemaNavegacion", model);
                 }
+                int? id = model.IdSistemaNavegacion > 0 ? model.IdSistemaNavegacion : null;
+                int idCatalogo = await ObtenerIdCatalogo();
+                var responseVerify = await _catalogoValorService.ValidarCatalogo(id, idCatalogo, model.SistemaNavegacion);
+                if (responseVerify)
+                {
+                    AddAdvertencia("El Sistema de Navegacion que intentas registrar ya existe. Revisa la información e intenta nuevamente");
+                    return View("NuevoSistemaNavegacion", model);
+                }
 
                 if (model.Accion == AccionesController.Nuevo)
                 {
-                    int idCatalogo = await ObtenerIdCatalogo();
-                    var responseVerify = await _catalogoValorService.ValidarCatalogo(idCatalogo, model.SistemaNavegacion);
-                    if (responseVerify)
-                    {
-                        AddAdvertencia("El Sistema de Navegacion que intentas registrar ya existe. Revisa la información e intenta nuevamente");
-                        return View("NuevoSistemaNavegacion", model);
-                    }
+            
                     var tipoIdentificacion = new CatalogoValor
                     {
                         IdCatalogo = idCatalogo,

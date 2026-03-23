@@ -41,9 +41,9 @@ namespace Embarcaciones.BLL.Service
             return  _catValorRepositorio.ObtenerTodos(idCatalogo);
         }
 
-        public async Task<bool> ValidarCatalogo(int idCatalogo, string valor)
+        public async Task<bool> ValidarCatalogo(int? id, int idCatalogo, string valor)
         {
-            return await _catValorRepositorio.ValidarCatalogo (idCatalogo,valor);
+            return await _catValorRepositorio.ValidarCatalogo (id, idCatalogo,valor);
         }
         public async Task<bool> ValidarEliminar(int idCatalogo, string valor)
         {

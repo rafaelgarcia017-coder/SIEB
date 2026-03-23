@@ -76,7 +76,8 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Catalogos
                     return View("NuevoActividad", model);
                 }
                 int idCatalogo = await ObtenerIdCatalogo();
-                var responseVerify = await _catalogoValorService.ValidarCatalogo(idCatalogo, model.Actividad);
+                int? id =  model.IdActividad > 0 ? model.IdActividad : null;
+                var responseVerify = await _catalogoValorService.ValidarCatalogo(id,idCatalogo, model.Actividad);
                 if (responseVerify)
                 {
                     AddAdvertencia("La Actividad que intentas registrar ya existe. Revisa la información e intenta nuevamente");
@@ -99,7 +100,7 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Catalogos
                     var actividad = new CatalogoValor
                     {
                         IdCatalogo = model.IdCatalogo,
-                        IdCatalogoValor = model.IdActividad,
+                        IdCatalogoValor = model.IdActividad ,
                         Nombre = model.Actividad,
                         Descripcion = model.Descripcion,
                         IdUsuarioModificacion = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier)?.Value),

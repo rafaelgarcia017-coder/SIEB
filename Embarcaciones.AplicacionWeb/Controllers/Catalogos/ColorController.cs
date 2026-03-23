@@ -75,16 +75,17 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Catalogos
                     AddAdvertencia(this.ErroresFromModel().Texto);
                     return View("NuevoColor", model);
                 }
-
+                int idCatalogo = await ObtenerIdCatalogo();
+                int? id = model.IdColor > 0 ? model.IdColor : null;
+                var responseVerify = await _catalogoValorService.ValidarCatalogo(id, idCatalogo, model.Color);
+                if (responseVerify)
+                {
+                    AddAdvertencia("El Color que intentas registrar ya existe. Revisa la información e intenta nuevamente");
+                    return View("NuevoColor", model);
+                }           
                 if (model.Accion == AccionesController.Nuevo)
                 {
-                    int idCatalogo = await ObtenerIdCatalogo();
-                    var responseVerify = await _catalogoValorService.ValidarCatalogo(idCatalogo, model.Color);
-                    if (responseVerify)
-                    {
-                        AddAdvertencia("El Color que intentas registrar ya existe. Revisa la información e intenta nuevamente");
-                        return View("NuevoColor", model);
-                    }
+                  
                     var color = new CatalogoValor
                     {
                         IdCatalogo = idCatalogo,

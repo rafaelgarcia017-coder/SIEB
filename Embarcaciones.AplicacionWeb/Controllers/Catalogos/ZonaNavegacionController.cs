@@ -77,15 +77,18 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Catalogos
                     return View("NuevoZonaNavegacion", model);
                 }
 
+                int? id = model.IdZonaNavegacion > 0 ? model.IdZonaNavegacion : null;
+                int idCatalogo = await ObtenerIdCatalogo();
+                var responseVerify = await _catalogoValorService.ValidarCatalogo(id, idCatalogo, model.ZonaNavegacion);
+                if (responseVerify)
+                {
+                    AddAdvertencia("La Zona de Navegacion que intentas registrar ya existe. Revisa la información e intenta nuevamente");
+                    return View("NuevoPuerto", model);
+                }
+
                 if (model.Accion == AccionesController.Nuevo)
                 {
-                    int idCatalogo = await ObtenerIdCatalogo();
-                    var responseVerify = await _catalogoValorService.ValidarCatalogo(idCatalogo, model.ZonaNavegacion);
-                    if (responseVerify)
-                    {
-                        AddAdvertencia("La Zona de Navegacion que intentas registrar ya existe. Revisa la información e intenta nuevamente");
-                        return View("NuevoPuerto", model);
-                    }
+                   
                     var zonaNavegacion = new CatalogoValor
                     {
                         IdCatalogo = idCatalogo,
