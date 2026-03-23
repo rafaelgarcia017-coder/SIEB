@@ -20,6 +20,7 @@ builder.Services.AddScoped<ICatalogoRepositorio, CatalogoRepositorio>();
 builder.Services.AddScoped<ICuentaRepositorio, CuentaRepositorio>();
 builder.Services.AddScoped<ICatalogoValorRepositorio, CatalogoValorRepositorio>();
 builder.Services.AddScoped<IUnidadMedidaRepositorio, UnidadMedidaRepositorio>();
+builder.Services.AddScoped<ICatalogoFormularioRepositorio, CatalogoFormularioRepositorio>();
 
 builder.Services.AddScoped<IPersonaService, PersonaService>();
 builder.Services.AddScoped<IDepartamentoService, DepartamentoService>();
@@ -29,6 +30,7 @@ builder.Services.AddScoped<ICatalogoService, CatalogoService>();
 builder.Services.AddScoped<ICuentaService, CuentaService>();
 builder.Services.AddScoped<IUnidadMedidaService, UnidadMedidaService>();
 builder.Services.AddScoped<IEmbarcacionService, EmbarcacionService>();
+builder.Services.AddScoped<ICatalogoFormularioService, CatalogoFormularioService>();
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>

@@ -1,5 +1,4 @@
-﻿using Embarcaciones.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace Embarcaciones.Models
@@ -16,8 +15,6 @@ namespace Embarcaciones.Models
             CatalogoValorIdUsuarioModificacionNavigation = new HashSet<CatalogoValor>();
             DepartamentoIdUsuarioCreacionNavigation = new HashSet<Departamento>();
             DepartamentoIdUsuarioModificacionNavigation = new HashSet<Departamento>();
-            EmbarcacionIdUsuarioCreacionNavigation = new HashSet<Embarcacion>();
-            EmbarcacionIdUsuarioModificacionNavigation = new HashSet<Embarcacion>();
             InverseIdUsuarioCreacionNavigation = new HashSet<Cuenta>();
             InverseIdUsuarioModificacionNavigation = new HashSet<Cuenta>();
             MunicipioIdUsuarioCreacionNavigation = new HashSet<Municipio>();
@@ -50,8 +47,8 @@ namespace Embarcaciones.Models
         public DateTime? FechaModificacion { get; set; }
 
         public virtual Persona? IdPersonaNavigation { get; set; }
-        public virtual Cuenta? UsuarioCreacionNavigation { get; set; }
-        public virtual Cuenta? UsuarioModificacionNavigation { get; set; }
+        public virtual Cuenta? IdUsuarioCreacionNavigation { get; set; }
+        public virtual Cuenta? IdUsuarioModificacionNavigation { get; set; }
         public virtual ICollection<Accion> AccionIdUsuarioCreacionNavigation { get; set; }
         public virtual ICollection<Accion> AccionIdUsuarioModificacionNavigation { get; set; }
         public virtual ICollection<Catalogo> CatalogoIdUsuarioCreacionNavigation { get; set; }
@@ -60,8 +57,6 @@ namespace Embarcaciones.Models
         public virtual ICollection<CatalogoValor> CatalogoValorIdUsuarioModificacionNavigation { get; set; }
         public virtual ICollection<Departamento> DepartamentoIdUsuarioCreacionNavigation { get; set; }
         public virtual ICollection<Departamento> DepartamentoIdUsuarioModificacionNavigation { get; set; }
-        public virtual ICollection<Embarcacion> EmbarcacionIdUsuarioCreacionNavigation { get; set; }
-        public virtual ICollection<Embarcacion> EmbarcacionIdUsuarioModificacionNavigation { get; set; }
         public virtual ICollection<Cuenta> InverseIdUsuarioCreacionNavigation { get; set; }
         public virtual ICollection<Cuenta> InverseIdUsuarioModificacionNavigation { get; set; }
         public virtual ICollection<Municipio> MunicipioIdUsuarioCreacionNavigation { get; set; }

@@ -20,7 +20,7 @@ namespace Embarcaciones.Models
         public virtual Accion IdAccionNavigation { get; set; } = null!;
         public virtual Pagina IdPaginaNavigation { get; set; } = null!;
         public virtual Rol IdRolNavigation { get; set; } = null!;
-        public virtual Cuenta UsuarioCreacionNavigation { get; set; } = null!;
-        public virtual Cuenta? UsuarioModificacionNavigation { get; set; }
+        public virtual Cuenta IdUsuarioCreacionNavigation { get; set; } = null!;
+        public virtual Cuenta? IdUsuarioModificacionNavigation { get; set; }
     }
 }

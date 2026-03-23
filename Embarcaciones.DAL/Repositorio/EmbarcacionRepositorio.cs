@@ -21,24 +21,27 @@ namespace Embarcaciones.DAL.Repositorio
 
         public async Task<bool> Agregar(Embarcacion modelo)
         {
-            using var transaction = await _dbcontext.Database.BeginTransactionAsync();
-            try
-            {
-                // ✅ Agregar solo la entidad raíz
-                _dbcontext.Embarcacion.Add(modelo);
+            _dbcontext.Embarcacion.Add(modelo);
+            await _dbcontext.SaveChangesAsync();
+            return true;
+            //using var transaction = await _dbcontext.Database.BeginTransactionAsync();
+            //try
+            //{
+            //    // ✅ Agregar solo la entidad raíz
+            //    _dbcontext.Embarcacion.Add(modelo);
 
-                // ✅ Un solo SaveChanges
-                await _dbcontext.SaveChangesAsync();
+            //    // ✅ Un solo SaveChanges
+            //    await _dbcontext.SaveChangesAsync();
 
-                await transaction.CommitAsync();
+            //    await transaction.CommitAsync();
 
-                return true;
-            }
-            catch (Exception ex)
-            {
-                await transaction.RollbackAsync();
-                throw;
-            }
+            //    return true;
+            //}
+            //catch (Exception ex)
+            //{
+            //    await transaction.RollbackAsync();
+            //    throw;
+            //}
         }
 
 

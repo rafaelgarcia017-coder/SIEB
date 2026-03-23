@@ -5,11 +5,6 @@ namespace Embarcaciones.Models
 {
     public partial class Municipio
     {
-        public Municipio()
-        {
-           
-        }
-
         public int IdMunicipio { get; set; }
         public int IdDepartamento { get; set; }
         public string Municipio1 { get; set; } = null!;

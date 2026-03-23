@@ -21,8 +21,8 @@ namespace Embarcaciones.Models
         public int? IdUsuarioModificacion { get; set; }
         public DateTime? FechaModificacion { get; set; }
 
-        public virtual Cuenta UsuarioCreacionNavigation { get; set; } = null!;
-        public virtual Cuenta? UsuarioModificacionNavigation { get; set; }
+        public virtual Cuenta IdUsuarioCreacionNavigation { get; set; } = null!;
+        public virtual Cuenta? IdUsuarioModificacionNavigation { get; set; }
         public virtual ICollection<RolCuenta> RolCuenta { get; set; }
         public virtual ICollection<RolPaginaAccion> RolPaginaAccion { get; set; }
     }

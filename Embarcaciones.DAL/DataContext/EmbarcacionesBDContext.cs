@@ -59,13 +59,13 @@ namespace Embarcaciones.DAL.DataContext
 
                 entity.Property(e => e.Nombre).HasMaxLength(50);
 
-                entity.HasOne(d => d.UsuarioCreacionNavigation)
+                entity.HasOne(d => d.IdUsuarioCreacionNavigation)
                     .WithMany(p => p.AccionIdUsuarioCreacionNavigation)
                     .HasForeignKey(d => d.IdUsuarioCreacion)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Accion_Creacion");
 
-                entity.HasOne(d => d.UsuarioModificacionNavigation)
+                entity.HasOne(d => d.IdUsuarioModificacionNavigation)
                     .WithMany(p => p.AccionIdUsuarioModificacionNavigation)
                     .HasForeignKey(d => d.IdUsuarioModificacion)
                     .OnDelete(DeleteBehavior.SetNull)
@@ -94,13 +94,13 @@ namespace Embarcaciones.DAL.DataContext
 
                 entity.Property(e => e.Nombre).HasMaxLength(100);
 
-                entity.HasOne(d => d.UsuarioCreacionNavigation)
+                entity.HasOne(d => d.IdUsuarioCreacionNavigation)
                     .WithMany(p => p.CatalogoIdUsuarioCreacionNavigation)
                     .HasForeignKey(d => d.IdUsuarioCreacion)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Catalogo_Creacion");
 
-                entity.HasOne(d => d.UsuarioModificacionNavigation)
+                entity.HasOne(d => d.IdUsuarioModificacionNavigation)
                     .WithMany(p => p.CatalogoIdUsuarioModificacionNavigation)
                     .HasForeignKey(d => d.IdUsuarioModificacion)
                     .OnDelete(DeleteBehavior.SetNull)
@@ -170,12 +170,12 @@ namespace Embarcaciones.DAL.DataContext
                     .HasForeignKey(d => d.IdPersona)
                     .HasConstraintName("FK_Cuenta_Persona");
 
-                entity.HasOne(d => d.UsuarioCreacionNavigation)
+                entity.HasOne(d => d.IdUsuarioCreacionNavigation)
                     .WithMany(p => p.InverseIdUsuarioCreacionNavigation)
                     .HasForeignKey(d => d.IdUsuarioCreacion)
                     .HasConstraintName("FK_Cuenta_Creacion");
 
-                entity.HasOne(d => d.UsuarioModificacionNavigation)
+                entity.HasOne(d => d.IdUsuarioModificacionNavigation)
                     .WithMany(p => p.InverseIdUsuarioModificacionNavigation)
                     .HasForeignKey(d => d.IdUsuarioModificacion)
                     .HasConstraintName("FK_Cuenta_Modificacion");
@@ -386,13 +386,13 @@ namespace Embarcaciones.DAL.DataContext
 
                 entity.Property(e => e.UrlPagina).HasMaxLength(255);
 
-                entity.HasOne(d => d.UsuarioCreacionNavigation)
+                entity.HasOne(d => d.IdUsuarioCreacionNavigation)
                     .WithMany(p => p.PaginaIdUsuarioCreacionNavigation)
                     .HasForeignKey(d => d.IdUsuarioCreacion)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Pagina_Creacion");
 
-                entity.HasOne(d => d.UsuarioModificacionNavigation)
+                entity.HasOne(d => d.IdUsuarioModificacionNavigation)
                     .WithMany(p => p.PaginaIdUsuarioModificacionNavigation)
                     .HasForeignKey(d => d.IdUsuarioModificacion)
                     .OnDelete(DeleteBehavior.SetNull)
@@ -458,13 +458,13 @@ namespace Embarcaciones.DAL.DataContext
 
                 entity.Property(e => e.Nombre).HasMaxLength(50);
 
-                entity.HasOne(d => d.UsuarioCreacionNavigation)
+                entity.HasOne(d => d.IdUsuarioCreacionNavigation)
                     .WithMany(p => p.RolIdUsuarioCreacionNavigation)
                     .HasForeignKey(d => d.IdUsuarioCreacion)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Rol_Creacion");
 
-                entity.HasOne(d => d.UsuarioModificacionNavigation)
+                entity.HasOne(d => d.IdUsuarioModificacionNavigation)
                     .WithMany(p => p.RolIdUsuarioModificacionNavigation)
                     .HasForeignKey(d => d.IdUsuarioModificacion)
                     .OnDelete(DeleteBehavior.SetNull)
@@ -499,13 +499,13 @@ namespace Embarcaciones.DAL.DataContext
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_RolCuenta_Rol");
 
-                entity.HasOne(d => d.UsuarioCreacionNavigation)
+                entity.HasOne(d => d.IdUsuarioCreacionNavigation)
                     .WithMany(p => p.RolCuentaIdUsuarioCreacionNavigation)
                     .HasForeignKey(d => d.IdUsuarioCreacion)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_RolCuenta_Creacion");
 
-                entity.HasOne(d => d.UsuarioModificacionNavigation)
+                entity.HasOne(d => d.IdUsuarioModificacionNavigation)
                     .WithMany(p => p.RolCuentaIdUsuarioModificacionNavigation)
                     .HasForeignKey(d => d.IdUsuarioModificacion)
                     .OnDelete(DeleteBehavior.SetNull)
@@ -550,13 +550,13 @@ namespace Embarcaciones.DAL.DataContext
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_RPA_Rol");
 
-                entity.HasOne(d => d.UsuarioCreacionNavigation)
+                entity.HasOne(d => d.IdUsuarioCreacionNavigation)
                     .WithMany(p => p.RolPaginaAccionIdUsuarioCreacionNavigation)
                     .HasForeignKey(d => d.IdUsuarioCreacion)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_RPA_Creacion");
 
-                entity.HasOne(d => d.UsuarioModificacionNavigation)
+                entity.HasOne(d => d.IdUsuarioModificacionNavigation)
                     .WithMany(p => p.RolPaginaAccionIdUsuarioModificacionNavigation)
                     .HasForeignKey(d => d.IdUsuarioModificacion)
                     .OnDelete(DeleteBehavior.SetNull)

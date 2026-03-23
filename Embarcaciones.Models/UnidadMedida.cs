@@ -1,16 +1,10 @@
-﻿using Embarcaciones.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace Embarcaciones.Models
 {
     public partial class UnidadMedida
     {
-        public UnidadMedida()
-        {
-
-        }
-
         public int IdUnidadMedida { get; set; }
         public string Nombre { get; set; } = null!;
         public string Abreviatura { get; set; } = null!;
@@ -24,5 +18,5 @@ namespace Embarcaciones.Models
 
         public virtual Cuenta UsuarioCreacionNavigation { get; set; } = null!;
         public virtual Cuenta? UsuarioModificacionNavigation { get; set; }
-  }
+    }
 }

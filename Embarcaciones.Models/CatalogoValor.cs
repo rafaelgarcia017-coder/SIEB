@@ -1,5 +1,4 @@
-﻿using Embarcaciones.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace Embarcaciones.Models
@@ -8,7 +7,6 @@ namespace Embarcaciones.Models
     {
         public CatalogoValor()
         {
-
             Persona = new HashSet<Persona>();
         }
 
@@ -26,7 +24,6 @@ namespace Embarcaciones.Models
         public virtual Catalogo IdCatalogoNavigation { get; set; } = null!;
         public virtual Cuenta UsuarioCreacionNavigation { get; set; } = null!;
         public virtual Cuenta? UsuarioModificacionNavigation { get; set; }
-
         public virtual ICollection<Persona> Persona { get; set; }
     }
 }

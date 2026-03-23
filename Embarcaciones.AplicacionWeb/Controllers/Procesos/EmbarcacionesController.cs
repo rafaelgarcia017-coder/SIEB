@@ -4,6 +4,7 @@ using Embarcaciones.BLL.Service;
 using Embarcaciones.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using System.ComponentModel;
 using System.Security.Claims;
 
@@ -17,10 +18,11 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Procesos
         private readonly IMunicipioService _municipioService;
         private readonly IDepartamentoService _departamentoService;
         private readonly IUnidadMedidaService _unidadMedidaService;
+        private readonly ICatalogoFormularioService _catalogoFormularioService;
 
         private int IdUsuario => Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
-        public EmbarcacionesController(IEmbarcacionService embarcacionService, ICatalogoService catalogoService, ICatalogoValorService catalogoValorService, IMunicipioService municipioService, IDepartamentoService departamentoService, IUnidadMedidaService unidadMedidaService)
+        public EmbarcacionesController(IEmbarcacionService embarcacionService, ICatalogoService catalogoService, ICatalogoValorService catalogoValorService, IMunicipioService municipioService, IDepartamentoService departamentoService, IUnidadMedidaService unidadMedidaService, ICatalogoFormularioService catalogoFormularioService)
         {
             _embarcacionService = embarcacionService;
             _catalogoService = catalogoService;
@@ -28,6 +30,7 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Procesos
             _municipioService = municipioService;
             _departamentoService = departamentoService;
             _unidadMedidaService = unidadMedidaService;
+            _catalogoFormularioService = catalogoFormularioService;
         }
         private async Task<int> ObtenerIdCatalogo(string codigoInterno)
         {
@@ -65,7 +68,7 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Procesos
                 }
                 if (result)
                 {
-                  
+
                     AddExito(model.Accion == AccionesController.Nuevo
                      ? "Municipio registrado satisfactoriamente."
                      : "Municipio actualizado satisfactoriamente.");
@@ -76,7 +79,7 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Procesos
                     AddError("Ha ocurrido un error. Contacte al Administrador.");
                     return View("NuevaEmbarcacion", LlenarModelo(model));
                 }
-                  
+
             }
             catch (Exception ex)
             {
@@ -89,44 +92,7 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Procesos
 
         private Embarcacion MapearEmbarcacion(EmbarcacionesVM model)
         {
-            var construccion = new 
-            {
-                Puntal = model.Construccion.Puntal,
-                Trb = model.Construccion.TRB,
-                Calado = model.Construccion.Calado,
-                Trn = model.Construccion.TRN,
-                Eslora = model.Construccion.Eslora,
-                Manga = model.Construccion.Manga,
-                SerieMotor = model.Construccion.Serie,
-                NumeroTripulantes = model.Construccion.NumeroTripulantes,
-                NumeroPasajeros = model.Construccion.NumeroPasajeros,
-                AnioConstruccion = model.Construccion.AnioConstruccion,
-                Potencia = model.Construccion.Potencia,
-                MediosCx = model.Construccion.MedioCx,
-                TipoFechaInfracciones = model.Construccion.TipoFechasInfracciones,
-                NumeroConstruccion = model.Construccion.NumeroConstruccion,
-                ModeloMotor = model.Construccion.Modelo,
-                Frecuencia = model.Construccion.Frecuencia,
-                CapacidadCarga = model.Construccion.CapacidadCarga,
-                Indicativo = model.Construccion.Indicativo,
-                IdUsuarioCreacion = IdUsuario,
-                IdMaterial = model.Construccion.Material,
-                IdPropulsion = model.Construccion.Propulsion,
-                IdTipoComunicacion = model.Construccion.TipoComunicacion,
-                IdMarcaMotor = model.Construccion.Marca,
-                IdColorSuperestructura = model.Construccion.ColorSuperest,
-                IdColorObraMuerta = model.Construccion.ColorM,
-                IdColorObraViva = model.Construccion.ColorV,
-                IdSistemaNavegacion = model.Construccion.SistemaNavegacion,
-                IdUnidadMedidaPuntal = model.Construccion.UndMedPuntal,
-                IdUnidadMedidaTrb = model.Construccion.UndMedTRB,
-                IdUnidadMedidaTrn = model.Construccion.UndMedTRN,
-                IdUnidadMedidaCalado = model.Construccion.UndMedCalado,
-                IdUnidadMedidaEslora = model.Construccion.UndMedEslora,
-                IdUnidadMedidaManga = model.Construccion.UndMedManga
-            };
-
-            var propietario = new 
+            return new Embarcacion
             {
                 NombrePropietario = model.Propietario.NombreCompleto,
                 IdTipoIdentificacion = model.Propietario.TipoIdentificacion,
@@ -142,11 +108,6 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Procesos
                 LicenciaNavegacion = model.Propietario.LicenciaNavegacion,
                 NumeroCarnetMarinero = model.Propietario.NumeroCarnetMarinero,
                 NombreContacto = model.Propietario.NombreContacto,
-                IdUsuarioCreacion = IdUsuario
-            };
-
-            return new Embarcacion
-            {
                 IdTipoEmbarcacion = model.Embarcacion.TipoEmbarcacion,
                 IdPuertoRegistroAnterior = model.Embarcacion.PuertoRegistroAnterior,
                 IdPuertoRegistroActual = model.Embarcacion.PuertoRegistroActual,
@@ -169,12 +130,53 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Procesos
                 CapPce = model.Embarcacion.Cap_Pce,
                 MatriculaAnterior = model.Embarcacion.MatriculaAnterior,
                 NumeroOmi = model.Embarcacion.NumeroOmi,
+                Puntal = model.Construccion.Puntal,
+                Trb = model.Construccion.TRB,
+                Calado = model.Construccion.Calado,
+                Trn = model.Construccion.TRN,
+                Eslora = model.Construccion.Eslora,
+                Manga = model.Construccion.Manga,
+                SerieMotor = model.Construccion.Serie,
+                NumeroTripulantes = model.Construccion.NumeroTripulantes,
+                NumeroPasajeros = model.Construccion.NumeroPasajeros,
+                AnioConstruccion = model.Construccion.AnioConstruccion,
+                Potencia = model.Construccion.Potencia,
+                MediosCx = model.Construccion.MedioCx,
+                TipoFechaInfracciones = model.Construccion.TipoFechasInfracciones,
+                NumeroConstruccion = model.Construccion.NumeroConstruccion,
+                ModeloMotor = model.Construccion.Modelo,
+                Frecuencia = model.Construccion.Frecuencia,
+                CapacidadCarga = model.Construccion.CapacidadCarga,
+                Indicativo = model.Construccion.Indicativo,             
+                IdMaterial = model.Construccion.Material,
+                IdPropulsion = model.Construccion.Propulsion,
+                IdTipoComunicacion = model.Construccion.TipoComunicacion,
+                IdMarcaMotor = model.Construccion.Marca,
+                IdColorSuperestructura = model.Construccion.ColorSuperest,
+                IdColorObraMuerta = model.Construccion.ColorM,
+                IdColorObraViva = model.Construccion.ColorV,
+                IdSistemaNavegacion = model.Construccion.SistemaNavegacion,
+                IdUnidadMedidaPuntal = model.Construccion.UndMedPuntal,
+                IdUnidadMedidaTrb = model.Construccion.UndMedTRB,
+                IdUnidadMedidaTrn = model.Construccion.UndMedTRN,
+                IdUnidadMedidaCalado = model.Construccion.UndMedCalado,
+                IdUnidadMedidaEslora = model.Construccion.UndMedEslora,
+                IdUnidadMedidaManga = model.Construccion.UndMedManga,
+                IdUsuarioCreacion = IdUsuario,
                 EstaActivo = true,
                 EsHistorico = false,
-                IdUsuarioCreacion = IdUsuario,
                 FechaCreacion = DateTime.Now,
 
             };
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> ObtenerMunicipioPorDepartamento(int id)
+        {
+            var resultado =  _catalogoFormularioService.ObtenerMunicipioPorDepartamento(id);
+            var lista = await resultado.Select(s => new { id = s.IdMunicipio, value = s.Municipio1 }).ToListAsync();
+
+            return Json(lista);
         }
 
 

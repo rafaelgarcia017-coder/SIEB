@@ -202,7 +202,7 @@
                                                             <label class="form-label">Departamento:</label>
                                                             <select asp-for="Propietario.Departamento"
                                                                     asp-items="Model.Propietario.ListaDepartamentos"
-                                                                    class="form-select cmb" id="cmb-departamentos">
+                                                                    class="form-select cmb" id="cmb-departamento">
                                                                 <option value=""></option>
                                                             </select>
                                                         </div>
@@ -680,6 +680,44 @@
             });
 
         });
+
+      $("#cmb-departamento").on("change", function () {
+          BlockUI("Cargando Municipios...");
+        const idDepartamento = $(this).val();
+        if (idDepartamento){
+        $.ajax({
+            url: '/Embarcaciones/ObtenerMunicipioPorDepartamento',
+            type: 'GET',
+            data: { id: idDepartamento },
+            success: function (response) {
+                UnBlockUI();
+                const $municipio = $("#cmb-municipio");
+                $municipio.empty();
+
+                $municipio.append(`<option value="">Seleccione</option>`);
+
+                if  (response  && response.length > 0 )
+                    {
+                         response.forEach(m => {
+                          $municipio.append(
+                              `<option value="${m.id}">${m.value}</option>`
+                          );
+
+                  $municipio.select2({
+                                      placeholder: "Seleccione...",
+                                     allowClear: true,
+                                     width: '100%' 
+                                       });
+                      });
+                    }
+           
+            }
+        });
+        }
+
+
+    });
+
 
         document.getElementById("image-file-propietario").addEventListener("change", function (event) {
             const file = event.target.files[0];
