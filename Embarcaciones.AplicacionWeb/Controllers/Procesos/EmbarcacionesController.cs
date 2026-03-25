@@ -37,11 +37,30 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Procesos
             var id = await _catalogoService.ObtenerIdCatalogo(codigoInterno);
             return id;
         }
-        public IActionResult Administrar()
+        public async Task<IActionResult> Administrar()
         {
+            var embarcacionesList = await _embarcacionService.ObtenerTodos();
+
             var model = new AdministrarEmbarcacionesVM
             {
-                ListaEmbarcaciones = new List<EmbarcacionItem>()
+                ListaEmbarcaciones = embarcacionesList.Select(s => new EmbarcacionItem
+                {
+                    IdEmbarcacion = s.IdEmbarcacion,
+                    Propietario = s.Propietario,
+                    Identificacion = s.Identificacion,
+                    Departamento = s.Departamento,
+                    Municipio = s.Municipio,
+                    Licencia = s.Licencia,
+                    NombreActual = s.NombreActual,
+                    Matricula = s.Matricula,
+                    OMI = s.OMI,
+                    PermisoNavegacion = s.PermisoNavegacion,
+                    FechaExpiracion = s.FechaExpiracion,
+                    UsuarioCreacion = s.UsuarioCreacion,
+                    FechaCreacion = s.FechaCreacion.ToString("dd/MM/yyyy"),
+                    UsuarioModificacion = s.UsuarioModificacion,
+                    FechaModificacion = s.FechaModificacion?.ToString("dd/MM/yyyy")?? string.Empty,
+                }).ToList()
             };
 
             return View("Administrar", model);
@@ -49,6 +68,15 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Procesos
         public async Task<IActionResult> NuevaEmbarcacion()
         {
             var model = await LlenarModelo(new EmbarcacionesVM());
+            return View("NuevaEmbarcacion", model);
+        }
+
+        public async Task<IActionResult> EditarEmbarcacion(int id)
+        {
+            var embarcacion = await _embarcacionService.Obtener(id);
+            var model = MapearAViewModel(embarcacion);
+            model.Accion = AccionesController.Editar;
+            model = await LlenarModelo(model);
             return View("NuevaEmbarcacion", model);
         }
         public async Task<IActionResult> GuardarEmbarcacion(EmbarcacionesVM model)
@@ -70,8 +98,8 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Procesos
                 {
 
                     AddExito(model.Accion == AccionesController.Nuevo
-                     ? "Municipio registrado satisfactoriamente."
-                     : "Municipio actualizado satisfactoriamente.");
+                     ? "Embarcacion registrada satisfactoriamente."
+                     : "Embarcacion actualizada satisfactoriamente.");
                     return RedirectToAction("Administrar");
                 }
                 else
@@ -147,7 +175,7 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Procesos
                 ModeloMotor = model.Construccion.Modelo,
                 Frecuencia = model.Construccion.Frecuencia,
                 CapacidadCarga = model.Construccion.CapacidadCarga,
-                Indicativo = model.Construccion.Indicativo,             
+                Indicativo = model.Construccion.Indicativo,
                 IdMaterial = model.Construccion.Material,
                 IdPropulsion = model.Construccion.Propulsion,
                 IdTipoComunicacion = model.Construccion.TipoComunicacion,
@@ -170,10 +198,96 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Procesos
             };
         }
 
+        private EmbarcacionesVM MapearAViewModel(Embarcacion entity)
+        {
+            return new EmbarcacionesVM
+            {
+                Propietario = new PropietarioEmbarcacionesVM
+                {
+                    NombreCompleto = entity.NombrePropietario,
+                    TipoIdentificacion = entity.IdTipoIdentificacion,
+                    Identificacion = entity.Identificacion,
+                    Nacionalidad = entity.IdNacionalidad,
+                    Municipio = entity.IdMunicipio,
+                    Departamento = entity.IdDepartamento,
+                    Domicilio = entity.Domicilio,
+                    Telefono = entity.Telefono,
+                    EmpresaPropietario = entity.EmpresaPropietaria,
+                    TelefonoContacto = entity.TelefonoEmpresaPropietaria,
+                    UrlImagen = entity.RutaImagenPropietario,
+                    LicenciaNavegacion = entity.LicenciaNavegacion,
+                    NumeroCarnetMarinero = entity.NumeroCarnetMarinero,
+                    NombreContacto = entity.NombreContacto
+                },
+
+                Embarcacion = new DatosEmbarcacionesVM
+                {
+                    TipoEmbarcacion = entity.IdTipoEmbarcacion,
+                    PuertoRegistroAnterior = entity.IdPuertoRegistroAnterior,
+                    PuertoRegistroActual = entity.IdPuertoRegistroActual,
+                    BanderaActual = entity.IdBanderaRegistroActual,
+                    BanderaAnterior = entity.IdBanderaRegistroAnterior,
+                    Actividad = entity.IdActividad,
+                    ZonaNavegacion = entity.IdZonaNavegacion,
+                    NombreActual = entity.NombreActual,
+                    PropietarioAnterior = entity.PropietarioAnterior,
+                    FechaAbanderamiento = entity.FechaAbanderada,
+                    FechaInscripcion = entity.FechaInscripcion,
+                    PermisoNavegacion = entity.PermisoNavegacion,
+                    LicenciaPesca = entity.LicenciaPesca,
+                    Distrito = entity.Distrito,
+                    MatriculaActual = entity.MatriculaActual,
+                    NombreAnterior = entity.NombreAnterior,
+                    IndicativoLLamada = entity.IndicativoLlamada,
+                    FechaExpiracion = entity.FechaExpiracion,
+                    LicenciaEspecialPesca = entity.LicenciaEspecialPesca,
+                    Cap_Pce = entity.CapPce,
+                    MatriculaAnterior = entity.MatriculaAnterior,
+                    NumeroOmi = entity.NumeroOmi
+                },
+
+                Construccion = new ConstruccionEmbarcacionesVM
+                {
+                    Puntal = entity.Puntal,
+                    TRB = entity.Trb,
+                    Calado = entity.Calado,
+                    TRN = entity.Trn,
+                    Eslora = entity.Eslora,
+                    Manga = entity.Manga,
+                    Serie = entity.SerieMotor,
+                    NumeroTripulantes = entity.NumeroTripulantes,
+                    NumeroPasajeros = entity.NumeroPasajeros,
+                    AnioConstruccion = entity.AnioConstruccion,
+                    Potencia = entity.Potencia,
+                    MedioCx = entity.MediosCx,
+                    TipoFechasInfracciones = entity.TipoFechaInfracciones,
+                    NumeroConstruccion = entity.NumeroConstruccion,
+                    Modelo = entity.ModeloMotor,
+                    Frecuencia = entity.Frecuencia,
+                    CapacidadCarga = entity.CapacidadCarga,
+                    Indicativo = entity.Indicativo,
+                    Material = entity.IdMaterial,
+                    Propulsion = entity.IdPropulsion,
+                    TipoComunicacion = entity.IdTipoComunicacion,
+                    Marca = entity.IdMarcaMotor,
+                    ColorSuperest = entity.IdColorSuperestructura,
+                    ColorM = entity.IdColorObraMuerta,
+                    ColorV = entity.IdColorObraViva,
+                    SistemaNavegacion = entity.IdSistemaNavegacion,
+                    UndMedPuntal = entity.IdUnidadMedidaPuntal,
+                    UndMedTRB = entity.IdUnidadMedidaTrb,
+                    UndMedTRN = entity.IdUnidadMedidaTrn,
+                    UndMedCalado = entity.IdUnidadMedidaCalado,
+                    UndMedEslora = entity.IdUnidadMedidaEslora,
+                    UndMedManga = entity.IdUnidadMedidaManga
+                }
+            };
+        }
+
         [HttpGet]
         public async Task<ActionResult> ObtenerMunicipioPorDepartamento(int id)
         {
-            var resultado =  _catalogoFormularioService.ObtenerMunicipioPorDepartamento(id);
+            var resultado = _catalogoFormularioService.ObtenerMunicipioPorDepartamento(id);
             var lista = await resultado.Select(s => new { id = s.IdMunicipio, value = s.Municipio1 }).ToListAsync();
 
             return Json(lista);
@@ -344,6 +458,19 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Procesos
                 Value = x.IdUnidadMedida.ToString(),
                 Text = x.Abreviatura
             }).ToList();
+
+            if (viewModel.Accion == AccionesController.Editar && viewModel.Propietario.Departamento > 0)
+            {
+                var resultado = _catalogoFormularioService.ObtenerMunicipioPorDepartamento(viewModel.Propietario.Departamento);
+                var lista = resultado.Select(x => new SelectListItem
+                {
+                    Value = x.IdMunicipio.ToString(),
+                    Text = x.Municipio1
+                }).ToList();
+
+                viewModel.Propietario.ListaMunicipio = lista;
+
+            }
 
             return viewModel;
         }

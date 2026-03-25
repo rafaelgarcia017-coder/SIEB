@@ -14,7 +14,7 @@ namespace Embarcaciones.BLL.Service
         Task<bool> ValidarDuplicados(string valor, int? id = null);
         Task<bool> Eliminar(Embarcacion departamento);
         Task<Embarcacion> Obtener(int id);
-        IQueryable<Embarcacion>? ObtenerTodos();
+        Task<IEnumerable<EmbarcacionDTO>> ObtenerTodos();
         Task<bool> ValidarEliminar(int id);
     }
 }

@@ -8,7 +8,7 @@ namespace Embarcaciones.AplicacionWeb.Models.ViewModels.Procesos.Embarcaciones
         public string NombreCompleto { get; set; }
         public int TipoIdentificacion { get; set; }
         public string Identificacion { get; set; }
-        public int Nacionalidad { get; set; }
+        public int? Nacionalidad { get; set; }
         public int Departamento { get; set; }
         public int Municipio { get; set; }
         public string Domicilio { get; set; }

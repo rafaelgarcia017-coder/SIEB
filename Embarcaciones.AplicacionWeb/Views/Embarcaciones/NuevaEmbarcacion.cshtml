@@ -211,7 +211,7 @@
                                                             <label class="form-label">Municipio:</label>
                                                             <select asp-for="Propietario.Municipio"
                                                                     asp-items="Model.Propietario.ListaMunicipio"
-                                                                    class="form-select" id="cmb-municipio">
+                                                                    class="form-select cmb" id="cmb-municipio">
                                                                 <option value=""></option>
                                                             </select>
                                                         </div>
@@ -331,7 +331,7 @@
                                                     <div class="row g-3">
                                                         <div class="col-md-3">
                                                             <label class="form-label">Fecha Abanderamiento:</label>
-                                                            <input asp-for="Embarcacion.FechaAbanderamiento" class="form-control" />
+                                                                <input asp-for="Embarcacion.FechaAbanderamiento" type="date"  class="form-control" />
                                                         </div>
 
                                                         <div class="col-md-3">
@@ -353,7 +353,7 @@
 
                                                         <div class="col-md-3">
                                                             <label class="form-label">Fecha Expiracion:</label>
-                                                            <input asp-for="Embarcacion.FechaExpiracion" class="form-control" />
+                                                            <input asp-for="Embarcacion.FechaExpiracion" type="date" class="form-control" />
                                                         </div>
                                                     </div>
                                                     <div class="row g-3">
@@ -364,7 +364,7 @@
 
                                                         <div class="col-md-3">
                                                             <label class="form-label">Fecha Expiracion:</label>
-                                                            <input asp-for="Embarcacion.FechaExpiracion" class="form-control" />
+                                                            <input asp-for="Embarcacion.FechaExpiracion" type="date" class="form-control" />
                                                         </div>
 
                                                         <div class="col-md-3">
@@ -389,7 +389,7 @@
                                                             <label class="form-label">Zona Navegacion:</label>
                                                             <select asp-for="Embarcacion.ZonaNavegacion"
                                                                     asp-items="Model.Embarcacion.ListaZonaNavegacion"
-                                                                    class="form-select cmb" id="cmb-municipio">
+                                                                    class="form-select cmb" id="cmb-zona-navegacion">
                                                                 <option value=""></option>
                                                             </select>
                                                         </div>

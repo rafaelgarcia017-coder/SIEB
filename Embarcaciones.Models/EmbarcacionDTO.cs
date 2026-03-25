@@ -1,6 +1,12 @@
-﻿namespace Embarcaciones.AplicacionWeb.Models.ViewModels.Procesos.Embarcaciones
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Embarcaciones.Models
 {
-    public class EmbarcacionItem
+    public class EmbarcacionDTO
     {
         public int IdEmbarcacion { get; set; }
         public string Propietario { get; set; }
@@ -14,9 +20,9 @@
         public string PermisoNavegacion { get; set; }
         public DateTime? FechaExpiracion { get; set; }
         public string UsuarioCreacion { get; set; }
-        public string FechaCreacion { get; set; }
+        public DateTime FechaCreacion { get; set; }
         public string UsuarioModificacion { get; set; }
-        public string? FechaModificacion { get; set; }
+        public DateTime? FechaModificacion { get; set; }
     }
 
 }

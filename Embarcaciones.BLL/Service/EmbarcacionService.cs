@@ -32,12 +32,7 @@ namespace Embarcaciones.BLL.Service
 
         public Task<Embarcacion> Obtener(int id)
         {
-            throw new NotImplementedException();
-        }
-
-        public IQueryable<Embarcacion>? ObtenerTodos()
-        {
-            throw new NotImplementedException();
+            return _EmbarcacionRepo.Obtener(id);
         }
 
         public Task<bool> ValidarDuplicados(string valor, int? id = null)
@@ -48,6 +43,11 @@ namespace Embarcaciones.BLL.Service
         public Task<bool> ValidarEliminar(int id)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<IEnumerable<EmbarcacionDTO>> ObtenerTodos()
+        {
+            return await _EmbarcacionRepo.ObtenerTodos();
         }
     }
 }

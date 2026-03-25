@@ -1,9 +1,13 @@
 ﻿using Embarcaciones.DAL.DataContext;
 using Embarcaciones.Models;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
+using Dapper;
 using System.Threading.Tasks;
 
 namespace Embarcaciones.DAL.Repositorio
@@ -11,12 +15,16 @@ namespace Embarcaciones.DAL.Repositorio
     public class EmbarcacionRepositorio : IEmbarcacionRepositorio
     {
         private readonly EmbarcacionesBDContext _dbcontext;
-        public EmbarcacionRepositorio(EmbarcacionesBDContext context) {
+        public EmbarcacionRepositorio(EmbarcacionesBDContext context)
+        {
             _dbcontext = context;
         }
-        public Task<bool> Actualizar(Embarcacion modelo)
+        public async Task<bool> Actualizar(Embarcacion modelo)
         {
-            throw new NotImplementedException();
+             _dbcontext.Update(modelo);
+            await _dbcontext.SaveChangesAsync();
+            return true;
+
         }
 
         public async Task<bool> Agregar(Embarcacion modelo)
@@ -24,24 +32,7 @@ namespace Embarcaciones.DAL.Repositorio
             _dbcontext.Embarcacion.Add(modelo);
             await _dbcontext.SaveChangesAsync();
             return true;
-            //using var transaction = await _dbcontext.Database.BeginTransactionAsync();
-            //try
-            //{
-            //    // ✅ Agregar solo la entidad raíz
-            //    _dbcontext.Embarcacion.Add(modelo);
 
-            //    // ✅ Un solo SaveChanges
-            //    await _dbcontext.SaveChangesAsync();
-
-            //    await transaction.CommitAsync();
-
-            //    return true;
-            //}
-            //catch (Exception ex)
-            //{
-            //    await transaction.RollbackAsync();
-            //    throw;
-            //}
         }
 
 
@@ -51,24 +42,24 @@ namespace Embarcaciones.DAL.Repositorio
         }
 
 
-        public Task<Embarcacion> Obtener(int id)
+        public async Task<Embarcacion> Obtener(int id)
         {
-            throw new NotImplementedException();
+            return await _dbcontext.Embarcacion.FindAsync(id);
         }
 
-        public IQueryable<Embarcacion> ObtenerTodos()
+        public async Task<IEnumerable<EmbarcacionDTO>> ObtenerTodos()
         {
-            throw new NotImplementedException();
+            var connectionString = _dbcontext.Database.GetDbConnection().ConnectionString;
+
+            using (var connection = new SqlConnection(connectionString))
+            {
+                return await connection.QueryAsync<EmbarcacionDTO>(
+                    "Embarcaciones.prObtenerEmbarcaciones",
+                    commandType: CommandType.StoredProcedure
+                );
+            }
         }
 
-        Task<Embarcacion> IEmbarcacionRepositorio.Obtener(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        IQueryable<Embarcacion> IEmbarcacionRepositorio.ObtenerTodos()
-        {
-            throw new NotImplementedException();
-        }
+      
     }
 }

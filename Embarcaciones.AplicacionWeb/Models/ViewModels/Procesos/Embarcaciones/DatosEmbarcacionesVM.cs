@@ -18,11 +18,11 @@ namespace Embarcaciones.AplicacionWeb.Models.ViewModels.Procesos.Embarcaciones
         public string NumeroOmi { get; set; }
         public string PropietarioAnterior { get; set; }
         public string IndicativoLLamada { get; set; }
-        public DateTime FechaAbanderamiento { get; set; }
+        public DateTime? FechaAbanderamiento { get; set; }
         public string AnioInscripcion { get; set; }
         public string PermisoNavegacion { get; set; }
-        public DateTime FechaExpiracion { get; set; }
-        public DateTime FechaInscripcion { get; set; }
+        public DateTime? FechaExpiracion { get; set; }
+        public DateTime? FechaInscripcion { get; set; }
         public string LicenciaPesca { get; set; }
         public string LicenciaEspecialPesca { get; set; }
         public string Distrito { get; set; }
@@ -31,14 +31,14 @@ namespace Embarcaciones.AplicacionWeb.Models.ViewModels.Procesos.Embarcaciones
         public IFormFile ImagenFile { get; set; }
         public string UrlImagen { get; set; }
 
-        public int TipoEmbarcacion { get; set; }
-        public int PuertoRegistroAnterior { get; set; }
+        public int? TipoEmbarcacion { get; set; }
+        public int? PuertoRegistroAnterior { get; set; }
         public int PuertoRegistroActual { get; set; }
         public int BanderaActual { get; set; }
 
-        public int BanderaAnterior { get; set; }
+        public int? BanderaAnterior { get; set; }
         public int Actividad { get; set; }
-        public int ZonaNavegacion { get; set; }
+        public int? ZonaNavegacion { get; set; }
 
     }
 }
