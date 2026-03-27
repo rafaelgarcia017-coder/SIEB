@@ -8,7 +8,7 @@
 
 <!DOCTYPE html>
 <html lang="es">
-<head>  
+<head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>SIEB</title>
@@ -140,83 +140,84 @@
 
     </div>
 </body>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.datatables.net/2.3.7/js/dataTables.js"></script>
-    <script src="https://cdn.datatables.net/2.3.7/js/dataTables.bootstrap5.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    <script src="~/js/scripts.js"></script>
-    @RenderSection("scripts", required: false)
-    <script type="text/javascript">
-        @{
-            var msjError = TempData.Peek(Notificacion.Error)?.ToString() ?? string.Empty;
-            var msjInfo = TempData.Peek(Notificacion.Info)?.ToString() ?? string.Empty;
-            var msjExito = TempData.Peek(Notificacion.Exito)?.ToString() ?? string.Empty;
-            var msjAdvertencia = TempData.Peek(Notificacion.Advertencia)?.ToString() ?? string.Empty;
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.8/jquery.inputmask.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.datatables.net/2.3.7/js/dataTables.js"></script>
+<script src="https://cdn.datatables.net/2.3.7/js/dataTables.bootstrap5.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script src="~/js/scripts.js"></script>
+@RenderSection("scripts", required: false)
+<script type="text/javascript">
+    @{
+        var msjError = TempData.Peek(Notificacion.Error)?.ToString() ?? string.Empty;
+        var msjInfo = TempData.Peek(Notificacion.Info)?.ToString() ?? string.Empty;
+        var msjExito = TempData.Peek(Notificacion.Exito)?.ToString() ?? string.Empty;
+        var msjAdvertencia = TempData.Peek(Notificacion.Advertencia)?.ToString() ?? string.Empty;
 
-            TempData.Clear();
-        }
+        TempData.Clear();
+    }
 
-            showMessages('@msjError', '@msjInfo', '@msjExito', '@msjAdvertencia');
+        showMessages('@msjError', '@msjInfo', '@msjExito', '@msjAdvertencia');
+    $(document).ready(function () {
+        $("form").on('submit', function () {
+            if ($('.blockUI.blockOverlay').length < 1) {
+                BlockUI('Procesando...');
+
+            }
+        });
+
         $(document).ready(function () {
-            $("form").on('submit', function () {
-                if ($('.blockUI.blockOverlay').length < 1) {
-                    BlockUI('Procesando...');
 
+            const $sidebar = $("#sidebar");
+            const $toggleBtn = $("#sidebarToggle");
+
+            $toggleBtn.on("click", function () {
+
+                $sidebar.toggleClass("collapsed");
+
+                if ($sidebar.hasClass("collapsed")) {
+                    $(".submenu").removeClass("show");
+                    $(".rotate-arrow").removeClass("rotated");
                 }
-            });
-
-            $(document).ready(function () {
-
-                const $sidebar = $("#sidebar");
-                const $toggleBtn = $("#sidebarToggle");
-
-                $toggleBtn.on("click", function () {
-
-                    $sidebar.toggleClass("collapsed");
-
-                    if ($sidebar.hasClass("collapsed")) {
-                        $(".submenu").removeClass("show");
-                        $(".rotate-arrow").removeClass("rotated");
-                    }
-
-                });
-
-                $(".submenu-header").on("click", function (e) {
-
-                    // 🚨 Si el sidebar está colapsado, no hacer nada
-                    if ($sidebar.hasClass("collapsed")) {
-                        e.preventDefault();
-                        return;
-                    }
-
-                    const $submenu = $(this).next();
-                    const $arrow = $(this).find(".rotate-arrow");
-
-                    $submenu.toggleClass("show");
-                    $arrow.toggleClass("rotated");
-
-                });
-
-                $(".load-page").on("click", function (e) {
-                    e.preventDefault(); // Evita recarga de página
-
-                    let pageUrl = $(this).data("page"); // Obtenemos la URL del archivo
-
-                    // Cargar el contenido dentro del main
-                    $("#main-principal").load(pageUrl, function (response, status, xhr) {
-                        if (status === "error") {
-                            $("#main-principal").html("<p>Error al cargar la página.</p>");
-                        }
-                    });
-                });
 
             });
-        })
 
-    </script>
+            $(".submenu-header").on("click", function (e) {
+
+                // 🚨 Si el sidebar está colapsado, no hacer nada
+                if ($sidebar.hasClass("collapsed")) {
+                    e.preventDefault();
+                    return;
+                }
+
+                const $submenu = $(this).next();
+                const $arrow = $(this).find(".rotate-arrow");
+
+                $submenu.toggleClass("show");
+                $arrow.toggleClass("rotated");
+
+            });
+
+            $(".load-page").on("click", function (e) {
+                e.preventDefault(); // Evita recarga de página
+
+                let pageUrl = $(this).data("page"); // Obtenemos la URL del archivo
+
+                // Cargar el contenido dentro del main
+                $("#main-principal").load(pageUrl, function (response, status, xhr) {
+                    if (status === "error") {
+                        $("#main-principal").html("<p>Error al cargar la página.</p>");
+                    }
+                });
+            });
+
+        });
+    })
+
+</script>
 
 
 

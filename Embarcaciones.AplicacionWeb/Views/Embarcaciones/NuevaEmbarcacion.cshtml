@@ -443,7 +443,7 @@
                                                     </div>
                                                     <div class="col-md-1">
                                                         <label class="form-label">TRB:</label>
-                                                        <input asp-for="Construccion.TRB" class="form-control" />
+                                                        <input asp-for="Construccion.TRB" class="form-control decimal-input" />
                                                     </div>
 
                                                     <div class="col-md-1">
@@ -464,7 +464,7 @@
                                                     </div>
                                                     <div class="col-md-1">
                                                         <label class="form-label">TRN:</label>
-                                                        <input asp-for="Construccion.TRN" class="form-control" />
+                                                        <input asp-for="Construccion.TRN" class="form-control decimal-input" />
                                                     </div>
                                                     <div class="col-md-1">
                                                         <label class="form-label">UM. TRN:</label>
@@ -476,7 +476,7 @@
                                                     </div>
                                                     <div class="col-md-1">
                                                         <label class="form-label">Eslora:</label>
-                                                        <input asp-for="Construccion.Eslora" class="form-control" />
+                                                        <input asp-for="Construccion.Eslora" class="form-control decimal-input" />
                                                     </div>
 
                                                     <div class="col-md-1">
@@ -492,7 +492,7 @@
                                                 <div class="row">
                                                     <div class="col-md-1">
                                                         <label class="form-label">Manga:</label>
-                                                        <input asp-for="Construccion.Manga" class="form-control" />
+                                                        <input asp-for="Construccion.Manga" class="form-control decimal-input" />
                                                     </div>
                                                     <div class="col-md-1">
                                                         <label class="form-label">UM. Manga:</label>
@@ -504,7 +504,7 @@
                                                     </div>
                                                     <div class="col-md-1">
                                                         <label class="form-label">Calado:</label>
-                                                        <input asp-for="Construccion.Calado" class="form-control" />
+                                                        <input asp-for="Construccion.Calado" class="form-control decimal-input" />
                                                     </div>
 
                                                     <div class="col-md-1">
@@ -661,7 +661,16 @@
                 width: '100%' // hace que ocupe todo el ancho del contenedor
             });
 
-            /* ===== ICONO DINAMICO ACCORDION ===== */
+  
+                $('.decimal-input').inputmask({
+                        alias: 'numeric',
+                        groupSeparator: ',',
+                        autoGroup: true,
+                        digits: 2,
+                        radixPoint: '.',
+                        autoUnmask: true,
+                        rightAlign: false,
+                    });
 
             $('#formAccordion').on('show.bs.collapse', function (e) {
 
