@@ -37,6 +37,32 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Procesos
             var id = await _catalogoService.ObtenerIdCatalogo(codigoInterno);
             return id;
         }
+        public async Task<string?> GuardarImagen(IFormFile archivo)
+        {
+            if (archivo == null || archivo.Length == 0)
+                return null;
+
+            // Ruta del wwwroot
+            var rutaRoot = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
+
+            // Carpeta específica para embarcaciones
+            var carpeta = Path.Combine(rutaRoot, "ImagenesEmbarcaciones");
+
+            // Nombre único
+            var nombreArchivo = Guid.NewGuid().ToString() + Path.GetExtension(archivo.FileName);
+
+            // Ruta completa
+            var rutaCompleta = Path.Combine(carpeta, nombreArchivo);
+
+            // Guardar archivo
+            using (var stream = new FileStream(rutaCompleta, FileMode.Create))
+            {
+                await archivo.CopyToAsync(stream);
+            }
+
+            // Retornar ruta relativa (para guardar en BD)
+            return "/ImagenesEmbarcaciones/" + nombreArchivo;
+        }
         public async Task<IActionResult> Administrar()
         {
             var embarcacionesList = await _embarcacionService.ObtenerTodos();
@@ -59,7 +85,7 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Procesos
                     UsuarioCreacion = s.UsuarioCreacion,
                     FechaCreacion = s.FechaCreacion.ToString("dd/MM/yyyy"),
                     UsuarioModificacion = s.UsuarioModificacion,
-                    FechaModificacion = s.FechaModificacion?.ToString("dd/MM/yyyy")?? string.Empty,
+                    FechaModificacion = s.FechaModificacion?.ToString("dd/MM/yyyy") ?? string.Empty,
                 }).ToList()
             };
 
@@ -84,19 +110,50 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Procesos
             try
             {
                 bool result = false;
+
+                // 1️⃣ Manejar nueva imagen
+                if (model.Propietario.ImagenFile != null)
+                {
+                    // eliminar imagen anterior solo si existe
+                    if (!string.IsNullOrEmpty(model.Propietario.UrlImagen))
+                    {
+                        var rutaAnterior = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", model.Propietario.UrlImagen.TrimStart('/'));
+                        if (System.IO.File.Exists(rutaAnterior))
+                            System.IO.File.Delete(rutaAnterior);
+                    }
+
+                    var rutaImagen = await GuardarImagen(model.Propietario.ImagenFile);
+                    model.Propietario.UrlImagen = rutaImagen; // actualizar ruta
+                }
+
+                // 2️⃣ Manejar eliminación explícita sin subir imagen
+                if (model.Propietario.EliminarImagenPropietario && model.Propietario.ImagenFile == null)
+                {
+                    if (!string.IsNullOrEmpty(model.Propietario.UrlImagen))
+                    {
+                        var rutaAnterior = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", model.Propietario.UrlImagen.TrimStart('/'));
+                        if (System.IO.File.Exists(rutaAnterior))
+                            System.IO.File.Delete(rutaAnterior);
+
+                        model.Propietario.UrlImagen = null; // limpiar ruta
+                    }
+                }
+                // 3️⃣ Mapear y guardar embarcación
+                var embarcacion = MapearEmbarcacion(model);        
+
                 if (model.Accion == AccionesController.Nuevo)
                 {
-                    var embarcacion = MapearEmbarcacion(model);
                     result = await _embarcacionService.Agregar(embarcacion);
                 }
                 else
                 {
-                    var embarcacion = MapearEmbarcacion(model);
+                    embarcacion.IdUsuarioModificacion = IdUsuario;
+                    embarcacion.FechaModificacion = DateTime.Now;
                     result = await _embarcacionService.Actualizar(embarcacion);
                 }
+
                 if (result)
                 {
-
                     AddExito(model.Accion == AccionesController.Nuevo
                      ? "Embarcacion registrada satisfactoriamente."
                      : "Embarcacion actualizada satisfactoriamente.");
@@ -107,21 +164,19 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Procesos
                     AddError("Ha ocurrido un error. Contacte al Administrador.");
                     return View("NuevaEmbarcacion", LlenarModelo(model));
                 }
-
             }
             catch (Exception ex)
             {
                 AddError("Ha ocurrido un error. Contacte al Administrador.");
                 return View("NuevaEmbarcacion", LlenarModelo(model));
             }
-
-
         }
 
         private Embarcacion MapearEmbarcacion(EmbarcacionesVM model)
         {
             return new Embarcacion
             {
+                IdEmbarcacion = model.Embarcacion.IdEmbarcacion,
                 NombrePropietario = model.Propietario.NombreCompleto,
                 IdTipoIdentificacion = model.Propietario.TipoIdentificacion,
                 Identificacion = model.Propietario.Identificacion,
@@ -222,6 +277,7 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Procesos
 
                 Embarcacion = new DatosEmbarcacionesVM
                 {
+                    IdEmbarcacion = entity.IdEmbarcacion,
                     TipoEmbarcacion = entity.IdTipoEmbarcacion,
                     PuertoRegistroAnterior = entity.IdPuertoRegistroAnterior,
                     PuertoRegistroActual = entity.IdPuertoRegistroActual,

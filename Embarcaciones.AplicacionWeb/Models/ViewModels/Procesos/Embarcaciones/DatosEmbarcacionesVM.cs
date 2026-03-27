@@ -11,6 +11,8 @@ namespace Embarcaciones.AplicacionWeb.Models.ViewModels.Procesos.Embarcaciones
         public List<SelectListItem> ListaBanderaAnterior { get; set; } = new List<SelectListItem>();
         public List<SelectListItem> ListaActividad { get; set; } = new List<SelectListItem>();
         public List<SelectListItem> ListaZonaNavegacion { get; set; } = new List<SelectListItem>();
+
+        public int IdEmbarcacion { get; set; }
         public string MatriculaActual { get; set; }
         public string MatriculaAnterior { get; set; }
         public string NombreActual { get; set; }

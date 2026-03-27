@@ -21,10 +21,24 @@ namespace Embarcaciones.DAL.Repositorio
         }
         public async Task<bool> Actualizar(Embarcacion modelo)
         {
-             _dbcontext.Update(modelo);
-            await _dbcontext.SaveChangesAsync();
-            return true;
-
+            _dbcontext.Embarcacion.Attach(modelo);
+            var entry = _dbcontext.Entry(modelo);
+            // Marcar todo como modificado
+            entry.State = EntityState.Modified;
+            //  Excluir campos que NO se deben actualizar
+            entry.Property(x => x.EstaActivo).IsModified = false;
+            entry.Property(x => x.EsHistorico).IsModified = false;
+            entry.Property(x => x.IdUsuarioCreacion).IsModified = false;
+            entry.Property(x => x.FechaCreacion).IsModified = false;
+            try
+            {
+                await _dbcontext.SaveChangesAsync();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         public async Task<bool> Agregar(Embarcacion modelo)

@@ -15,17 +15,17 @@ namespace Embarcaciones.BLL.Service
         {
             _EmbarcacionRepo = embarcacionRepo;
         }
-        public Task<bool> Actualizar(Embarcacion departamento)
+        public async Task<bool> Actualizar(Embarcacion embarcacion)
         {
-            throw new NotImplementedException();
+          return await _EmbarcacionRepo.Actualizar(embarcacion);
         }
 
-        public async Task<bool> Agregar(Embarcacion departamento)
+        public async Task<bool> Agregar(Embarcacion embarcacion)
         {
-            return await _EmbarcacionRepo.Agregar(departamento);
+            return await _EmbarcacionRepo.Agregar(embarcacion);
         }
 
-        public Task<bool> Eliminar(Embarcacion departamento)
+        public Task<bool> Eliminar(Embarcacion embarcacion)
         {
             throw new NotImplementedException();
         }

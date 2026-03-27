@@ -23,6 +23,8 @@ namespace Embarcaciones.AplicacionWeb.Models.ViewModels.Procesos.Embarcaciones
 
         public IFormFile ImagenFile { get; set; }
 
+        public bool EliminarImagenPropietario { get; set; }             
+
         public List<SelectListItem> ListaDepartamentos { get; set; } = new List<SelectListItem>();
         public List<SelectListItem> ListaMunicipio { get; set; } = new List<SelectListItem>();
         public List<SelectListItem> ListaNacionalidad{ get; set; } = new List<SelectListItem>();

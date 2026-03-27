@@ -110,8 +110,7 @@
     }
 </style>
 
-
-@using (Html.BeginForm("GuardarEmbarcacion", "Embarcaciones", FormMethod.Post))
+@using (Html.BeginForm("GuardarEmbarcacion", "Embarcaciones", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     <div class="row">
         <div class="col-md-12">
@@ -125,6 +124,7 @@
                                 <li class="breadcrumb-item active" aria-current="page">@ViewBag.Accion Embarcacion</li>
                                 <input type="hidden" asp-for="Propietario.EmpresaPropietario" />
                                 <input type="hidden" asp-for="Accion" id="hd-accion" />
+                                <input type="hidden" asp-for="Propietario.EliminarImagenPropietario"  id="hd-eliminar-img-prop" />
                             </ol>
                         </nav>
                     </div>
@@ -164,6 +164,8 @@
                                                     <div class="row g-3">
                                                         <div class="col-md-3">
                                                             <label class="form-label">Nombre Completo:</label>
+                                                            <input type="hidden" asp-for="Embarcacion.IdEmbarcacion" />
+                                                            <input type="hidden" asp-for="Accion" />
                                                             <input asp-for="Propietario.NombreCompleto" class="form-control" />
                                                         </div>
 
@@ -752,10 +754,11 @@
             input.value = '';
 
             // Opcional: marcar que se eliminó (para backend)
-            let eliminado = document.getElementById('ImagenEliminada');
+            let eliminado = document.getElementById('hd-eliminar-img-prop');
             if (eliminado) {
                 eliminado.value = "true";
             }
+
         }
 
         function eliminarImagenEmbarcacion() {
