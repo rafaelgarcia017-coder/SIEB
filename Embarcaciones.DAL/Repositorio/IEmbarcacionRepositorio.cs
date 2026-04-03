@@ -14,5 +14,7 @@ namespace Embarcaciones.DAL.Repositorio
         Task<bool> Eliminar(Embarcacion modelo);
         Task<Embarcacion> Obtener(int id);
         Task<IEnumerable<EmbarcacionDTO>> ObtenerTodos();
+        Task<DashBoard> ObtenerDashboard();
+
     }
 }

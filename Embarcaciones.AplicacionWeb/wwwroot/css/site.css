@@ -1,5 +1,7 @@
 html {
-  font-size: 14px;
+    font-size: 14px;
+    position: relative;
+    min-height: 100%;
 }
 
 @media (min-width: 768px) {
@@ -8,11 +10,21 @@ html {
   }
 }
 
-html {
-  position: relative;
-  min-height: 100%;
+.kpi-card {
+    position: relative;
+    overflow: hidden;
+    border-radius: 12px;
 }
 
-body {
-  margin-bottom: 60px;
+    .kpi-card h2 {
+        font-size: 2rem;
+        font-weight: bold;
+    }
+
+.kpi-icon {
+    position: absolute;
+    right: 15px;
+    bottom: 10px;
+    font-size: 3rem;
+    opacity: 0.3;
 }

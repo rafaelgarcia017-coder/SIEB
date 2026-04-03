@@ -47,6 +47,7 @@ namespace Embarcaciones.Models
         public string? EmpresaPropietaria { get; set; }
         public string? TelefonoEmpresaPropietaria { get; set; }
         public string? RutaImagenPropietario { get; set; }
+        public string? RutaImagenEmbarcacion { get; set; }
         public string? LicenciaNavegacion { get; set; }
         public string? NumeroCarnetMarinero { get; set; }
         public string? NombreContacto { get; set; }

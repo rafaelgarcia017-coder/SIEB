@@ -1,6 +1,145 @@
 ﻿@{
-    ViewData["Title"] = "Página Principal";
+    ViewData["Title"] = "Dashboard";
 }
 
-<h1>Bienvenido al Sistema SIEB</h1>
+@* <div class="container-fluid">
 
+    <!-- KPIs -->
+    <div class="row g-3 mb-4">
+
+        <div class="col-md-3">
+            <div class="card kpi-card bg-primary text-white">
+                <div class="card-body">
+                    <h6>Total Embarcaciones</h6>
+                    <h2 id="totalEmbarcaciones">0</h2>
+                    <i class="fas fa-ship kpi-icon"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card kpi-card bg-success text-white">
+                <div class="card-body">
+                    <h6>Personas Registradas</h6>
+                    <h2 id="totalPersonas">0</h2>
+                    <i class="fas fa-users kpi-icon"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card kpi-card bg-warning text-white">
+                <div class="card-body">
+                    <h6>Puertos</h6>
+                    <h2 id="totalPuertos">0</h2>
+                    <i class="fas fa-anchor kpi-icon"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card kpi-card bg-danger text-white">
+                <div class="card-body">
+                    <h6>Nacionalidades</h6>
+                    <h2 id="totalNacionalidades">0</h2>
+                    <i class="fas fa-globe kpi-icon"></i>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- GRÁFICAS -->
+    <div class="row g-3 mb-4">
+
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">Embarcaciones por Tipo</div>
+                <div class="card-body">
+                    <canvas id="chartTipos"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">Registros por Mes</div>
+                <div class="card-body">
+                    <canvas id="chartMeses"></canvas>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- TABLA -->
+    <div class="card">
+        <div class="card-header">Últimas Embarcaciones</div>
+        <div class="card-body">
+            <table id="tablaEmbarcaciones" class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Tipo</th>
+                        <th>Puerto</th>
+                        <th>Fecha</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+@section scripts {
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        $(function () {
+
+            // 🔢 KPIs (simulado - luego lo conectas a backend)
+            $("#totalEmbarcaciones").text(120);
+            $("#totalPersonas").text(340);
+            $("#totalPuertos").text(25);
+            $("#totalNacionalidades").text(12);
+
+            // 📊 Gráfica 1
+            new Chart(document.getElementById('chartTipos'), {
+                type: 'doughnut',
+                data: {
+                    labels: ['Pesquero', 'Carga', 'Turismo'],
+                    datasets: [{
+                        data: [40, 30, 50],
+                        backgroundColor: ['#0d6efd', '#198754', '#ffc107']
+                    }]
+                }
+            });
+
+            // 📈 Gráfica 2
+            new Chart(document.getElementById('chartMeses'), {
+                type: 'line',
+                data: {
+                    labels: ['Ene', 'Feb', 'Mar', 'Abr'],
+                    datasets: [{
+                        label: 'Registros',
+                        data: [10, 20, 15, 30],
+                        borderColor: '#0d6efd',
+                        fill: false
+                    }]
+                }
+            });
+
+            // 📋 Tabla
+            $("#tablaEmbarcaciones").DataTable({
+                data: [
+                    ["Barco 1", "Pesquero", "Corinto", "2026-01-01"],
+                    ["Barco 2", "Carga", "San Juan", "2026-02-01"]
+                ]
+            });
+
+        });
+    </script>
+}
+ *@

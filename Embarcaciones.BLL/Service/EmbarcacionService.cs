@@ -49,5 +49,9 @@ namespace Embarcaciones.BLL.Service
         {
             return await _EmbarcacionRepo.ObtenerTodos();
         }
+        public async Task<DashBoard> ObtenerDashboard()
+        {
+            return await _EmbarcacionRepo.ObtenerDashboard();
+        }
     }
 }

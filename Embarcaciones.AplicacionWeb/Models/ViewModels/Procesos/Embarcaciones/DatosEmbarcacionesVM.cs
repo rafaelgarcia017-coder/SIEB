@@ -42,5 +42,7 @@ namespace Embarcaciones.AplicacionWeb.Models.ViewModels.Procesos.Embarcaciones
         public int Actividad { get; set; }
         public int? ZonaNavegacion { get; set; }
 
+        public bool EliminarImagenEmbarcacion { get; set; }
+
     }
 }

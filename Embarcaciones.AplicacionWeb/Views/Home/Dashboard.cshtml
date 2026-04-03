@@ -1,0 +1,156 @@
+﻿@using Embarcaciones.AplicacionWeb.Models.ViewModels.Procesos.Dashboard;
+@using System.Text.Json;
+@model DashboardVM
+
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<div class="container-fluid">
+
+    <!-- KPIs -->
+    <div class="row g-3 mb-4">
+
+        <div class="col-md-3">
+            <div class="card kpi-card bg-primary text-white">
+                <div class="card-body">
+                    <h6>Total Embarcaciones</h6>
+                    <h2 id="totalEmbarcaciones">@Model.TotalEmbarcaciones</h2>
+                    <i class="fas fa-ship kpi-icon"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card kpi-card bg-success text-white">
+                <div class="card-body">
+                    <h6>Personas Registradas</h6>
+                    <h2 id="totalPersonas">@Model.TotalPersonas</h2>
+                    <i class="fas fa-users kpi-icon"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card kpi-card bg-warning text-white">
+                <div class="card-body">
+                    <h6>Puertos</h6>
+                    <h2 id="totalPuertos">@Model.TotalPuertos</h2>
+                    <i class="fas fa-anchor kpi-icon"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card kpi-card bg-danger text-white">
+                <div class="card-body">
+                    <h6>Nacionalidades</h6>
+                    <h2 id="totalNacionalidades">@Model.TotalNacionalidades</h2>
+                    <i class="fas fa-globe kpi-icon"></i>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- GRÁFICAS -->
+    <div class="row g-3 mb-4">
+
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-primary text-white">Embarcaciones por Tipo</div>
+                <div class="card-body" style="height: 450px;">
+                    <canvas id="chartTipos" class="w-100 h-100"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-primary text-white">Registros por Mes</div>
+                <div class="card-body" style="height: 300px;">
+                    <canvas id="chartMeses"  class="w-100 h-100"></canvas>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+@section scripts {
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+                $(function () {
+
+                    // 📊 Datos dinámicos desde C#
+                    var tiposEmbarcacion = @Html.Raw(JsonSerializer.Serialize(Model.TiposEmbarcacion));
+                    var registrosMes = @Html.Raw(JsonSerializer.Serialize(Model.RegistrosMes));
+
+                    // Extraer etiquetas y valores para la gráfica de tipo de embarcación
+                    var etiquetasTipos = tiposEmbarcacion.map(t => t.Tipo);
+                    var datosTipos = tiposEmbarcacion.map(t => t.Cantidad);
+
+                    // Extraer etiquetas y valores para la gráfica de registros por mes
+                    var etiquetasMeses = registrosMes.map(r => r.Mes); // o r.MesNombre si quieres
+                    var datosMeses = registrosMes.map(r => r.Cantidad);
+
+                    // 📊 Gráfica 1: Embarcaciones por Tipo
+                    new Chart(document.getElementById('chartTipos'), {
+                   type: 'doughnut',
+                   data: {
+                       labels: etiquetasTipos,
+                       datasets: [{
+                           data: datosTipos.map(x => parseInt(x)), // aseguramos enteros
+                           backgroundColor: ['#0d6efd', '#198754', '#ffc107', '#dc3545', '#6f42c1', '#fd7e14']
+                       }]
+                               },
+                               options: {
+                                   responsive: true,          // gráfico adapta tamaño al contenedor
+                                   maintainAspectRatio: false, // permite ajustar altura automáticamente
+                                   plugins: {
+                                       legend: {
+                                           position: 'bottom', // leyenda abajo
+                                           labels: {
+                                               precision: 0 // valores enteros en tooltip
+                                           }
+                                       },
+                                       tooltip: {
+                                           callbacks: {
+                                               label: function(context) {
+                                                   let value = context.raw;
+                                                   return `${context.label}: ${parseInt(value)}`; // tooltip con enteros
+                                               }
+                                           }
+                                       }
+                                   }
+                               }
+                           });
+                    new Chart(document.getElementById('chartMeses'), {
+                            type: 'line',
+                            data: {
+                                labels: etiquetasMeses,
+                                datasets: [{
+                                    label: 'Registros',
+                                    data: datosMeses.map(x => parseInt(x)),
+                                    borderColor: '#0d6efd',
+                                    fill: false
+                                }]
+                            },
+                            options: {
+                                responsive: true,          // gráfico adapta tamaño al contenedor
+                                maintainAspectRatio: false, // permite ajustar altura automáticamente
+                                scales: {
+                                    y: {
+                                        beginAtZero: true,
+                                        ticks: { precision: 0 }
+                                    }
+                                }
+                            }
+                        });
+                });
+    </script>
+}
+

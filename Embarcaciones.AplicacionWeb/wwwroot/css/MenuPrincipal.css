@@ -1,6 +1,12 @@
-﻿body {
+﻿/*body {
     margin: 0;
     font-family: Arial, sans-serif;
+    padding-bottom: 60px;
+}*/
+
+.app-footer {
+    background-color: #0054a7;
+
 }
 
 /* Topbar fijo */
@@ -69,7 +75,7 @@ main.flex-grow-1,
 }
 
     .nav_link:hover {
-        background-color: #b9dbfd;
+        background-color: #2d93fa;
         border-radius: 5px;
     }
 

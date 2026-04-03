@@ -51,7 +51,7 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Seguridad
                 CookieAuthenticationDefaults.AuthenticationScheme,
                 principal);
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Dashboard", "Home");
         }
 
         public async Task<IActionResult> CerrarSesion()

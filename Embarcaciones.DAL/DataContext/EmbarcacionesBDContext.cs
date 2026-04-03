@@ -314,6 +314,8 @@ namespace Embarcaciones.DAL.DataContext
 
                 entity.Property(e => e.RutaImagenPropietario).HasMaxLength(255);
 
+                entity.Property(e => e.RutaImagenEmbarcacion).HasMaxLength(255);
+
                 entity.Property(e => e.SerieMotor).HasMaxLength(255);
 
                 entity.Property(e => e.Telefono).HasMaxLength(30);

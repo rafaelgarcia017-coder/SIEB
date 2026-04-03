@@ -37,19 +37,35 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Procesos
             var id = await _catalogoService.ObtenerIdCatalogo(codigoInterno);
             return id;
         }
-        public async Task<string?> GuardarImagen(IFormFile archivo)
+
+        public async Task<string?> GuardarImagen(IFormFile archivo, string carpetaDestino = "Imagenes")
         {
             if (archivo == null || archivo.Length == 0)
                 return null;
 
-            // Ruta del wwwroot
+            // Validar tipo de archivo (solo imágenes)
+            var extensionesPermitidas = new[] { ".jpg", ".jpeg", ".png", ".webp" };
+            var extension = Path.GetExtension(archivo.FileName).ToLower();
+
+            if (!extensionesPermitidas.Contains(extension))
+                throw new Exception("Formato de imagen no permitido.");
+
+            // Validar tamaño (ejemplo: 5MB)
+            if (archivo.Length > 5 * 1024 * 1024)
+                throw new Exception("La imagen excede el tamaño permitido (5MB).");
+
+            // Ruta base
             var rutaRoot = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
 
-            // Carpeta específica para embarcaciones
-            var carpeta = Path.Combine(rutaRoot, "ImagenesEmbarcaciones");
+            // Carpeta dinámica
+            var carpeta = Path.Combine(rutaRoot, carpetaDestino);
+
+            // Crear carpeta si no existe
+            if (!Directory.Exists(carpeta))
+                Directory.CreateDirectory(carpeta);
 
             // Nombre único
-            var nombreArchivo = Guid.NewGuid().ToString() + Path.GetExtension(archivo.FileName);
+            var nombreArchivo = $"{Guid.NewGuid()}{extension}";
 
             // Ruta completa
             var rutaCompleta = Path.Combine(carpeta, nombreArchivo);
@@ -60,9 +76,53 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Procesos
                 await archivo.CopyToAsync(stream);
             }
 
-            // Retornar ruta relativa (para guardar en BD)
-            return "/ImagenesEmbarcaciones/" + nombreArchivo;
+            // Retornar ruta relativa
+            return $"/{carpetaDestino}/{nombreArchivo}";
         }
+
+
+        private async Task<string> ManejarImagenAsync(IFormFile imagenFile, string urlActual, bool eliminar)
+        {
+            // 1. Si hay nueva imagen
+            if (imagenFile != null)
+            {
+                if (!string.IsNullOrEmpty(urlActual))
+                {
+                    var rutaAnterior = Path.Combine(
+                        Directory.GetCurrentDirectory(),
+                        "wwwroot",
+                        urlActual.TrimStart('/')
+                    );
+
+                    if (System.IO.File.Exists(rutaAnterior))
+                        System.IO.File.Delete(rutaAnterior);
+                }
+
+                return await GuardarImagen(imagenFile);
+            }
+
+            // 2. Si se solicita eliminar sin subir nueva
+            if (eliminar && imagenFile == null)
+            {
+                if (!string.IsNullOrEmpty(urlActual))
+                {
+                    var rutaAnterior = Path.Combine(
+                        Directory.GetCurrentDirectory(),
+                        "wwwroot",
+                        urlActual.TrimStart('/')
+                    );
+
+                    if (System.IO.File.Exists(rutaAnterior))
+                        System.IO.File.Delete(rutaAnterior);
+                }
+
+                return null;
+            }
+
+            // 3. Mantener imagen actual
+            return urlActual;
+        }
+
         public async Task<IActionResult> Administrar()
         {
             var embarcacionesList = await _embarcacionService.ObtenerTodos();
@@ -111,35 +171,19 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Procesos
             {
                 bool result = false;
 
-                // 1️⃣ Manejar nueva imagen
-                if (model.Propietario.ImagenFile != null)
-                {
-                    // eliminar imagen anterior solo si existe
-                    if (!string.IsNullOrEmpty(model.Propietario.UrlImagen))
-                    {
-                        var rutaAnterior = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", model.Propietario.UrlImagen.TrimStart('/'));
-                        if (System.IO.File.Exists(rutaAnterior))
-                            System.IO.File.Delete(rutaAnterior);
-                    }
+                model.Propietario.UrlImagen = await ManejarImagenAsync(
+                    model.Propietario.ImagenFile,
+                    model.Propietario.UrlImagen,
+                    model.Propietario.EliminarImagenPropietario
+                );
 
-                    var rutaImagen = await GuardarImagen(model.Propietario.ImagenFile);
-                    model.Propietario.UrlImagen = rutaImagen; // actualizar ruta
-                }
+                model.Embarcacion.UrlImagen = await ManejarImagenAsync(
+                    model.Embarcacion.ImagenFile,
+                    model.Embarcacion.UrlImagen,
+                    model.Embarcacion.EliminarImagenEmbarcacion
+                );
 
-                // 2️⃣ Manejar eliminación explícita sin subir imagen
-                if (model.Propietario.EliminarImagenPropietario && model.Propietario.ImagenFile == null)
-                {
-                    if (!string.IsNullOrEmpty(model.Propietario.UrlImagen))
-                    {
-                        var rutaAnterior = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", model.Propietario.UrlImagen.TrimStart('/'));
-                        if (System.IO.File.Exists(rutaAnterior))
-                            System.IO.File.Delete(rutaAnterior);
-
-                        model.Propietario.UrlImagen = null; // limpiar ruta
-                    }
-                }
-                // 3️⃣ Mapear y guardar embarcación
-                var embarcacion = MapearEmbarcacion(model);        
+                var embarcacion = MapearEmbarcacion(model);
 
                 if (model.Accion == AccionesController.Nuevo)
                 {
@@ -188,6 +232,7 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Procesos
                 EmpresaPropietaria = model.Propietario.EmpresaPropietario,
                 TelefonoEmpresaPropietaria = model.Propietario.TelefonoContacto,
                 RutaImagenPropietario = model.Propietario.UrlImagen,
+                RutaImagenEmbarcacion = model.Embarcacion.UrlImagen,
                 LicenciaNavegacion = model.Propietario.LicenciaNavegacion,
                 NumeroCarnetMarinero = model.Propietario.NumeroCarnetMarinero,
                 NombreContacto = model.Propietario.NombreContacto,
@@ -285,6 +330,7 @@ namespace Embarcaciones.AplicacionWeb.Controllers.Procesos
                     BanderaAnterior = entity.IdBanderaRegistroAnterior,
                     Actividad = entity.IdActividad,
                     ZonaNavegacion = entity.IdZonaNavegacion,
+                    UrlImagen = entity.RutaImagenEmbarcacion,
                     NombreActual = entity.NombreActual,
                     PropietarioAnterior = entity.PropietarioAnterior,
                     FechaAbanderamiento = entity.FechaAbanderada,

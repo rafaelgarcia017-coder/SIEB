@@ -11,22 +11,14 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>SIEB</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.3/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/2.3.7/css/dataTables.bootstrap5.css">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <link href="~/css/MenuPrincipal.css" rel="stylesheet" />
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <title>@ViewData["SIEB"]</title>
 </head>
-@{
-
-
-
-}
-
 <body>
 
     <header class="navbar">
@@ -35,7 +27,10 @@
             <span class="navbar-brand text-white">SIEB</span>
         </div>
         <div class="d-flex align-items-center">
-            <i class="fas fa-sun me-3" style="cursor:pointer" title="Toggle Theme"></i>
+            <a asp-controller="Home" asp-action="Dashboard" >
+                <i class="fas fa-home me-3 text-white" style="cursor:pointer" title="Dashboard"></i>
+            </a>
+            
             <div class="d-flex align-items-center text-white">
                 <i class="fas fa-user me-1"></i> <span>@userName</span>
             </div>
@@ -127,9 +122,9 @@
                                 <i class='fas fa-ship'></i> <span class="m-2">Embarcaciones</span>
                             </a>
                         </li>
-
+                    </ul>
                 </li>
-            </ul>
+             </ul>
 
         </aside>
         <main class="flex-grow-1">
@@ -139,37 +134,42 @@
         </main>
 
     </div>
-</body>
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.8/jquery.inputmask.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdn.datatables.net/2.3.7/js/dataTables.js"></script>
-<script src="https://cdn.datatables.net/2.3.7/js/dataTables.bootstrap5.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-<script src="~/js/scripts.js"></script>
-@RenderSection("scripts", required: false)
-<script type="text/javascript">
-    @{
-        var msjError = TempData.Peek(Notificacion.Error)?.ToString() ?? string.Empty;
-        var msjInfo = TempData.Peek(Notificacion.Info)?.ToString() ?? string.Empty;
-        var msjExito = TempData.Peek(Notificacion.Exito)?.ToString() ?? string.Empty;
-        var msjAdvertencia = TempData.Peek(Notificacion.Advertencia)?.ToString() ?? string.Empty;
 
-        TempData.Clear();
-    }
+    <footer class="app-footer text-white">  
+        <div class="row">
+            <div class="col-md-12 d-flex justify-content-center">         
+                    <span style="font-size: 12px;">Todos los derechos Reservados© 2026 SIEB</span>             
+            </div>        
+        </div>
+    </footer>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.8/jquery.inputmask.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.datatables.net/2.3.7/js/dataTables.js"></script>
+    <script src="https://cdn.datatables.net/2.3.7/js/dataTables.bootstrap5.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="~/js/scripts.js"></script>
+    @RenderSection("scripts", required: false)
+    <script type="text/javascript">
+        @{
+            var msjError = TempData.Peek(Notificacion.Error)?.ToString() ?? string.Empty;
+            var msjInfo = TempData.Peek(Notificacion.Info)?.ToString() ?? string.Empty;
+            var msjExito = TempData.Peek(Notificacion.Exito)?.ToString() ?? string.Empty;
+            var msjAdvertencia = TempData.Peek(Notificacion.Advertencia)?.ToString() ?? string.Empty;
 
-        showMessages('@msjError', '@msjInfo', '@msjExito', '@msjAdvertencia');
-    $(document).ready(function () {
-        $("form").on('submit', function () {
-            if ($('.blockUI.blockOverlay').length < 1) {
-                BlockUI('Procesando...');
+            TempData.Clear();
+        }
 
-            }
-        });
-
+            showMessages('@msjError', '@msjInfo', '@msjExito', '@msjAdvertencia');
         $(document).ready(function () {
+            $("form").on('submit', function () {
+                if ($('.blockUI.blockOverlay').length < 1) {
+                    BlockUI('Procesando...');
+
+                }
+            });
 
             const $sidebar = $("#sidebar");
             const $toggleBtn = $("#sidebarToggle");
@@ -214,11 +214,13 @@
                 });
             });
 
-        });
-    })
 
-</script>
+        })
 
+    </script>
+
+
+</body>
 
 
 

@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using Dapper;
 using System.Threading.Tasks;
+using static Embarcaciones.Models.DashBoard;
 
 namespace Embarcaciones.DAL.Repositorio
 {
@@ -74,6 +75,60 @@ namespace Embarcaciones.DAL.Repositorio
             }
         }
 
-      
+        public async Task<DashBoard> ObtenerDashboard()
+        {
+            var dashboard = new DashBoard();
+            var connectionString = _dbcontext.Database.GetDbConnection().ConnectionString;
+
+            using (var conn = new SqlConnection(connectionString))
+            using (var cmd = new SqlCommand("Embarcaciones.prObtenerDashboard", conn))
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+                await conn.OpenAsync();
+
+                using (var reader = await cmd.ExecuteReaderAsync())
+                {
+                    // KPIs
+                    if (await reader.ReadAsync())
+                        dashboard.TotalEmbarcaciones = reader.GetInt32(0);
+
+                    await reader.NextResultAsync();
+                    if (await reader.ReadAsync())
+                        dashboard.TotalPersonas = reader.GetInt32(0);
+
+                    await reader.NextResultAsync();
+                    if (await reader.ReadAsync())
+                        dashboard.TotalNacionalidades = reader.GetInt32(0);
+
+                    await reader.NextResultAsync();
+                    if (await reader.ReadAsync())
+                        dashboard.TotalPuertos = reader.GetInt32(0);
+
+                    // Registros por mes
+                    await reader.NextResultAsync();
+                    while (await reader.ReadAsync())
+                    {
+                        dashboard.RegistrosMes.Add(new RegistroMesDto
+                        {
+                            Mes = reader.GetInt32(0),
+                            Cantidad = reader.GetInt32(1)
+                        });
+                    }
+
+                    // Tipos de embarcación
+                    await reader.NextResultAsync();
+                    while (await reader.ReadAsync())
+                    {
+                        dashboard.TiposEmbarcacion.Add(new TipoEmbarcacionDto
+                        {
+                            Tipo = reader.GetString(0),
+                            Cantidad = reader.GetInt32(1)
+                        });
+                    }
+                }
+            }
+
+            return dashboard;
+        }
     }
 }

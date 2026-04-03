@@ -125,6 +125,7 @@
                                 <input type="hidden" asp-for="Propietario.EmpresaPropietario" />
                                 <input type="hidden" asp-for="Accion" id="hd-accion" />
                                 <input type="hidden" asp-for="Propietario.EliminarImagenPropietario"  id="hd-eliminar-img-prop" />
+                                <input type="hidden" asp-for="Embarcacion.EliminarImagenEmbarcacion" id="hd-eliminar-img-emb" />
                             </ol>
                         </nav>
                     </div>
@@ -273,6 +274,7 @@
                                                                        id="image-file-propietario"
                                                                        accept="image/*"
                                                                        style="display:none;" />
+                                                                <input type="hidden" asp-for="Propietario.UrlImagen" />
                                                             </div>
 
                                                         </div>
@@ -362,12 +364,7 @@
                                                         <div class="col-md-3 ">
                                                             <label class="form-label">Permiso Navegacion:</label>
                                                             <input asp-for="Embarcacion.PermisoNavegacion" class="form-control" />
-                                                        </div>
-
-                                                        <div class="col-md-3">
-                                                            <label class="form-label">Fecha Expiracion:</label>
-                                                            <input asp-for="Embarcacion.FechaExpiracion" type="date" class="form-control" />
-                                                        </div>
+                                                        </div>                                             
 
                                                         <div class="col-md-3">
                                                             <label class="form-label">Licencia Pesca:</label>
@@ -376,6 +373,10 @@
                                                         <div class="col-md-3">
                                                             <label class="form-label">Lic. Especial Pesca:</label>
                                                             <input asp-for="Embarcacion.LicenciaEspecialPesca" class="form-control" />
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <label class="form-label">CAP/PCE:</label>
+                                                            <input asp-for="Embarcacion.Cap_Pce" class="form-control" />
                                                         </div>
                                                     </div>
                                                     <div class="row g-3">
@@ -399,10 +400,7 @@
                                                             <label class="form-label">Distrito:</label>
                                                             <input asp-for="Embarcacion.Distrito" class="form-control" />
                                                         </div>
-                                                        <div class="col-md-3">
-                                                            <label class="form-label">CAP/PCE:</label>
-                                                            <input asp-for="Embarcacion.Cap_Pce" class="form-control" />
-                                                        </div>
+                                                     
                                                     </div>
                                                     <div class="row g-3">
                                                         <div class="col-md-6">
@@ -422,6 +420,7 @@
                                                                        id="image-file-embarcacion"
                                                                        accept="image/*"
                                                                        style="display:none;" />
+                                                                <input type="hidden" asp-for="Embarcacion.UrlImagen" />
                                                             </div>
                                                         </div>
                                                     </div>
@@ -781,7 +780,7 @@
             input.value = '';
 
             // Opcional: marcar que se eliminó (para backend)
-            let eliminado = document.getElementById('ImagenEliminada');
+            let eliminado = document.getElementById('hd-eliminar-img-emb');
             if (eliminado) {
                 eliminado.value = "true";
             }

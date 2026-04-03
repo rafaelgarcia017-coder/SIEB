@@ -16,5 +16,6 @@ namespace Embarcaciones.BLL.Service
         Task<Embarcacion> Obtener(int id);
         Task<IEnumerable<EmbarcacionDTO>> ObtenerTodos();
         Task<bool> ValidarEliminar(int id);
+        Task<DashBoard> ObtenerDashboard();
     }
 }
